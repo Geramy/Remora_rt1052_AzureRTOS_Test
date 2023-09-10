@@ -57,6 +57,7 @@ component/uart \
 device \
 drivers \
 source \
+source/drivers/network \
 source/drivers/nx_driver/gnu \
 source/drivers/nx_driver \
 startup \

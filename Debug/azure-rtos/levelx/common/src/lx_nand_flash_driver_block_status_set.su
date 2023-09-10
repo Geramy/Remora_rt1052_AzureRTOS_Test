@@ -1,1 +1,1 @@
-../azure-rtos/levelx/common/src/lx_nand_flash_driver_block_status_set.c:83:7:_lx_nand_flash_driver_block_status_set	32	static
+..\azure-rtos\levelx\common\src\lx_nand_flash_driver_block_status_set.c:83:7:_lx_nand_flash_driver_block_status_set	32	static

@@ -45,6 +45,11 @@
 
 #include "drivers/nx_driver/nx_driver_imxrt10xx.h"
 
+extern "C"
+{
+	#include "drivers/network/networking.h"
+}
+
 #define NETWORKING_THREAD_STACK_SIZE 4096
 #define NETWORKING_THREAD_PRIORITY   3
 
@@ -70,10 +75,10 @@ static void networking_thread_entry(ULONG parameter)
     printf("Starting Networking Thread\r\n\r\n");
 
     // Initialize the network
-    /*if ((status = network_init(nx_driver_imx)))
+    if ((status = network_init(nx_driver_imx)))
     {
         printf("ERROR: Failed to initialize the network (0x%08x)\r\n", status);
-    }*/
+    }
 }
 
 static void control_thread_entry(ULONG parameter)

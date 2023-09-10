@@ -1,1 +1,1 @@
-../azure-rtos/levelx/common/src/lx_nand_flash_driver_read.c:83:7:_lx_nand_flash_driver_read	56	static
+..\azure-rtos\levelx\common\src\lx_nand_flash_driver_read.c:83:7:_lx_nand_flash_driver_read	56	static

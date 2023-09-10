@@ -13,6 +13,7 @@ RM := rm -rf
 -include startup/subdir.mk
 -include source/drivers/nx_driver/gnu/subdir.mk
 -include source/drivers/nx_driver/subdir.mk
+-include source/drivers/network/subdir.mk
 -include source/subdir.mk
 -include drivers/subdir.mk
 -include device/subdir.mk

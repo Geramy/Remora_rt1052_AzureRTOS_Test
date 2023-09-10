@@ -1,7 +1,7 @@
-../azure-rtos/levelx/common/src/lx_nor_flash_simulator.c:72:7:_lx_nor_flash_simulator_initialize	16	static
-../azure-rtos/levelx/common/src/lx_nor_flash_simulator.c:96:7:_lx_nor_flash_simulator_read	24	static
-../azure-rtos/levelx/common/src/lx_nor_flash_simulator.c:110:7:_lx_nor_flash_simulator_write	24	static
-../azure-rtos/levelx/common/src/lx_nor_flash_simulator.c:124:7:_lx_nor_flash_simulator_block_erase	24	static
-../azure-rtos/levelx/common/src/lx_nor_flash_simulator.c:148:7:_lx_nor_flash_simulator_erase_all	16	static
-../azure-rtos/levelx/common/src/lx_nor_flash_simulator.c:171:7:_lx_nor_flash_simulator_block_erased_verify	24	static
-../azure-rtos/levelx/common/src/lx_nor_flash_simulator.c:198:7:_lx_nor_flash_simulator_system_error	24	static
+..\azure-rtos\levelx\common\src\lx_nor_flash_simulator.c:72:7:_lx_nor_flash_simulator_initialize	16	static
+..\azure-rtos\levelx\common\src\lx_nor_flash_simulator.c:96:7:_lx_nor_flash_simulator_read	24	static
+..\azure-rtos\levelx\common\src\lx_nor_flash_simulator.c:110:7:_lx_nor_flash_simulator_write	24	static
+..\azure-rtos\levelx\common\src\lx_nor_flash_simulator.c:124:7:_lx_nor_flash_simulator_block_erase	24	static
+..\azure-rtos\levelx\common\src\lx_nor_flash_simulator.c:148:7:_lx_nor_flash_simulator_erase_all	16	static
+..\azure-rtos\levelx\common\src\lx_nor_flash_simulator.c:171:7:_lx_nor_flash_simulator_block_erased_verify	24	static
+..\azure-rtos\levelx\common\src\lx_nor_flash_simulator.c:198:7:_lx_nor_flash_simulator_system_error	24	static

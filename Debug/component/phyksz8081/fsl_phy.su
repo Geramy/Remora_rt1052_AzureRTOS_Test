@@ -6,9 +6,9 @@ C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_Azur
 C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1010:20:ENET_StartSMIRead	16	static
 C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1344:24:ENET_GetInterruptStatus	16	static
 C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1363:20:ENET_ClearInterruptStatus	16	static
-../component/phyksz8081/fsl_phy.c:30:10:PHY_Init	56	static
-../component/phyksz8081/fsl_phy.c:117:10:PHY_Write	40	static
-../component/phyksz8081/fsl_phy.c:148:10:PHY_Read	32	static
-../component/phyksz8081/fsl_phy.c:184:10:PHY_EnableLoopback	32	static
-../component/phyksz8081/fsl_phy.c:240:10:PHY_GetLinkStatus	32	static
-../component/phyksz8081/fsl_phy.c:265:10:PHY_GetLinkSpeedDuplex	40	static
+..\component\phyksz8081\fsl_phy.c:30:10:PHY_Init	56	static
+..\component\phyksz8081\fsl_phy.c:117:10:PHY_Write	40	static
+..\component\phyksz8081\fsl_phy.c:148:10:PHY_Read	32	static
+..\component\phyksz8081\fsl_phy.c:184:10:PHY_EnableLoopback	32	static
+..\component\phyksz8081\fsl_phy.c:240:10:PHY_GetLinkStatus	32	static
+..\component\phyksz8081\fsl_phy.c:265:10:PHY_GetLinkSpeedDuplex	40	static

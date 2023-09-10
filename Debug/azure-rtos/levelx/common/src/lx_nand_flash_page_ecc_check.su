@@ -1,1 +1,1 @@
-../azure-rtos/levelx/common/src/lx_nand_flash_page_ecc_check.c:82:7:_lx_nand_flash_page_ecc_check	40	static
+..\azure-rtos\levelx\common\src\lx_nand_flash_page_ecc_check.c:82:7:_lx_nand_flash_page_ecc_check	40	static

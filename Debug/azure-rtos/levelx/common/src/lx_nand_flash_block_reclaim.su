@@ -1,1 +1,1 @@
-../azure-rtos/levelx/common/src/lx_nand_flash_block_reclaim.c:100:7:_lx_nand_flash_block_reclaim	80	static
+..\azure-rtos\levelx\common\src\lx_nand_flash_block_reclaim.c:100:7:_lx_nand_flash_block_reclaim	80	static
