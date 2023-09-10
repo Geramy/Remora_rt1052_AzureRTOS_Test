@@ -1829,6 +1829,15 @@ void enet_init()
 
     ENET_GetDefaultConfig(&config);
 
+    const clock_enet_pll_config_t clock_config = {.enableClkOutput = true, .enableClkOutput25M = false, .loopDivider = 1};
+	CLOCK_InitEnetPll(&clock_config);
+
+	IOMUXC_EnableMode(IOMUXC_GPR, kIOMUXC_GPR_ENET1TxClkOutputDir, true);
+
+	mdioHandle.resource.csrClock_Hz = CLOCK_GetFreq(kCLOCK_IpgClk);
+
+	(void)SILICONID_ConvertToMacAddr(&_nx_driver_hardware_address);
+
     /* Set SMI to get PHY link status. */
     sysClock = CLOCK_GetFreq(kCLOCK_AhbClk);
     status = PHY_Init(&phyHandle, &config);
