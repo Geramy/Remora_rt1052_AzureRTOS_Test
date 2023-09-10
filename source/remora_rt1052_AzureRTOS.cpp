@@ -58,8 +58,11 @@
 #define DMA_THREAD_STACK_SIZE 4096
 #define DMA_THREAD_PRIORITY   2
 
-NX_UDP_SOCKET           socket_0;
-NX_UDP_SOCKET           socket_1;
+NX_UDP_SOCKET           socketComms;
+NX_PACKET_POOL poolComms;
+
+NX_UDP_SOCKET           socketTftp;
+
 
 TX_THREAD networking_thread;
 ULONG networking_thread_stack[NETWORKING_THREAD_STACK_SIZE / sizeof(ULONG)];
@@ -200,6 +203,9 @@ JsonObject module;
 
 static void networking_thread_entry(ULONG parameter)
 {
+	/* Example of how to implement UDP Server/Client */
+	//Implementation not done.
+	//https://github.com/STMicroelectronics/x-cube-azrtos-h7/blob/main/Projects/STM32H735G-DK/Applications/NetXDuo/Nx_UDP_Echo_Server/NetXDuo/App/app_netxduo.c
     UINT status;
     short error_counter = 0;
     UINT thread_1_counter = 0;
@@ -212,7 +218,7 @@ static void networking_thread_entry(ULONG parameter)
     }
     else {
     		UINT       status;
-    		NX_PACKET *my_packet;
+    		NX_PACKET *remora_packet;
 
     	    NX_PARAMETER_NOT_USED(parameter);
 
@@ -240,13 +246,15 @@ static void networking_thread_entry(ULONG parameter)
     	        error_counter++;
     	        return;
     	    }
+    	    UINT source_port;
+    	    ULONG source_ip_address;
 
     	    while (1)
     	    {
 
-
     	        /* Receive a UDP packet.  */
-    	        status =  nx_udp_socket_receive(&socket_1, &my_packet, TX_WAIT_FOREVER);
+    	        status =  nx_udp_socket_receive(&socketComms, &remora_packet, TX_WAIT_FOREVER);
+    	        nx_udp_source_extract(remora_packet, &source_ip_address, &source_port);
 
     	        /* Check status.  */
     	        if (status != NX_SUCCESS)
@@ -254,17 +262,34 @@ static void networking_thread_entry(ULONG parameter)
     	            break;
     	        }
     	        else if(status == NX_SUCCESS) {
+
     	        	udp_data_callback(&my_packet);
     	        }
     	        /* Release the packet.  */
-    	        status =  nx_packet_release(my_packet);
+    	        status =  nx_packet_release(remora_packet);
 
     	        /* Check status.  */
     	        if (status != NX_SUCCESS)
     	        {
     	            break;
     	        }
+    	        /* Allocate a packet.  */
+				status =  nx_packet_allocate(&poolComms, &remora_packet, NX_UDP_PACKET, TX_WAIT_FOREVER);
 
+				/* Check status.  */
+				if (status != NX_SUCCESS)
+				{
+					break;
+				}
+
+				/* Write ABCs into the packet payload!  */
+				nx_packet_data_append(remora_packet, (char*)&txData.txBuffer, sizeof(txData.txBuffer), &poolComms, TX_WAIT_FOREVER);
+
+				/* In this demo, we alternate between IPv4 connections and IPv6 connections. */
+				if (thread_0_counter & 1)
+				{
+					status =  nxd_udp_socket_send(&socketComms, remora_packet, &source_ip_address, &source_port);
+				}
     	        /* Increment thread 1's counter.  */
     	        thread_1_counter++;
     	    }

@@ -105,10 +105,11 @@ UINT network_init(VOID (*ip_link_driver)(struct NX_IP_DRIVER_STRUCT*))
 void udp_data_callback(NX_PACKET **packet_ptr)
 {
 	ULONG bytesRx;
+
+
 	UINT status = nx_packet_data_retrieve(*packet_ptr, &rxBuffer.rxBuffer, &bytesRx);
 
 	int txlen = 0;
-	struct pbuf *txBuf;
 
 	// copy the UDP payload into the rxData structure
 
@@ -138,9 +139,8 @@ void udp_data_callback(NX_PACKET **packet_ptr)
 		__enable_irq();
 	}
 
-
 	// allocate pbuf from RAM
-	txBuf = pbuf_alloc(PBUF_TRANSPORT, txlen, PBUF_RAM);
+	/*txBuf = pbuf_alloc(PBUF_TRANSPORT, txlen, PBUF_RAM);
 
 	// copy the data into the buffer
 	pbuf_take(txBuf, (char*)&txData.txBuffer, txlen);
@@ -158,5 +158,5 @@ void udp_data_callback(NX_PACKET **packet_ptr)
 	pbuf_free(txBuf);
 
 	// Free the p buffer
-	pbuf_free(p);
+	pbuf_free(p);*/
 }
