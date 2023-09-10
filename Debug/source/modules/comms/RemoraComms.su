@@ -1,0 +1,8 @@
+c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\arm-none-eabi\thumb\v7e-m+fp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+..\source\modules\comms\../../drivers/pin/pin.h:41:21:void Pin::set(bool)	16	static
+..\source\modules\comms\RemoraComms.cpp:4:1:RemoraComms::RemoraComms()	56	static
+..\source\modules\comms\RemoraComms.cpp:15:6:virtual void RemoraComms::update()	16	static
+..\source\modules\comms\RemoraComms.cpp:40:6:void RemoraComms::dataReceived()	16	static
+..\source\modules\comms\RemoraComms.cpp:46:6:bool RemoraComms::getStatus()	16	static
+..\source\modules\comms\RemoraComms.h:12:7:RemoraComms::~RemoraComms()	16	static
+..\source\modules\comms\RemoraComms.h:12:7:virtual RemoraComms::~RemoraComms()	16	static

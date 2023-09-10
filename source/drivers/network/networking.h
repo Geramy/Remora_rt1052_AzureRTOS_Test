@@ -10,5 +10,5 @@ extern NX_DNS nx_dns_client;
 
 UINT network_init(VOID (*ip_link_driver)(struct NX_IP_DRIVER_STRUCT*));
 UINT network_connect();
-
+void udp_data_callback(NX_PACKET**);
 #endif // _NETWORKING_H
