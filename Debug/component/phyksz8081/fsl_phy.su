@@ -1,0 +1,14 @@
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_common_arm.h:210:20:_SDK_AtomicLocalClearAndSet4Byte	48	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_clock.h:1465:20:CLOCK_ControlGate	32	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_clock.h:1482:20:CLOCK_EnableClock	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:973:24:ENET_ReadSMIData	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:991:20:ENET_StartSMIWrite	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1010:20:ENET_StartSMIRead	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1344:24:ENET_GetInterruptStatus	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1363:20:ENET_ClearInterruptStatus	16	static
+../component/phyksz8081/fsl_phy.c:30:10:PHY_Init	56	static
+../component/phyksz8081/fsl_phy.c:117:10:PHY_Write	40	static
+../component/phyksz8081/fsl_phy.c:148:10:PHY_Read	32	static
+../component/phyksz8081/fsl_phy.c:184:10:PHY_EnableLoopback	32	static
+../component/phyksz8081/fsl_phy.c:240:10:PHY_GetLinkStatus	32	static
+../component/phyksz8081/fsl_phy.c:265:10:PHY_GetLinkSpeedDuplex	40	static

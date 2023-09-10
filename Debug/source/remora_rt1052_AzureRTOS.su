@@ -1,0 +1,5 @@
+../source/remora_rt1052_AzureRTOS.cpp:66:13:void networking_thread_entry(ULONG)	16	static
+../source/remora_rt1052_AzureRTOS.cpp:79:13:void control_thread_entry(ULONG)	16	static
+../source/remora_rt1052_AzureRTOS.cpp:85:13:void dma_thread_entry(ULONG)	16	static
+../source/remora_rt1052_AzureRTOS.cpp:91:6:void tx_application_define(void*)	64	static
+../source/remora_rt1052_AzureRTOS.cpp:143:5:int main()	8	static

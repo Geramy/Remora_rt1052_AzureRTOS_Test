@@ -1,0 +1,5 @@
+../drivers/fsl_tempmon.c:53:6:TEMPMON_Init	32	static
+../drivers/fsl_tempmon.c:92:6:TEMPMON_Deinit	16	static
+../drivers/fsl_tempmon.c:109:6:TEMPMON_GetDefaultConfig	16	static
+../drivers/fsl_tempmon.c:132:7:TEMPMON_GetCurrentTemperature	24	static
+../drivers/fsl_tempmon.c:160:6:TEMPMON_SetTempAlarm	24	static
