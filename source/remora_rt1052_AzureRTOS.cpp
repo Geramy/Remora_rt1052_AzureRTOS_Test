@@ -97,7 +97,7 @@ ULONG servo_thread_stack[SERVO_THREAD_STACK_SIZE / sizeof(ULONG)];
 #include "configuration.h"
 #include "remora.h"
 
-//#include "crc32.h"
+#include "crc32.h"
 
 // libraries
 #include <sys/errno.h>
@@ -212,29 +212,6 @@ DynamicJsonDocument doc(JSON_BUFF_SIZE);
 JsonObject thread;
 JsonObject module;
 /* End of Remora Original Data */
-
-// JSON config file stuff
-
-const char defaultConfig[] = DEFAULT_CONFIG;
-
-
-// 512 bytes of metadata in front of actual JSON file
-typedef struct
-{
-  uint32_t crc32;   		// crc32 of JSON
-  uint32_t length;			// length in words for CRC calculation
-  uint32_t jsonLength;  	// length in of JSON config in bytes
-  uint8_t padding[500];
-} metadata_t;
-#define METADATA_LEN    512
-
-volatile bool newJson;
-uint32_t crc32;
-FILE *jsonFile;
-string strJson;
-DynamicJsonDocument doc(JSON_BUFF_SIZE);
-JsonObject thread;
-JsonObject module;
 
 
 int8_t checkJson()
