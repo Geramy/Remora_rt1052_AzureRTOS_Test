@@ -127,6 +127,8 @@ void udp_data_callback(NX_PACKET **packet_ptr)
 
 		// ensure an atomic access to the rxBuffer
 		// disable thread interrupts
+		//We will need to use this as an example to get the mutex to fill the buffer, so that we don't have any collisions.
+		//https://github.com/azure-rtos/threadx/blob/master/samples/demo_threadx.c
 		__disable_irq();
 
 		// then move the data
