@@ -46,6 +46,8 @@
 
 static NX_DRIVER_INFORMATION   nx_driver_information;
 
+static mdio_handle_t mdioHandle = {.ops = &enet_ops};
+static phy_handle_t phyHandle   = {.phyAddr = BOARD_ENET0_PHY_ADDRESS, .mdioHandle = &mdioHandle, .ops = &phylan8720a_ops};
 
 /****** DRIVER SPECIFIC ****** Start of part/vendor specific data area.  Include hardware-specific data here!  */
 
@@ -1819,27 +1821,28 @@ void enet_init()
  
  
     /* Get default configuration. */
-    /*config.miiMode = kENET_RmiiMode;
+    enet_config_t config;
+    config.miiMode = kENET_RmiiMode;
     config.miiSpeed = kENET_MiiSpeed100M;
     config.miiDuplex = kENET_MiiFullDuplex;
     config.rxMaxFrameLen = ENET_FRAME_MAX_FRAMELEN;
 
-    ENET_GetDefaultConfig(&config);*/
+    ENET_GetDefaultConfig(&config);
 
     /* Set SMI to get PHY link status. */
     sysClock = CLOCK_GetFreq(kCLOCK_AhbClk);
-    status = PHY_Init(EXAMPLE_ENET, EXAMPLE_PHY, sysClock);
+    status = PHY_Init(&phyHandle, &config);
     while (status != kStatus_Success)
     {
         PRINTF("\r\nPHY Auto-negotiation failed. Please check the cable connection and link partner setting.\r\n");
-        status = PHY_Init(EXAMPLE_ENET, EXAMPLE_PHY, sysClock);
+        status = PHY_Init(&phyHandle, &config);
     }
 
-    PHY_GetLinkStatus(EXAMPLE_ENET, EXAMPLE_PHY, &link);
+    PHY_GetLinkStatus(&phyHandle, &link);
     if (link)
     {
         /* Get the actual PHY link speed. */
-        PHY_GetLinkSpeedDuplex(EXAMPLE_ENET, EXAMPLE_PHY, &speed, &duplex);
+        PHY_GetLinkSpeedDuplex(&phyHandle, &speed, &duplex);
         /* Change the MII speed and duplex for actual link status. */
         econf.speed = (phy_speed_t)speed;
         econf.duplex = (phy_duplex_t)duplex;

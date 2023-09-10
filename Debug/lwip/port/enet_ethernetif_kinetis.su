@@ -1,0 +1,15 @@
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1240:20:ENET_ActiveRead	16	static
+..\lwip\port\enet_ethernetif_kinetis.c:323:14:ethernetif_rx_alloc	48	static
+..\lwip\port\enet_ethernetif_kinetis.c:351:13:ethernetif_rx_free	40	static
+..\lwip\port\enet_ethernetif_kinetis.c:370:6:ethernetif_plat_init	128	static
+..\lwip\port\enet_ethernetif_kinetis.c:469:8:ethernetif_base_ptr	16	static
+..\lwip\port\enet_ethernetif_kinetis.c:474:15:ethernetif_get_phy	24	static
+..\lwip\port\enet_ethernetif_kinetis.c:480:6:ethernetif_on_link_up	24	static
+..\lwip\port\enet_ethernetif_kinetis.c:493:6:ethernetif_on_link_down	24	static
+..\lwip\port\enet_ethernetif_kinetis.c:503:23:enet_get_tx_buffer	16	static
+..\lwip\port\enet_ethernetif_kinetis.c:512:14:enet_send_frame	48	static
+..\lwip\port\enet_ethernetif_kinetis.c:553:13:ethernetif_rx_release	32	static
+..\lwip\port\enet_ethernetif_kinetis.c:563:21:ethernetif_rx_frame_to_pbufs	56	static
+..\lwip\port\enet_ethernetif_kinetis.c:621:14:ethernetif_linkinput	48	static
+..\lwip\port\enet_ethernetif_kinetis.c:665:7:ethernetif_linkoutput	32	static
+..\lwip\port\enet_ethernetif_kinetis.c:742:7:ethernetif0_init	24	static

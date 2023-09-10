@@ -5,4 +5,4 @@ C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_Azur
 C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_clock.h:1515:24:CLOCK_GetOscFreq	4	static
 ..\board\board.c:24:10:BOARD_DebugConsoleSrcFreq	24	static
 ..\board\board.c:43:6:BOARD_InitDebugConsole	16	static
-..\board\board.c:235:6:BOARD_ConfigMPU	32	static
+..\board\board.c:248:6:BOARD_ConfigMPU	48	static

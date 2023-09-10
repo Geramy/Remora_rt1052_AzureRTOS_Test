@@ -1,0 +1,11 @@
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\component\mdio/fsl_mdio.h:85:20:MDIO_Init	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\component\mdio/fsl_mdio.h:101:24:MDIO_Write	32	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\component\mdio/fsl_mdio.h:117:24:MDIO_Read	32	static
+..\component\phy\fsl_phylan8720a.c:55:10:PHY_LAN8720A_Init	32	static
+..\component\phy\fsl_phylan8720a.c:125:10:PHY_LAN8720A_Write	24	static
+..\component\phy\fsl_phylan8720a.c:130:10:PHY_LAN8720A_Read	24	static
+..\component\phy\fsl_phylan8720a.c:135:10:PHY_LAN8720A_GetAutoNegotiationStatus	24	static
+..\component\phy\fsl_phylan8720a.c:156:10:PHY_LAN8720A_GetLinkStatus	24	static
+..\component\phy\fsl_phylan8720a.c:181:10:PHY_LAN8720A_GetLinkSpeedDuplex	40	static
+..\component\phy\fsl_phylan8720a.c:222:10:PHY_LAN8720A_SetLinkSpeedDuplex	24	static
+..\component\phy\fsl_phylan8720a.c:256:10:PHY_LAN8720A_EnableLoopback	24	static

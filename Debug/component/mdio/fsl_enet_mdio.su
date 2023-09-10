@@ -1,0 +1,17 @@
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_common_arm.h:210:20:_SDK_AtomicLocalClearAndSet4Byte	48	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_clock.h:1465:20:CLOCK_ControlGate	32	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_clock.h:1482:20:CLOCK_EnableClock	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:973:24:ENET_ReadSMIData	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:991:20:ENET_StartSMIWrite	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1010:20:ENET_StartSMIRead	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1053:20:ENET_StartExtC45SMIWriteReg	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1071:20:ENET_StartExtC45SMIWriteData	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1088:20:ENET_StartExtC45SMIReadData	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1344:24:ENET_GetInterruptStatus	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_enet.h:1363:20:ENET_ClearInterruptStatus	16	static
+..\component\mdio\fsl_enet_mdio.c:46:13:ENET_MDIO_Init	32	static
+..\component\mdio\fsl_enet_mdio.c:63:17:ENET_MDIO_Write	48	static
+..\component\mdio\fsl_enet_mdio.c:87:17:ENET_MDIO_Read	40	static
+..\component\mdio\fsl_enet_mdio.c:117:17:ENET_MDIO_WriteExt	40	static
+..\component\mdio\fsl_enet_mdio.c:149:17:ENET_MDIO_ReadExt	40	static
+..\component\mdio\fsl_enet_mdio.c:187:17:ENET_MDIO_WaitTransferOver	24	static

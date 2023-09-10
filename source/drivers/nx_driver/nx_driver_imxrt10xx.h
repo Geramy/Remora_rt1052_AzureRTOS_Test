@@ -55,6 +55,8 @@ extern   "C" {
  
 #include "fsl_enet.h"
 #include "fsl_phy.h"
+#include "fsl_enet_mdio.h"
+#include "fsl_phylan8720a.h"
 #include "board.h"
 #include "fsl_debug_console.h"
 

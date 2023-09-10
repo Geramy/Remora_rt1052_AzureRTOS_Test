@@ -1,0 +1,12 @@
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\CMSIS/core_cm7.h:2041:22:__NVIC_SetPriority	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\CMSIS/core_cm7.h:2259:26:SysTick_Config	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_common_arm.h:717:24:DisableGlobalIRQ	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_common_arm.h:743:20:EnableGlobalIRQ	24	static
+..\lwip\port\sys_arch.c:73:6:sys_assert	16	static
+..\lwip\port\sys_arch.c:92:7:lwip_rand	4	static
+..\lwip\port\sys_arch.c:710:6:time_isr	4	static
+..\lwip\port\sys_arch.c:718:6:time_init	32	static
+..\lwip\port\sys_arch.c:738:7:sys_now	4	static
+..\lwip\port\sys_arch.c:762:12:sys_arch_protect	16	static
+..\lwip\port\sys_arch.c:782:6:sys_arch_unprotect	16	static
+..\lwip\port\sys_arch.c:787:6:sys_check_core_locking	16	static
