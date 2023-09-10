@@ -49,10 +49,10 @@
 
 #include "drivers/network/networking.h"
 
-#define NETWORKING_THREAD_STACK_SIZE 4096
+#define NETWORKING_THREAD_STACK_SIZE 2048
 #define NETWORKING_THREAD_PRIORITY   3
 
-#define CONTROL_THREAD_STACK_SIZE 4096
+#define CONTROL_THREAD_STACK_SIZE 2048
 #define CONTROL_THREAD_PRIORITY   4
 
 #define DMA_THREAD_STACK_SIZE 4096
@@ -228,7 +228,7 @@ static void networking_thread_entry(ULONG parameter)
     	    tx_thread_sleep(5 * NX_IP_PERIODIC_RATE);
     	#endif
     	    /* Create a UDP socket.  */
-    	    status = nx_udp_socket_create(&nx_ip, &socket_1, "Socket 1", NX_IP_NORMAL, NX_FRAGMENT_OKAY, 0x80, 5);
+    	    status = nx_udp_socket_create(&nx_ip, &socketComms, "Socket 1", NX_IP_NORMAL, NX_FRAGMENT_OKAY, 0x80, 5);
 
     	    /* Check status.  */
     	    if (status)
@@ -238,7 +238,7 @@ static void networking_thread_entry(ULONG parameter)
     	    }
 
     	    /* Bind the UDP socket to the IP port.  */
-    	    status =  nx_udp_socket_bind(&socket_1, 27181, TX_WAIT_FOREVER);
+    	    status =  nx_udp_socket_bind(&socketComms, 27181, TX_WAIT_FOREVER);
 
     	    /* Check status.  */
     	    if (status)
@@ -263,7 +263,7 @@ static void networking_thread_entry(ULONG parameter)
     	        }
     	        else if(status == NX_SUCCESS) {
 
-    	        	udp_data_callback(&my_packet);
+    	        	udp_data_callback(&remora_packet);
     	        }
     	        /* Release the packet.  */
     	        status =  nx_packet_release(remora_packet);
@@ -274,7 +274,7 @@ static void networking_thread_entry(ULONG parameter)
     	            break;
     	        }
     	        /* Allocate a packet.  */
-				status =  nx_packet_allocate(&poolComms, &remora_packet, NX_UDP_PACKET, TX_WAIT_FOREVER);
+				status =  nx_packet_allocate(&nx_pool, &remora_packet, NX_UDP_PACKET, TX_WAIT_FOREVER);
 
 				/* Check status.  */
 				if (status != NX_SUCCESS)
@@ -283,15 +283,9 @@ static void networking_thread_entry(ULONG parameter)
 				}
 
 				/* Write ABCs into the packet payload!  */
-				nx_packet_data_append(remora_packet, (char*)&txData.txBuffer, sizeof(txData.txBuffer), &poolComms, TX_WAIT_FOREVER);
-
-				/* In this demo, we alternate between IPv4 connections and IPv6 connections. */
-				if (thread_0_counter & 1)
-				{
-					status =  nxd_udp_socket_send(&socketComms, remora_packet, &source_ip_address, &source_port);
-				}
-    	        /* Increment thread 1's counter.  */
-    	        thread_1_counter++;
+				//nx_packet_data_append(NX_PACKET *packet_ptr, VOID *data_start, ULONG data_size, NX_PACKET_POOL *pool_ptr, ULONG wait_option)
+				nx_packet_data_append(remora_packet, (char*)&txData.txBuffer, sizeof(txData.txBuffer), &nx_pool, TX_WAIT_FOREVER);
+				status =  nx_udp_socket_send(&socketComms, remora_packet, source_ip_address, source_port);
     	    }
     }
 }

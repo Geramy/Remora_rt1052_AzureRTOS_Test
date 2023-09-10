@@ -17,11 +17,11 @@ C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_Azur
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_vector.h:128:14:std::_Vector_base<Module*, std::allocator<Module*> >::_Vector_impl::~_Vector_impl()	16	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_vector.h:288:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = Module*; _Alloc = std::allocator<Module*>]	16	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_vector.h:487:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = Module*; _Alloc = std::allocator<Module*>]	16	static
-..\source\remora_rt1052_AzureRTOS.cpp:201:13:void networking_thread_entry(ULONG)	56	static
-..\source\remora_rt1052_AzureRTOS.cpp:274:13:void control_thread_entry(ULONG)	16	static
-..\source\remora_rt1052_AzureRTOS.cpp:280:13:void dma_thread_entry(ULONG)	16	static
-..\source\remora_rt1052_AzureRTOS.cpp:286:6:void tx_application_define(void*)	64	static
-..\source\remora_rt1052_AzureRTOS.cpp:338:5:int main()	8	static
+..\source\remora_rt1052_AzureRTOS.cpp:204:13:void networking_thread_entry(ULONG)	64	static
+..\source\remora_rt1052_AzureRTOS.cpp:293:13:void control_thread_entry(ULONG)	16	static
+..\source\remora_rt1052_AzureRTOS.cpp:299:13:void dma_thread_entry(ULONG)	16	static
+..\source\remora_rt1052_AzureRTOS.cpp:305:6:void tx_application_define(void*)	64	static
+..\source\remora_rt1052_AzureRTOS.cpp:357:5:int main()	8	static
 ..\source\lib/ArduinoJson6/ArduinoJson/Object/ObjectRef.hpp:47:3:ArduinoJson6101_110::ObjectRefBase<TData>::ObjectRefBase(TData*) [with TData = ArduinoJson6101_110::CollectionData]	16	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_vector.h:131:2:std::_Vector_base<_Tp, _Alloc>::_Vector_impl::_Vector_impl() [with _Tp = Module*; _Alloc = std::allocator<Module*>]	16	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\allocator.h:182:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = Module*]	16	static
@@ -37,7 +37,7 @@ c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\alloc_traits.h:491:7:static void std::allocator_traits<std::allocator<_CharT> >::deallocate(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, std::allocator_traits<std::allocator<_CharT> >::pointer, std::allocator_traits<std::allocator<_CharT> >::size_type) [with _Tp = Module*]	24	static
 ..\source\lib/ArduinoJson6/ArduinoJson/Document/BasicJsonDocument.hpp:18:9:void* ArduinoJson6101_110::AllocatorOwner<TAllocator>::allocate(size_t) [with TAllocator = ArduinoJson6101_110::DefaultAllocator]	16	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\ext\new_allocator.h:126:7:void __gnu_cxx::new_allocator<_Tp>::deallocate(_Tp*, __gnu_cxx::new_allocator<_Tp>::size_type) [with _Tp = Module*]	24	static
-..\source\remora_rt1052_AzureRTOS.cpp:347:1:void __static_initialization_and_destruction_0(int, int)	24	static
+..\source\remora_rt1052_AzureRTOS.cpp:366:1:void __static_initialization_and_destruction_0(int, int)	24	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_vector.h:678:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = Module*; _Alloc = std::allocator<Module*>]	24	static
 ..\source\lib/ArduinoJson6/ArduinoJson/Document/BasicJsonDocument.hpp:55:3:ArduinoJson6101_110::BasicJsonDocument<TAllocator>::~BasicJsonDocument() [with TAllocator = ArduinoJson6101_110::DefaultAllocator]	16	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_vector.h:276:7:std::_Vector_base<_Tp, _Alloc>::_Tp_alloc_type& std::_Vector_base<_Tp, _Alloc>::_M_get_Tp_allocator() [with _Tp = Module*; _Alloc = std::allocator<Module*>]	16	static
@@ -46,4 +46,4 @@ c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_construct.h:171:5:void std::_Destroy(_ForwardIterator, _ForwardIterator) [with _ForwardIterator = Module**]	16	static
 ..\source\lib/ArduinoJson6/ArduinoJson/Document/BasicJsonDocument.hpp:22:8:void ArduinoJson6101_110::AllocatorOwner<TAllocator>::deallocate(void*) [with TAllocator = ArduinoJson6101_110::DefaultAllocator]	16	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_construct.h:161:9:static void std::_Destroy_aux<true>::__destroy(_ForwardIterator, _ForwardIterator) [with _ForwardIterator = Module**]	16	static
-..\source\remora_rt1052_AzureRTOS.cpp:347:1:cpp)	8	static
+..\source\remora_rt1052_AzureRTOS.cpp:366:1:cpp)	8	static
