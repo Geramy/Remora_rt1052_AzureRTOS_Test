@@ -6,7 +6,7 @@
  */
 
 #include <remora/RemoraStepGenDMA.h>
-
+#include "extern.h"
 using namespace std;
 /*CLOCK_SetMux(kCLOCK_PerclkMux, 1U);
 	CLOCK_SetDiv(kCLOCK_PerclkDiv, 0U);
@@ -66,13 +66,10 @@ uint8_t RemoraStepGenDMA::InitializeHardware() {
 }
 
 uint8_t RemoraStepGenDMA::SetupBuffers(bool doubleBuffer, uint16_t size) {
-	/*
-	 * AT_NONCACHEABLE_SECTION_INIT(int32_t stepgenDMAbuffer_0[DMA_BUFFER_SIZE]);		// double buffers for port DMA transfers
-	 * AT_NONCACHEABLE_SECTION_INIT(int32_t stepgenDMAbuffer_1[DMA_BUFFER_SIZE]);
-	 */
+
 	if(doubleBuffer) {
 		/* prepare descriptor 0 */
-			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_0, sizeof(stepgenDMAbuffer_0[0]), &GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
+			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_0, sizeof(stepgenDMAbuffer_0[0]), (void*)GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
 								 sizeof(stepgenDMAbuffer_0[0]),
 								 sizeof(stepgenDMAbuffer_0[0]) * DMA_BUFFER_SIZE,
 								 kEDMA_MemoryToPeripheral);
@@ -81,7 +78,7 @@ uint8_t RemoraStepGenDMA::SetupBuffers(bool doubleBuffer, uint16_t size) {
 			EDMA_TcdEnableInterrupts(&tcdMemoryPoolPtr[0], kEDMA_MajorInterruptEnable);
 
 			/* prepare descriptor 1 */
-			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_1, sizeof(stepgenDMAbuffer_1[0]), &GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
+			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_1, sizeof(stepgenDMAbuffer_1[0]), (void*)GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
 								 sizeof(stepgenDMAbuffer_1[0]),
 								 sizeof(stepgenDMAbuffer_1[0]) * DMA_BUFFER_SIZE,
 								 kEDMA_MemoryToPeripheral);
@@ -91,7 +88,7 @@ uint8_t RemoraStepGenDMA::SetupBuffers(bool doubleBuffer, uint16_t size) {
 	}
 	else {
 		/* prepare descriptor 0 */
-			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_0, sizeof(stepgenDMAbuffer_0[0]), &GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
+			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_0, sizeof(stepgenDMAbuffer_0[0]), (void*)GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
 								 sizeof(stepgenDMAbuffer_0[0]),
 								 sizeof(stepgenDMAbuffer_0[0]) * DMA_BUFFER_SIZE,
 								 kEDMA_MemoryToPeripheral);
@@ -109,7 +106,12 @@ uint8_t RemoraStepGenDMA::StartDMA() {
 }
 
 uint8_t RemoraStepGenDMA::StopDMA() {
+	EDMA_StopTransfer(&this->g_EDMA_Handle);
+	EDMA_ResetChannel(this->g_EDMA_Handle.base, this->g_EDMA_Handle.channel);
+	EDMA_Deinit(DMA0);
 
+	DMAMUX_DisableChannel(DMAMUX, this->dmaChannel);
+	DMAMUX_Deinit(DMAMUX);
 }
 
 RemoraStepGenDMA::~RemoraStepGenDMA() {

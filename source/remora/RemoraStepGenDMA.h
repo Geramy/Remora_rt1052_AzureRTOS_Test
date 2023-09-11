@@ -8,7 +8,6 @@
 #ifndef REMORA_REMORASTEPGENDMA_H_
 #define REMORA_REMORASTEPGENDMA_H_
 
-#include "extern.h"
 #include "fsl_adapter_uart.h"
 #include "configuration.h"
 #include "fsl_gpio.h"
@@ -34,6 +33,7 @@ private:
 
 	bool stepgenDMAbuffer = false;					// indicates which double buffer to use 0 or 1
 	edma_handle_t g_EDMA_Handle;
+public:
 	volatile bool g_transferDone = false;
 public:
 
@@ -41,6 +41,7 @@ public:
 		Success,
 		Failure
 	};
+
 	RemoraStepGenDMA(uint32_t, uint32_t);
 	uint8_t InitializePIT(pit_chnl_t);
 	uint8_t InitializeHardware();

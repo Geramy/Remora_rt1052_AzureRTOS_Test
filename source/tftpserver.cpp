@@ -30,7 +30,6 @@
 static uint32_t Flash_Write_Address;
 static struct udp_pcb *UDPpcb;
 static __IO uint32_t total_count=0;
-static volatile edma_handle_t edma_handle;
 
 
 /* Private function prototypes -----------------------------------------------*/
@@ -272,13 +271,6 @@ static int IAP_tftp_process_write(struct udp_pcb *upcb, const ip_addr_t *to, int
   printf("\nReceiving new configuration. Stopping threads..\n");
   baseThread->stopThread();
   servoThread->stopThread();
-
-  EDMA_StopTransfer(&edma_handle);
-  EDMA_ResetChannel(edma_handle.base, edma_handle.channel);
-  EDMA_Deinit(DMA0);
-
-  DMAMUX_DisableChannel(DMAMUX, 0);
-  DMAMUX_Deinit(DMAMUX);
 
   /* init flash */
   flexspi_nor_flash_init(FLEXSPI);

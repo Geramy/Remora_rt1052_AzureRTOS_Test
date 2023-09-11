@@ -1,0 +1,20 @@
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_clock.h:1377:20:void CLOCK_SetMux(clock_mux_t, uint32_t)	24	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_clock.h:1429:20:void CLOCK_SetDiv(clock_div_t, uint32_t)	24	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_pit.h:105:20:void PIT_GetDefaultConfig(pit_config_t*)	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_pit.h:246:20:void PIT_SetTimerPeriod(PIT_Type*, pit_chnl_t, uint32_t)	24	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_pit.h:288:20:void PIT_StartTimer(PIT_Type*, pit_chnl_t)	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_dmamux.h:75:20:void DMAMUX_EnableChannel(DMAMUX_Type*, uint32_t)	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_dmamux.h:91:20:void DMAMUX_DisableChannel(DMAMUX_Type*, uint32_t)	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_dmamux.h:129:20:void DMAMUX_EnablePeriodTrigger(DMAMUX_Type*, uint32_t)	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_dmamux.h:166:20:void DMAMUX_EnableAlwaysOn(DMAMUX_Type*, uint32_t, bool)	24	static
+c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\arm-none-eabi\thumb\v7e-m+fp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\source/remora/RemoraStepGenDMA.h:19:7:constexpr RemoraStepGenDMA::RemoraStepGenDMA(const RemoraStepGenDMA&)	24	static
+..\source\remora\RemoraStepGenDMA.cpp:21:13:void EDMA_Callback(edma_handle_t*, void*, bool, uint32_t)	104	static
+..\source\remora\RemoraStepGenDMA.cpp:27:1:RemoraStepGenDMA::RemoraStepGenDMA(uint32_t, uint32_t)	24	static
+..\source\remora\RemoraStepGenDMA.cpp:33:9:uint8_t RemoraStepGenDMA::InitializePIT(pit_chnl_t)	24	static
+..\source\remora\RemoraStepGenDMA.cpp:47:9:uint8_t RemoraStepGenDMA::InitializeHardware()	16	static
+..\source\remora\RemoraStepGenDMA.cpp:68:9:uint8_t RemoraStepGenDMA::SetupBuffers(bool, uint16_t)	32	static
+..\source\remora\RemoraStepGenDMA.cpp:104:9:uint8_t RemoraStepGenDMA::StartDMA()	16	static
+..\source\remora\RemoraStepGenDMA.cpp:108:9:uint8_t RemoraStepGenDMA::StopDMA()	16	static
+..\source\remora\RemoraStepGenDMA.cpp:117:1:RemoraStepGenDMA::~RemoraStepGenDMA()	16	static
+..\source\remora\RemoraStepGenDMA.cpp:117:1:virtual RemoraStepGenDMA::~RemoraStepGenDMA()	16	static

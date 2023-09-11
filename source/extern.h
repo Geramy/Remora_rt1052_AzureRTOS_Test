@@ -3,6 +3,7 @@
 
 #include "configuration.h"
 #include "remora.h"
+#include "fsl_edma.h"
 
 #include "../source/lib/ArduinoJson6/ArduinoJson.h"
 #include "../source/thread/pruThread.h"
@@ -15,6 +16,16 @@ extern uint32_t servo_freq;
 extern JsonObject module;
 
 extern volatile bool PRUreset;
+
+// DMA stepgen double buffers
+extern int32_t stepgenDMAbuffer_0[DMA_BUFFER_SIZE];
+extern int32_t stepgenDMAbuffer_1[DMA_BUFFER_SIZE];
+
+// DMA stepgen double buffers
+AT_NONCACHEABLE_SECTION_INIT(int32_t stepgenDMAbuffer_0[DMA_BUFFER_SIZE]);		// double buffers for port DMA transfers
+AT_NONCACHEABLE_SECTION_INIT(int32_t stepgenDMAbuffer_1[DMA_BUFFER_SIZE]);
+
+AT_QUICKACCESS_SECTION_DATA_ALIGN(edma_tcd_t tcdMemoryPoolPtr[3], sizeof(edma_tcd_t));
 
 
 // DMA stepgen double buffers
