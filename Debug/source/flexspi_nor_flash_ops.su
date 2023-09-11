@@ -1,0 +1,11 @@
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_flexspi.h:431:20:FLEXSPI_SoftwareReset	16	static
+..\source\flexspi_nor_flash_ops.c:117:10:flexspi_nor_write_enable	40	static
+..\source\flexspi_nor_flash_ops.c:134:10:flexspi_nor_wait_bus_busy	48	static
+..\source\flexspi_nor_flash_ops.c:186:10:flexspi_nor_enable_quad_mode	40	static
+..\source\flexspi_nor_flash_ops.c:283:10:flexspi_nor_flash_erase_sector	40	static
+..\source\flexspi_nor_flash_ops.c:331:10:flexspi_nor_flash_read	48	static
+..\source\flexspi_nor_flash_ops.c:382:10:flexspi_nor_flash_program	48	static
+..\source\flexspi_nor_flash_ops.c:433:10:flexspi_nor_flash_page_program	48	static
+..\source\flexspi_nor_flash_ops.c:493:10:flexspi_nor_get_vendor_id	40	static
+..\source\flexspi_nor_flash_ops.c:521:10:flexspi_nor_erase_chip	40	static
+..\source\flexspi_nor_flash_ops.c:561:6:flexspi_nor_flash_init	16	static

@@ -1,0 +1,5 @@
+..\source\remora\RemoraKernel.cpp:10:1:RemoraKernel::RemoraKernel()	16	static
+..\source\remora\RemoraKernel.cpp:15:6:void RemoraKernel::InitializeThreads()	16	static
+..\source\remora\RemoraKernel.cpp:20:6:void RemoraKernel::Run()	16	static
+..\source\remora\RemoraKernel.cpp:24:1:RemoraKernel::~RemoraKernel()	16	static
+..\source\remora\RemoraKernel.cpp:24:1:virtual RemoraKernel::~RemoraKernel()	16	static

@@ -86,11 +86,12 @@ TX_THREAD servo_thread;
 ULONG servo_thread_stack[SERVO_THREAD_STACK_SIZE / sizeof(ULONG)];
 
 /* Remora Original Data */
+#include "tftpserver.h"
 
 #include "fsl_gpio.h"
 #include "fsl_iomuxc.h"
 #include "fsl_pit.h"
-//#include "flexspi_nor_flash.h"
+#include "flexspi_nor_flash.h"
 #include "fsl_dmamux.h"
 #include "fsl_edma.h"
 
@@ -147,17 +148,13 @@ volatile bool PRUreset;
 bool configError = false;
 bool threadsRunning = false;
 
-
-// DMA stepgen double buffers
-AT_NONCACHEABLE_SECTION_INIT(int32_t stepgenDMAbuffer_0[DMA_BUFFER_SIZE]);		// double buffers for port DMA transfers
-AT_NONCACHEABLE_SECTION_INIT(int32_t stepgenDMAbuffer_1[DMA_BUFFER_SIZE]);
 vector<Module*> vDMAthread;
 vector<Module*>::iterator iterDMA;
 bool DMAstepgen = false;
 bool stepgenDMAbuffer = false;					// indicates which double buffer to use 0 or 1
 edma_handle_t g_EDMA_Handle;
 volatile bool g_transferDone = false;
-AT_QUICKACCESS_SECTION_DATA_ALIGN(edma_tcd_t tcdMemoryPoolPtr[3], sizeof(edma_tcd_t));
+
 
 // pointers to objects with global scope
 pruThread* servoThread;
@@ -694,10 +691,10 @@ static void control_thread_entry(ULONG parameter)
     enum State currentState;
 	enum State prevState;
 
-	BOARD_ConfigMPU();
+	/*BOARD_ConfigMPU();
 	BOARD_InitBootPins();
 	BOARD_InitBootClocks();
-	BOARD_InitDebugConsole();
+	BOARD_InitDebugConsole();*/
 
 	currentState = ST_SETUP;
 	prevState = ST_RESET;
@@ -710,7 +707,7 @@ static void control_thread_entry(ULONG parameter)
 	//Module* debugOn2 = new Debug("P1_31", 1);
 	//Module* debugOff2 = new Debug("P1_31", 0);
 
-	initEthernet();
+	//initEthernet();
 
 	while (1)
 	{
