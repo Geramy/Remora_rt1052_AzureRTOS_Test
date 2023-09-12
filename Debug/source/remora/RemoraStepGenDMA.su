@@ -12,16 +12,16 @@ C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_Azur
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\new:174:33:void* operator new(std::size_t, void*)	16	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\arm-none-eabi\thumb\v7e-m+fp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\source/remora/RemoraStepGenDMA.h:20:7:RemoraStepGenDMA::RemoraStepGenDMA(const RemoraStepGenDMA&)	24	static
-..\source\remora\RemoraStepGenDMA.cpp:22:13:void EDMA_Callback(edma_handle_t*, void*, bool, uint32_t)	120	static
+..\source\remora\RemoraStepGenDMA.cpp:22:13:void EDMA_Callback(edma_handle_t*, void*, bool, uint32_t)	112	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_vector.h:128:14:std::_Vector_base<Module*, std::allocator<Module*> >::_Vector_impl::~_Vector_impl()	16	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_vector.h:288:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = Module*; _Alloc = std::allocator<Module*>]	16	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_vector.h:487:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = Module*; _Alloc = std::allocator<Module*>]	16	static
-..\source\remora\RemoraStepGenDMA.cpp:28:1:RemoraStepGenDMA::RemoraStepGenDMA(uint32_t, uint32_t)	24	static
-..\source\remora\RemoraStepGenDMA.cpp:34:9:uint8_t RemoraStepGenDMA::InitializePIT(pit_chnl_t)	24	static
-..\source\remora\RemoraStepGenDMA.cpp:48:9:uint8_t RemoraStepGenDMA::InitializeHardware()	16	static
-..\source\remora\RemoraStepGenDMA.cpp:69:9:uint8_t RemoraStepGenDMA::SetupBuffers(bool, uint16_t)	32	static
-..\source\remora\RemoraStepGenDMA.cpp:105:9:uint8_t RemoraStepGenDMA::ResumeDMA()	16	static
-..\source\remora\RemoraStepGenDMA.cpp:113:9:uint8_t RemoraStepGenDMA::StopDMA()	16	static
+..\source\remora\RemoraStepGenDMA.cpp:28:1:RemoraStepGenDMA::RemoraStepGenDMA(uint8_t, uint8_t)	16	static
+..\source\remora\RemoraStepGenDMA.cpp:34:6:void RemoraStepGenDMA::InitializePIT(pit_chnl_t)	24	static
+..\source\remora\RemoraStepGenDMA.cpp:48:6:void RemoraStepGenDMA::InitializeHardware()	16	static
+..\source\remora\RemoraStepGenDMA.cpp:69:6:void RemoraStepGenDMA::SetupBuffers(bool, uint8_t)	32	static
+..\source\remora\RemoraStepGenDMA.cpp:105:6:void RemoraStepGenDMA::ResumeDMA()	16	static
+..\source\remora\RemoraStepGenDMA.cpp:113:6:void RemoraStepGenDMA::StopDMA()	16	static
 ..\source\remora\RemoraStepGenDMA.cpp:120:10:int32_t& RemoraStepGenDMA::GetBufferAddress(bool, int)	24	static
 ..\source\remora\RemoraStepGenDMA.cpp:127:6:void RemoraStepGenDMA::AddModule(Module*)	16	static
 ..\source\remora\RemoraStepGenDMA.cpp:131:6:void RemoraStepGenDMA::RunTasks()	32	static

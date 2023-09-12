@@ -25,8 +25,8 @@ private:
 	pit_config_t pitConfig;
 
 	pit_chnl_t pitChannel;
-	uint32_t timerFreq;
-	uint32_t dmaChannel;
+	uint8_t timerFreq;
+	uint8_t dmaChannel;
 	bool PITMode = false;
 
 	vector<Module*> vDMAthread;
@@ -42,17 +42,12 @@ public:
 	bool stepgenDMAbuffer = false;					// indicates which double buffer to use 0 or 1
 public:
 
-	enum RDMAStatus {
-		Success,
-		Failure
-	};
-
-	RemoraStepGenDMA(uint32_t, uint32_t);
-	uint8_t InitializePIT(pit_chnl_t);
-	uint8_t InitializeHardware();
-	uint8_t SetupBuffers(bool, uint16_t);
-	uint8_t ResumeDMA();
-	uint8_t StopDMA();
+	RemoraStepGenDMA(uint8_t, uint8_t);
+	void InitializePIT(pit_chnl_t);
+	void InitializeHardware();
+	void SetupBuffers(bool, uint8_t);
+	void ResumeDMA();
+	void StopDMA();
 	int32_t& GetBufferAddress(bool BufferOne, int position);
 	void AddModule(Module*);
 	void RunTasks();

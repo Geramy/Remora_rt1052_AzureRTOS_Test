@@ -90,19 +90,19 @@
 
 #include "drivers/network/networking.h"
 
-#define NETWORKING_THREAD_STACK_SIZE 1024
+#define NETWORKING_THREAD_STACK_SIZE 512
 #define NETWORKING_THREAD_PRIORITY   3
 
-#define CONTROL_THREAD_STACK_SIZE 256
+#define CONTROL_THREAD_STACK_SIZE 128
 #define CONTROL_THREAD_PRIORITY   4
 
-#define BASE_THREAD_STACK_SIZE 256
+#define BASE_THREAD_STACK_SIZE 128
 #define BASE_THREAD_PRIORITY   3
 
-#define SERVO_THREAD_STACK_SIZE 2048
+#define SERVO_THREAD_STACK_SIZE 128
 #define SERVO_THREAD_PRIORITY   2
 
-#define DMA_THREAD_STACK_SIZE 1536
+#define DMA_THREAD_STACK_SIZE 128
 #define DMA_THREAD_PRIORITY   2
 
 NX_UDP_SOCKET           socketComms;
@@ -113,9 +113,6 @@ NX_UDP_SOCKET           socketTftp;
 
 TX_THREAD networking_thread;
 ULONG networking_thread_stack[NETWORKING_THREAD_STACK_SIZE / sizeof(ULONG)];
-
-TX_THREAD control_thread;
-ULONG control_thread_stack[CONTROL_THREAD_STACK_SIZE / sizeof(ULONG)];
 
 TX_THREAD dma_thread;
 ULONG dma_thread_stack[DMA_THREAD_STACK_SIZE / sizeof(ULONG)];
@@ -142,6 +139,9 @@ uint8_t resetCnt;
 uint32_t base_freq = PRU_BASEFREQ;
 uint32_t servo_freq = PRU_SERVOFREQ;
 
+pruThread* baseThread;
+pruThread* servoThread;
+
 RemoraStepGenDMA *dmaControl;
 // boolean
 volatile bool PRUreset;
@@ -149,8 +149,6 @@ bool configError = false;
 bool threadsRunning = false;
 
 // pointers to objects with global scope
-pruThread* servoThread;
-pruThread* baseThread;
 RemoraComms* comms;
 Module* MPG;
 
@@ -608,152 +606,151 @@ static void networking_thread_entry(ULONG parameter)
     }
 }
 
-static void control_thread_entry(ULONG parameter)
+static void dma_thread_entry(ULONG parameter)
 {
-    printf("Starting Control Thread\r\n\r\n");
+    printf("Starting DMA Thread\r\n\r\n");
+    dmaControl = new RemoraStepGenDMA(0, DMA_FREQ);
+    dmaControl->InitializeHardware();
+    dmaControl->InitializePIT(kPIT_Chnl_0);
+    while (1) {
+    	dmaControl->RunTasks();
+    }
+}
+
+static void base_thread_entry(ULONG parameter)
+{
+    printf("Starting base Thread\r\n\r\n");
     enum State currentState;
 	enum State prevState;
-
-	/*BOARD_ConfigMPU();
-	BOARD_InitBootPins();
-	BOARD_InitBootClocks();
-	BOARD_InitDebugConsole();*/
 
 	currentState = ST_SETUP;
 	prevState = ST_RESET;
 
 	printf("\nRemora RT1052 starting\n\n");
 
-
-	//Module* debugOn1 = new Debug("P1_17", 1);
-	//Module* debugOff1 = new Debug("P1_17", 0);
-	//Module* debugOn2 = new Debug("P1_31", 1);
-	//Module* debugOff2 = new Debug("P1_31", 0);
-
-	//initEthernet();
-
 	while (1)
 	{
-	   switch(currentState){
-					  case ST_SETUP:
-						  // do setup tasks
-						  if (currentState != prevState)
-						  {
-							  printf("\n## Entering SETUP state\n\n");
-						  }
-						  prevState = currentState;
+	   switch(currentState)
+	   {
+		  case ST_SETUP:
+			  // do setup tasks
+			  if (currentState != prevState)
+			  {
+				  printf("\n## Entering SETUP state\n\n");
+			  }
+			  prevState = currentState;
 
-						  jsonFromFlash(strJson);
-						  deserialiseJSON();
-						  configThreads();
-						  createThreads();
-						  //debugThreadHigh();
-						  loadModules();
-						  //debugThreadLow();
-						  //udpServer_init();
-						  //IAP_tftpd_init(g_EDMA_Handle);
-						  currentState = ST_START;
-						  break;
+			  jsonFromFlash(strJson);
+			  deserialiseJSON();
+			  configThreads();
+			  createThreads();
+			  //debugThreadHigh();
+			  loadModules();
+			  //debugThreadLow();
+			  //udpServer_init();
+			  //IAP_tftpd_init(g_EDMA_Handle);
+			  currentState = ST_START;
+			  break;
 
-					  case ST_START:
-						  // do start tasks
-						  if (currentState != prevState)
-						  {
-							  printf("\n## Entering START state\n");
-						  }
-						  prevState = currentState;
+		  case ST_START:
+			  // do start tasks
+			  if (currentState != prevState)
+			  {
+				  printf("\n## Entering START state\n");
+			  }
+			  prevState = currentState;
 
-						  if (!threadsRunning)
-						  {
-							  tx_thread_resume(&networking_thread);
-							  tx_thread_resume(&dma_thread);
+			  if (!threadsRunning)
+			  {
+				  tx_thread_resume(&networking_thread);
+				  tx_thread_resume(&dma_thread);
 
-							  // Start the threads
-							  printf("\nStarting the BASE thread\n");
-							  baseThread->startThread();
+				  // Start the threads
+				  printf("\nStarting the BASE thread\n");
+				  baseThread->startThread();
 
-							  printf("\nStarting the SERVO thread\n");
-							  servoThread->startThread();
+				  printf("\nStarting the SERVO thread\n");
+				  servoThread->startThread();
 
-							  //DMAconfig(); // put this in the right place+
+				  //DMAconfig(); // put this in the right place+
 
-							  threadsRunning = true;
-						  }
+				  threadsRunning = true;
+			  }
 
-						  currentState = ST_IDLE;
+			  currentState = ST_IDLE;
 
-						  break;
-
-
-					  case ST_IDLE:
-						  // do something when idle
-						  if (currentState != prevState)
-						  {
-							  printf("\n## Entering IDLE state\n");
-						  }
-						  prevState = currentState;
-
-						  //wait for data before changing to running state
-						  if (comms->getStatus())
-						  {
-							  currentState = ST_RUNNING;
-						  }
-
-						  break;
-
-					  case ST_RUNNING:
-						  // do running tasks
-						  if (currentState != prevState)
-						  {
-							  printf("\n## Entering RUNNING state\n");
-						  }
-						  prevState = currentState;
-
-						  if (comms->getStatus() == false)
-						  {
-							  currentState = ST_RESET;
-						  }
-
-						  break;
-
-					  case ST_STOP:
-						  // do stop tasks
-						  if (currentState != prevState)
-						  {
-							  printf("\n## Entering STOP state\n");
-						  }
-						  prevState = currentState;
+			  break;
 
 
-						  currentState = ST_STOP;
-						  break;
+		  case ST_IDLE:
+			  // do something when idle
+			  if (currentState != prevState)
+			  {
+				  printf("\n## Entering IDLE state\n");
+			  }
+			  prevState = currentState;
 
-					  case ST_RESET:
-						  // do reset tasks
-						  if (currentState != prevState)
-						  {
-							  printf("\n## Entering RESET state\n");
-						  }
-						  prevState = currentState;
+			  //wait for data before changing to running state
+			  if (comms->getStatus())
+			  {
+				  currentState = ST_RUNNING;
+			  }
 
-						  // set all of the rxData buffer to 0
-						  // rxData.rxBuffer is volatile so need to do this the long way. memset cannot be used for volatile
-						  printf("   Resetting rxBuffer\n");
-						  {
-							  int n = sizeof(rxData.rxBuffer);
-							  while(n-- > 0)
-							  {
-								  rxData.rxBuffer[n] = 0;
-							  }
-						  }
+			  break;
 
-						  currentState = ST_IDLE;
-						  break;
+		  case ST_RUNNING:
+			  // do running tasks
+			  if (currentState != prevState)
+			  {
+				  printf("\n## Entering RUNNING state\n");
+			  }
+			  prevState = currentState;
 
-					  case ST_WDRESET:
-						  // force a reset
-						  //NVIC_SystemReset();
-						  break;
+			  if (comms->getStatus() == false)
+			  {
+				  currentState = ST_RESET;
+			  }
+
+			  break;
+
+		  case ST_STOP:
+			  // do stop tasks
+			  if (currentState != prevState)
+			  {
+				  printf("\n## Entering STOP state\n");
+			  }
+			  prevState = currentState;
+
+
+			  currentState = ST_STOP;
+			  break;
+
+		  case ST_RESET:
+			  // do reset tasks
+			  if (currentState != prevState)
+			  {
+				  printf("\n## Entering RESET state\n");
+			  }
+			  prevState = currentState;
+
+			  // set all of the rxData buffer to 0
+			  // rxData.rxBuffer is volatile so need to do this the long way. memset cannot be used for volatile
+			  printf("   Resetting rxBuffer\n");
+			  {
+				  int n = sizeof(rxData.rxBuffer);
+				  while(n-- > 0)
+				  {
+					  rxData.rxBuffer[n] = 0;
+				  }
+			  }
+
+			  currentState = ST_IDLE;
+			  break;
+
+		  case ST_WDRESET:
+			  // force a reset
+			  //NVIC_SystemReset();
+			  break;
 			  }
 
 		//EthernetTasks();
@@ -769,26 +766,6 @@ static void control_thread_entry(ULONG parameter)
 			}
 		}
 	}
-
-}
-
-static void dma_thread_entry(ULONG parameter)
-{
-    printf("Starting DMA Thread\r\n\r\n");
-    dmaControl = new RemoraStepGenDMA(0, DMA_FREQ);
-    dmaControl->InitializeHardware();
-    dmaControl->InitializePIT(kPIT_Chnl_0);
-    while (1) {
-    	dmaControl->RunTasks();
-    }
-}
-
-static void base_thread_entry(ULONG parameter)
-{
-    printf("Starting base Thread\r\n\r\n");
-    while (1) {
-
-    }
 }
 
 static void servo_thread_entry(ULONG parameter)
@@ -817,22 +794,6 @@ void tx_application_define(void* first_unused_memory)
     {
         printf("Azure IoT application failed, please restart\r\n");
     }
-
-    UINT controlThreadStatus = tx_thread_create(&control_thread,
-            "Control Thread",
-    		control_thread_entry,
-            0,
-			control_thread_stack,
-    		CONTROL_THREAD_STACK_SIZE,
-			CONTROL_THREAD_PRIORITY,
-			CONTROL_THREAD_PRIORITY,
-            TX_NO_TIME_SLICE,
-            TX_AUTO_START);
-
-	if (controlThreadStatus != TX_SUCCESS)
-	{
-		printf("Control thread failed, please restart\r\n");
-	}
 
 	UINT dmaThreadStatus = tx_thread_create(&dma_thread,
 	            "DMAstepgen Thread",

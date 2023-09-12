@@ -75,19 +75,18 @@ C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_Azur
 ..\source\interrupt/irqHandlers.h:7:7:void GPT1_IRQHandler()	8	static
 ..\source\interrupt/irqHandlers.h:17:7:void GPT2_IRQHandler()	8	static
 ..\source\thread/createThreads.h:4:6:void createThreads()	16	static
-..\source\remora_rt1052_AzureRTOS.cpp:206:8:int8_t checkJson()	1056	static
-..\source\remora_rt1052_AzureRTOS.cpp:263:6:void moveJson()	72	dynamic
-..\source\remora_rt1052_AzureRTOS.cpp:340:6:void jsonFromFlash(std::string)	32	static
-..\source\remora_rt1052_AzureRTOS.cpp:381:6:void deserialiseJSON()	24	static
-..\source\remora_rt1052_AzureRTOS.cpp:413:6:void configThreads()	256	static
-..\source\remora_rt1052_AzureRTOS.cpp:443:6:void loadModules()	256	static
-..\source\remora_rt1052_AzureRTOS.cpp:522:13:void networking_thread_entry(ULONG)	64	static
-..\source\remora_rt1052_AzureRTOS.cpp:611:13:void control_thread_entry(ULONG)	48	static
-..\source\remora_rt1052_AzureRTOS.cpp:775:13:void dma_thread_entry(ULONG)	24	static
-..\source\remora_rt1052_AzureRTOS.cpp:786:13:void base_thread_entry(ULONG)	16	static
-..\source\remora_rt1052_AzureRTOS.cpp:794:13:void servo_thread_entry(ULONG)	16	static
-..\source\remora_rt1052_AzureRTOS.cpp:802:6:void tx_application_define(void*)	72	static
-..\source\remora_rt1052_AzureRTOS.cpp:886:5:int main()	8	static
+..\source\remora_rt1052_AzureRTOS.cpp:204:8:int8_t checkJson()	1056	static
+..\source\remora_rt1052_AzureRTOS.cpp:261:6:void moveJson()	72	dynamic
+..\source\remora_rt1052_AzureRTOS.cpp:338:6:void jsonFromFlash(std::string)	32	static
+..\source\remora_rt1052_AzureRTOS.cpp:379:6:void deserialiseJSON()	24	static
+..\source\remora_rt1052_AzureRTOS.cpp:411:6:void configThreads()	256	static
+..\source\remora_rt1052_AzureRTOS.cpp:441:6:void loadModules()	256	static
+..\source\remora_rt1052_AzureRTOS.cpp:520:13:void networking_thread_entry(ULONG)	64	static
+..\source\remora_rt1052_AzureRTOS.cpp:609:13:void dma_thread_entry(ULONG)	24	static
+..\source\remora_rt1052_AzureRTOS.cpp:620:13:void base_thread_entry(ULONG)	48	static
+..\source\remora_rt1052_AzureRTOS.cpp:771:13:void servo_thread_entry(ULONG)	16	static
+..\source\remora_rt1052_AzureRTOS.cpp:779:6:void tx_application_define(void*)	64	static
+..\source\remora_rt1052_AzureRTOS.cpp:847:5:int main()	8	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\polyfills\gsl\not_null.hpp:18:5:T ArduinoJson6101_110::not_null<T>::get() const [with T = const char*]	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\memory\memorypool.hpp:90:6:T* ArduinoJson6101_110::MemoryPool::allocRight() [with T = ArduinoJson6101_110::VariantSlot]	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\polyfills\gsl\not_null.hpp:28:13:ArduinoJson6101_110::not_null<T> ArduinoJson6101_110::make_not_null(T) [with T = const char*]	24	static
@@ -153,8 +152,8 @@ c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azur
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\numbers\FloatTraits.hpp:45:12:static T ArduinoJson6101_110::FloatTraits<T, 8>::positiveBinaryPowerOfTen(int) [with T = double]	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\numbers\FloatTraits.hpp:60:12:static T ArduinoJson6101_110::FloatTraits<T, 8>::negativeBinaryPowerOfTen(int) [with T = double]	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\polyfills\alias_cast.hpp:23:3:T ArduinoJson6101_110::alias_cast(F) [with T = double; F = long long unsigned int]	24	static
-..\source\remora_rt1052_AzureRTOS.cpp:895:1:void __static_initialization_and_destruction_0(int, int)	24	static
+..\source\remora_rt1052_AzureRTOS.cpp:856:1:void __static_initialization_and_destruction_0(int, int)	24	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\ArduinoJson/Document/BasicJsonDocument.hpp:55:3:ArduinoJson6101_110::BasicJsonDocument<TAllocator>::~BasicJsonDocument() [with TAllocator = ArduinoJson6101_110::DefaultAllocator]	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\ArduinoJson/Document/BasicJsonDocument.hpp:84:8:void ArduinoJson6101_110::BasicJsonDocument<TAllocator>::freePool() [with TAllocator = ArduinoJson6101_110::DefaultAllocator]	24	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\ArduinoJson/Document/BasicJsonDocument.hpp:22:8:void ArduinoJson6101_110::AllocatorOwner<TAllocator>::deallocate(void*) [with TAllocator = ArduinoJson6101_110::DefaultAllocator]	16	static
-..\source\remora_rt1052_AzureRTOS.cpp:895:1:cpp)	8	static
+..\source\remora_rt1052_AzureRTOS.cpp:856:1:cpp)	8	static

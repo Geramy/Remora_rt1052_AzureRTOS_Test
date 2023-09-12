@@ -25,13 +25,13 @@ static void EDMA_Callback(edma_handle_t *handle, void *param, bool transferDone,
 	$this.g_transferDone = true;
 }
 
-RemoraStepGenDMA::RemoraStepGenDMA(uint32_t Freq, uint32_t dmaChannel) {
+RemoraStepGenDMA::RemoraStepGenDMA(uint8_t Freq, uint8_t dmaChannel) {
 	/* Configure DMAMUX */
 	this->timerFreq = Freq;
 	this->dmaChannel = dmaChannel;
 }
 
-uint8_t RemoraStepGenDMA::InitializePIT(pit_chnl_t pitChannel) {
+void RemoraStepGenDMA::InitializePIT(pit_chnl_t pitChannel) {
 	this->pitChannel = pitChannel;
 	// TODO Auto-generated constructor stub
 	CLOCK_SetMux(kCLOCK_PerclkMux, 1U);
@@ -45,7 +45,7 @@ uint8_t RemoraStepGenDMA::InitializePIT(pit_chnl_t pitChannel) {
 	this->PITMode = true;
 }
 
-uint8_t RemoraStepGenDMA::InitializeHardware() {
+void RemoraStepGenDMA::InitializeHardware() {
 	DMAMUX_Init(DMAMUX);
 	if(this->PITMode) {
 		DMAMUX_EnableAlwaysOn(DMAMUX, this->dmaChannel, true);
@@ -66,7 +66,7 @@ uint8_t RemoraStepGenDMA::InitializeHardware() {
 	EDMA_ResetChannel(g_EDMA_Handle.base, g_EDMA_Handle.channel);
 }
 
-uint8_t RemoraStepGenDMA::SetupBuffers(bool doubleBuffer, uint16_t size) {
+void RemoraStepGenDMA::SetupBuffers(bool doubleBuffer, uint8_t size) {
 
 	if(doubleBuffer) {
 		/* prepare descriptor 0 */
@@ -102,7 +102,7 @@ uint8_t RemoraStepGenDMA::SetupBuffers(bool doubleBuffer, uint16_t size) {
 	EDMA_InstallTCD(DMA0, this->dmaChannel, tcdMemoryPoolPtr);
 }
 
-uint8_t RemoraStepGenDMA::ResumeDMA() {
+void RemoraStepGenDMA::ResumeDMA() {
 	PIT_StartTimer(PIT, this->pitChannel);
 	DMAMUX_EnableChannel(DMAMUX, this->dmaChannel);
 	DMAMUX_EnablePeriodTrigger(DMAMUX, this->dmaChannel);
@@ -110,7 +110,7 @@ uint8_t RemoraStepGenDMA::ResumeDMA() {
 	EDMA_StartTransfer(&this->g_EDMA_Handle);
 }
 
-uint8_t RemoraStepGenDMA::StopDMA() {
+void RemoraStepGenDMA::StopDMA() {
 	PIT_StopTimer(PIT, this->pitChannel);
 	EDMA_StopTransfer(&this->g_EDMA_Handle);
 	DMAMUX_DisablePeriodTrigger(DMAMUX, this->dmaChannel);

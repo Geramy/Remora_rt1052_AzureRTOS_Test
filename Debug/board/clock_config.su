@@ -8,6 +8,5 @@ C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_Azur
 C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_clock.h:1699:20:CLOCK_SetPllBypass	24	static
 C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_iomuxc.h:1167:20:IOMUXC_SetSaiMClkClockSource	24	static
 C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_iomuxc.h:1227:20:IOMUXC_MQSConfig	24	static
-..\board\clock_config.c:47:6:BOARD_InitBootClocks	8	static
-..\board\clock_config.c:169:6:BOARD_BootClockRUN	16	static
-..\board\clock_config.c:614:6:BOARD_BootClockRUN_528M	16	static
+..\board\clock_config.c:40:6:BOARD_InitBootClocks	8	static
+..\board\clock_config.c:162:6:BOARD_BootClockRUN	16	static

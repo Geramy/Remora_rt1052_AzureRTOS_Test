@@ -438,9 +438,9 @@
                         <command type="write_value" address="SEMC_BR7" value="0xA900001B" value_width="4"/>
                         <command type="write_value" address="SEMC_BR8" value="0x21" value_width="4"/>
                         <command type="write_value" address="SEMC_IOCR" value="0x79A8" value_width="4"/>
-                        <command type="write_value" address="SEMC_SDRAMCR0" value="0xF07" value_width="4"/>
-                        <command type="write_value" address="SEMC_SDRAMCR1" value="0x652922" value_width="4"/>
-                        <command type="write_value" address="SEMC_SDRAMCR2" value="0x10920" value_width="4"/>
+                        <command type="write_value" address="SEMC_SDRAMCR0" value="0x00000F07" value_width="4"/>
+                        <command type="write_value" address="SEMC_SDRAMCR1" value="0x00652922" value_width="4"/>
+                        <command type="write_value" address="SEMC_SDRAMCR2" value="0x00010920" value_width="4"/>
                         <command type="write_value" address="SEMC_SDRAMCR3" value="0x50210A08" value_width="4"/>
                         <command type="write_value" address="SEMC_DBICR0" value="0x21" value_width="4"/>
                         <command type="write_value" address="SEMC_DBICR1" value="0x888888" value_width="4"/>
@@ -469,7 +469,7 @@
       <periphs name="Peripherals" version="12.0" enabled="false" update_project_code="true">
          <generated_project_files/>
          <peripherals_profile>
-            <processor_version>13.0.2</processor_version>
+            <processor_version>N/A</processor_version>
          </peripherals_profile>
          <functional_groups>
             <functional_group name="BOARD_InitPeripherals" uuid="1cab1ebd-9382-45d9-85a8-0eea27c5e835" called_from_default_init="true" id_prefix="" core="core0">
