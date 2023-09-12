@@ -386,9 +386,9 @@ static void IAP_tftp_cleanup_wr(struct udp_pcb *upcb, tftp_connection_args *args
   * @param  None
   * @retval None
   */
-void IAP_tftpd_init(edma_handle_t handle)
+void IAP_tftpd_init(RemoraStepGenDMA *rsgdPtr)
 {
-  edma_handle = handle;
+  stepGenDMAPtr = rsgdPtr;
   err_t err;
   unsigned port = 69; /* 69 is the port used for TFTP protocol initial transaction */
 

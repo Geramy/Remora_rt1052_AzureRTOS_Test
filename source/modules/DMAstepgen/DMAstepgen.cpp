@@ -6,7 +6,7 @@
                 MODULE CONFIGURATION AND CREATION FROM JSON     
 ************************************************************************/
 
-void createDMAstepgen()
+void createDMAstepgen(RemoraStepGenDMA *dma)
 {
     const char* comment = module["Comment"];
     printf("\n%s\n",comment);
@@ -21,8 +21,8 @@ void createDMAstepgen()
     ptrJointEnable = &rxData.jointEnable;
 
     // create the step generator, register it in the thread
-    Module* stepgen = new DMAstepgen(DMA_FREQ, joint, step, dir, DMA_BUFFER_SIZE, STEPBIT, *ptrJointFreqCmd[joint], *ptrJointFeedback[joint], *ptrJointEnable);
-    vDMAthread.push_back(stepgen);
+    Module* stepgen = new DMAstepgen(DMA_FREQ, joint, step, dir, DMA_BUFFER_SIZE, STEPBIT, *ptrJointFreqCmd[joint], *ptrJointFeedback[joint], *ptrJointEnable, *dma);
+    dma->AddModule(stepgen);
 }
 
 
@@ -30,7 +30,7 @@ void createDMAstepgen()
                 METHOD DEFINITIONS
 ************************************************************************/
 
-DMAstepgen::DMAstepgen(int32_t threadFreq, int jointNumber, std::string step, std::string direction, int DMAbufferSize, int stepBit, volatile int32_t &ptrFrequencyCommand, volatile int32_t &ptrFeedback, volatile uint8_t &ptrJointEnable) :
+DMAstepgen::DMAstepgen(int32_t threadFreq, int jointNumber, std::string step, std::string direction, int DMAbufferSize, int stepBit, volatile int32_t &ptrFrequencyCommand, volatile int32_t &ptrFeedback, volatile uint8_t &ptrJointEnable, RemoraStepGenDMA &ptrDMAControl) :
 	jointNumber(jointNumber),
 	step(step),
 	direction(direction),
@@ -41,13 +41,14 @@ DMAstepgen::DMAstepgen(int32_t threadFreq, int jointNumber, std::string step, st
 	ptrJointEnable(&ptrJointEnable),
 	stepTime(1),
 	dirHoldTime(1),
-	dirSetupTime(1)
+	dirSetupTime(1),
+	ptrDMAC(&ptrDMAControl)
 {
 	uint8_t pin, pin2;
 
-	stepDMAbuffer_0 = &stepgenDMAbuffer_0[0];
-	stepDMAbuffer_1 = &stepgenDMAbuffer_1[0];
-	stepDMAactiveBuffer = &stepgenDMAbuffer;
+	stepDMAbuffer_0 = &ptrDMAC->GetBufferAddress(true, 0);
+	stepDMAbuffer_1 = &ptrDMAC->GetBufferAddress(false, 0);
+	stepDMAactiveBuffer = &ptrDMAC->stepgenDMAbuffer;
 	//this->frequencyCommand = 500000;
 
 	//if (this->jointNumber == 1)
@@ -56,9 +57,9 @@ DMAstepgen::DMAstepgen(int32_t threadFreq, int jointNumber, std::string step, st
 //	}
 
 
-	dirDMAbuffer_0 = &stepgenDMAbuffer_0[0];
-	dirDMAbuffer_1 = &stepgenDMAbuffer_1[0];
-	dirDMAactiveBuffer = &stepgenDMAbuffer;
+	dirDMAbuffer_0 = &ptrDMAC->GetBufferAddress(true, 0);
+	dirDMAbuffer_1 =  &ptrDMAC->GetBufferAddress(false, 0);
+	dirDMAactiveBuffer = &ptrDMAC->stepgenDMAbuffer;
 
 
 	this->stepPin = new Pin(this->step, OUTPUT);

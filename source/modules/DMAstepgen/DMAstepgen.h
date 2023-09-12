@@ -7,10 +7,10 @@
 
 #include "../module.h"
 #include "../../drivers/pin/pin.h"
-
+#include "remora/RemoraStepGenDMA.h"
 #include "extern.h"
 
-void createDMAstepgen(void);
+void createDMAstepgen(RemoraStepGenDMA*);
 
 class DMAstepgen : public Module
 {
@@ -25,6 +25,8 @@ class DMAstepgen : public Module
     volatile int32_t *ptrFrequencyCommand; 	// pointer to the data source where to get the frequency command
     volatile int32_t *ptrFeedback;       	// pointer where to put the feedback
     volatile uint8_t *ptrJointEnable;
+
+    RemoraStepGenDMA *ptrDMAC;
 
     uint8_t timer1, timer2, timer3;			// step pattern timers
     uint8_t stepTime;						// step time in number of DMA periods
@@ -66,7 +68,7 @@ class DMAstepgen : public Module
 
   public:
 
-    DMAstepgen(int32_t, int, std::string, std::string, int, int, volatile int32_t&, volatile int32_t&, volatile uint8_t&);  // constructor
+    DMAstepgen(int32_t, int, std::string, std::string, int, int, volatile int32_t&, volatile int32_t&, volatile uint8_t&, RemoraStepGenDMA&);  // constructor
 
     Pin *stepPin, *directionPin, *debug;		// class object members - Pin objects
 

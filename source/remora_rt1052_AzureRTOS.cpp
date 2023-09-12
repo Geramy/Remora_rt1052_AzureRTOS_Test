@@ -42,47 +42,8 @@
 #include "MIMXRT1052.h"
 #include "fsl_debug_console.h"
 #include "board_init.h"
+#include "remora/RemoraStepGenDMA.h"
 /* TODO: insert other include files here. */
-
-#include "drivers/nx_driver/nx_driver_imxrt10xx.h"
-
-#include "drivers/network/networking.h"
-
-#define NETWORKING_THREAD_STACK_SIZE 2048
-#define NETWORKING_THREAD_PRIORITY   3
-
-#define CONTROL_THREAD_STACK_SIZE 1024
-#define CONTROL_THREAD_PRIORITY   4
-
-#define BASE_THREAD_STACK_SIZE 2048
-#define BASE_THREAD_PRIORITY   3
-
-#define SERVO_THREAD_STACK_SIZE 2048
-#define SERVO_THREAD_PRIORITY   2
-
-#define DMA_THREAD_STACK_SIZE 2048
-#define DMA_THREAD_PRIORITY   2
-
-NX_UDP_SOCKET           socketComms;
-NX_PACKET_POOL poolComms;
-
-NX_UDP_SOCKET           socketTftp;
-
-
-TX_THREAD networking_thread;
-ULONG networking_thread_stack[NETWORKING_THREAD_STACK_SIZE / sizeof(ULONG)];
-
-TX_THREAD control_thread;
-ULONG control_thread_stack[CONTROL_THREAD_STACK_SIZE / sizeof(ULONG)];
-
-TX_THREAD dma_thread;
-ULONG dma_thread_stack[DMA_THREAD_STACK_SIZE / sizeof(ULONG)];
-
-TX_THREAD base_thread;
-ULONG base_thread_stack[BASE_THREAD_STACK_SIZE / sizeof(ULONG)];
-
-TX_THREAD servo_thread;
-ULONG servo_thread_stack[SERVO_THREAD_STACK_SIZE / sizeof(ULONG)];
 
 /* Remora Original Data */
 #include "tftpserver.h"
@@ -95,7 +56,6 @@ ULONG servo_thread_stack[SERVO_THREAD_STACK_SIZE / sizeof(ULONG)];
 #include "fsl_edma.h"
 
 #include "configuration.h"
-#include "remora.h"
 
 #include "crc32.h"
 
@@ -126,6 +86,46 @@ ULONG servo_thread_stack[SERVO_THREAD_STACK_SIZE / sizeof(ULONG)];
 #include "modules/digitalPin/digitalPin.h"
 #include "modules/nvmpg/nvmpg.h"
 
+#include "drivers/nx_driver/nx_driver_imxrt10xx.h"
+
+#include "drivers/network/networking.h"
+
+#define NETWORKING_THREAD_STACK_SIZE 1024
+#define NETWORKING_THREAD_PRIORITY   3
+
+#define CONTROL_THREAD_STACK_SIZE 256
+#define CONTROL_THREAD_PRIORITY   4
+
+#define BASE_THREAD_STACK_SIZE 256
+#define BASE_THREAD_PRIORITY   3
+
+#define SERVO_THREAD_STACK_SIZE 2048
+#define SERVO_THREAD_PRIORITY   2
+
+#define DMA_THREAD_STACK_SIZE 1536
+#define DMA_THREAD_PRIORITY   2
+
+NX_UDP_SOCKET           socketComms;
+NX_PACKET_POOL poolComms;
+
+NX_UDP_SOCKET           socketTftp;
+
+
+TX_THREAD networking_thread;
+ULONG networking_thread_stack[NETWORKING_THREAD_STACK_SIZE / sizeof(ULONG)];
+
+TX_THREAD control_thread;
+ULONG control_thread_stack[CONTROL_THREAD_STACK_SIZE / sizeof(ULONG)];
+
+TX_THREAD dma_thread;
+ULONG dma_thread_stack[DMA_THREAD_STACK_SIZE / sizeof(ULONG)];
+
+TX_THREAD base_thread;
+ULONG base_thread_stack[BASE_THREAD_STACK_SIZE / sizeof(ULONG)];
+
+TX_THREAD servo_thread;
+ULONG servo_thread_stack[SERVO_THREAD_STACK_SIZE / sizeof(ULONG)];
+
 
 // state machine
 enum State {
@@ -142,18 +142,11 @@ uint8_t resetCnt;
 uint32_t base_freq = PRU_BASEFREQ;
 uint32_t servo_freq = PRU_SERVOFREQ;
 
+RemoraStepGenDMA *dmaControl;
 // boolean
 volatile bool PRUreset;
 bool configError = false;
 bool threadsRunning = false;
-
-vector<Module*> vDMAthread;
-vector<Module*>::iterator iterDMA;
-bool DMAstepgen = false;
-bool stepgenDMAbuffer = false;					// indicates which double buffer to use 0 or 1
-edma_handle_t g_EDMA_Handle;
-volatile bool g_transferDone = false;
-
 
 // pointers to objects with global scope
 pruThread* servoThread;
@@ -473,8 +466,8 @@ void loadModules(void)
 
             if (!strcmp(type,"DMAstepgen"))
             {
-            	createDMAstepgen();
-            	DMAstepgen = true;
+            	createDMAstepgen(dmaControl);
+            	//DMAstepgen = true;
             }
         }
         else if (!strcmp(thread,"Base"))
@@ -525,28 +518,6 @@ void debugThreadLow()
     Module* debugOffS = new Debug("P1_22", 0);
     servoThread->registerModule(debugOffS);
 }*/
-
-
-void EDMA_Callback(edma_handle_t *handle, void *param, bool transferDone, uint32_t tcds)
-{
-	g_transferDone = true;
-}
-
-
-// Interrupt service for SysTick timer.
-extern "C" {
-	void SysTick_Handler(void)
-	{
-		time_isr();
-	}
-}
-
-
-
-void DMAconfig(void)
-{
-
-}
 
 static void networking_thread_entry(ULONG parameter)
 {
@@ -704,7 +675,7 @@ static void control_thread_entry(ULONG parameter)
 							  printf("\nStarting the SERVO thread\n");
 							  servoThread->startThread();
 
-							  DMAconfig(); // put this in the right place+
+							  //DMAconfig(); // put this in the right place+
 
 							  threadsRunning = true;
 						  }
@@ -804,29 +775,11 @@ static void control_thread_entry(ULONG parameter)
 static void dma_thread_entry(ULONG parameter)
 {
     printf("Starting DMA Thread\r\n\r\n");
+    dmaControl = new RemoraStepGenDMA(0, DMA_FREQ);
+    dmaControl->InitializeHardware();
+    dmaControl->InitializePIT(kPIT_Chnl_0);
     while (1) {
-    	if (g_transferDone)
-		{
-
-
-			// clear the DMA buffer ready for next use
-			if (stepgenDMAbuffer)
-			{
-				memset(stepgenDMAbuffer_0, 0, sizeof(stepgenDMAbuffer_0));
-			}
-			else
-			{
-				memset(stepgenDMAbuffer_1, 0, sizeof(stepgenDMAbuffer_1));
-			}
-
-			// switch buffers
-			stepgenDMAbuffer = !stepgenDMAbuffer;
-
-			// prepare the next DMA buffer
-			for (iterDMA = vDMAthread.begin(); iterDMA != vDMAthread.end(); ++iterDMA) (*iterDMA)->runModule();
-
-			g_transferDone = false;
-		}
+    	dmaControl->RunTasks();
     }
 }
 

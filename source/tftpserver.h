@@ -19,7 +19,7 @@
 
 #ifndef __TFTPSERVER_H_
 #define __TFTPSERVER_H_
-
+#include "remora/RemoraStepGenDMA.h"
 #include "lwip/mem.h"
 #include "lwip/udp.h"
 
@@ -39,6 +39,7 @@
 #define TFTP_TIMEOUT_INTERVAL   5
 
 extern volatile bool newJson;
+extern volatile RemoraStepGenDMA *stepGenDMAPtr;
 
 typedef struct
 {
@@ -86,7 +87,7 @@ typedef enum {
 extern "C" {
 #endif
 
-void IAP_tftpd_init(edma_handle_t);
+void IAP_tftpd_init(RemoraStepGenDMA);
 
 #ifdef __cplusplus
 }

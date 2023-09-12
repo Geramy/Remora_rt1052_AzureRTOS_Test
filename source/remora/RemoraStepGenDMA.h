@@ -15,6 +15,7 @@
 #include "fsl_pit.h"
 #include "fsl_dmamux.h"
 #include "fsl_edma.h"
+#include "extern.h"
 
 class RemoraStepGenDMA {
 private:
@@ -28,13 +29,17 @@ private:
 	uint32_t dmaChannel;
 	bool PITMode = false;
 
-	// DMA stepgen double buffers
+	vector<Module*> vDMAthread;
+	vector<Module*>::iterator iterDMA;
+	bool DMAstepgen = false;
 
-
-	bool stepgenDMAbuffer = false;					// indicates which double buffer to use 0 or 1
 	edma_handle_t g_EDMA_Handle;
+private:
+	void ClearBuffers();
+	void SwapBuffers();
 public:
 	volatile bool g_transferDone = false;
+	bool stepgenDMAbuffer = false;					// indicates which double buffer to use 0 or 1
 public:
 
 	enum RDMAStatus {
@@ -46,8 +51,12 @@ public:
 	uint8_t InitializePIT(pit_chnl_t);
 	uint8_t InitializeHardware();
 	uint8_t SetupBuffers(bool, uint16_t);
-	uint8_t StartDMA();
+	uint8_t ResumeDMA();
 	uint8_t StopDMA();
+	int32_t& GetBufferAddress(bool BufferOne, int position);
+	void AddModule(Module*);
+	void RunTasks();
+
 	virtual ~RemoraStepGenDMA();
 };
 
