@@ -17,17 +17,14 @@
 #include "extern.h"
 
 
-#define NETX_IP_STACK_SIZE  2048
-#define NETX_PACKET_COUNT   60
-#define NETX_PACKET_SIZE    1536
+#define NETX_IP_STACK_SIZE  1024
+#define NETX_PACKET_COUNT   8
+#define NETX_PACKET_SIZE    512
 #define NETX_POOL_SIZE      ((NETX_PACKET_SIZE + sizeof(NX_PACKET)) * NETX_PACKET_COUNT)
-#define NETX_ARP_CACHE_SIZE 512
-#define NETX_DNS_COUNT      6
+#define NETX_ARP_CACHE_SIZE 128
 
 #define NETX_IPV4_ADDRESS IP_ADDRESS(10, 10, 10, 10)
 #define NETX_IPV4_MASK    IP_ADDRESS(255, 255, 255, 0)
-
-#define DHCP_WAIT_TIME_TICKS (30 * TX_TIMER_TICKS_PER_SECOND)
 
 static UCHAR netx_ip_stack[NETX_IP_STACK_SIZE];
 static UCHAR netx_ip_pool[NETX_POOL_SIZE];
@@ -140,25 +137,4 @@ void udp_data_callback(NX_PACKET **packet_ptr)
 		// re-enable thread interrupts
 		__enable_irq();
 	}
-
-	// allocate pbuf from RAM
-	/*txBuf = pbuf_alloc(PBUF_TRANSPORT, txlen, PBUF_RAM);
-
-	// copy the data into the buffer
-	pbuf_take(txBuf, (char*)&txData.txBuffer, txlen);
-
-	// Connect to the remote client
-	udp_connect(upcb, addr, port);
-
-	// Send a Reply to the Client
-	udp_send(upcb, txBuf);
-
-	// free the UDP connection, so we can accept new clients
-	udp_disconnect(upcb);
-
-	// Free the p_tx buffer
-	pbuf_free(txBuf);
-
-	// Free the p buffer
-	pbuf_free(p);*/
 }
