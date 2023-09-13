@@ -8,8 +8,12 @@
 #ifndef REMORA_REMORAKERNEL_H_
 #define REMORA_REMORAKERNEL_H_
 
+#include "tx_api.h"
+
 class RemoraKernel {
 private:
+	TX_MUTEX mutexRx;
+	TX_MUTEX mutexTx;
 	// state machine
 	enum KernelState {
 	    ST_SETUP = 0,

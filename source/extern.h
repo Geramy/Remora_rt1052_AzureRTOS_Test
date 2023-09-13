@@ -12,6 +12,10 @@
 
 extern uint32_t base_freq;
 extern uint32_t servo_freq;
+//Threads
+
+//
+
 
 extern JsonObject module;
 

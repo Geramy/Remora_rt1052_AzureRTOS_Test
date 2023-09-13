@@ -14,7 +14,7 @@ c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azur
 ..\source\modules\DMAstepgen\DMAstepgen.cpp:92:6:virtual void DMAstepgen::update()	16	static
 ..\source\modules\DMAstepgen\DMAstepgen.cpp:98:6:virtual void DMAstepgen::updatePost()	16	static
 ..\source\modules\DMAstepgen\DMAstepgen.cpp:103:6:virtual void DMAstepgen::slowUpdate()	16	static
-..\source\modules\DMAstepgen\DMAstepgen.cpp:108:6:void DMAstepgen::makePulses()	16	static
+..\source\modules\DMAstepgen\DMAstepgen.cpp:108:6:void DMAstepgen::makePulses()	24	static
 ..\source\modules\DMAstepgen\DMAstepgen.cpp:218:6:void DMAstepgen::makeStep()	16	static
 ..\source\modules\DMAstepgen\DMAstepgen.cpp:257:6:void DMAstepgen::stopPulses()	16	static
 ..\source\modules\DMAstepgen\DMAstepgen.cpp:263:6:void DMAstepgen::setEnabled(bool)	16	static

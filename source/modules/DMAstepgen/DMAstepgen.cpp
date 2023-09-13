@@ -84,7 +84,7 @@ DMAstepgen::DMAstepgen(int32_t threadFreq, int jointNumber, std::string step, st
 	pin2 = this->direction[4] - '0';
 	if (pin2 <= 8) pin = pin * 10 + pin2;
 	this->dirMask = 1 << pin;
-
+	this ->addValueFrequency = (BUFFER_COUNTS * PRU_SERVOFREQ);
 	//this->isEnabled = true; // TESTING!!! to be removed
 }
 
@@ -131,7 +131,7 @@ void DMAstepgen::makePulses()
 		if (this->frequencyCommand != 0)
 		{
 			this->oldaddValue = this->addValue;
-			this->addValue = (BUFFER_COUNTS * PRU_SERVOFREQ) / abs(this->frequencyCommand);		// determine the add value from the commanded frequency ratio
+			this->addValue = addValueFrequency / abs(this->frequencyCommand);		// determine the add value from the commanded frequency ratio
 
 			// determine which ping-pong buffer to fill
 			if (!*stepDMAactiveBuffer)	// false = buffer_0

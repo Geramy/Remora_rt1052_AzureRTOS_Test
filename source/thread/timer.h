@@ -3,7 +3,8 @@
 
 #include "MIMXRT1052.h"
 #include <stdint.h>
-
+#include "tx_api.h"
+#include "tx_port.h"
 #include "fsl_gpt.h"
 
 //#define TIM_PSC 1
@@ -20,19 +21,21 @@ class pruTimer
 	private:
 
 		TimerInterrupt* 	interruptPtr;
-		GPT_Type* 	    	timer;
-		IRQn_Type 			irq;
 		uint32_t 			frequency;
 		pruThread* 			timerOwnerPtr;
 
+		TX_TIMER			timer;
+		UINT status;
+
 		void startTimer(void);
-		void timerTick();			// Private timer triggered method
+
 
 	public:
 
-		pruTimer(GPT_Type* timer, IRQn_Type irq, uint32_t frequency, pruThread* ownerPtr);
+		pruTimer(uint32_t frequency, pruThread* ownerPtr);
         void stopTimer(void);
-
+        void timerTick();			// Private timer triggered method
+        ~pruTimer();
 };
 
 #endif

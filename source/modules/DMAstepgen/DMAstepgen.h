@@ -64,6 +64,8 @@ class DMAstepgen : public Module
   	int16_t stepHigh;
   	int16_t stepLow;
 
+  	uint32_t addValueFrequency;
+
   	void makeStep();
 
   public:

@@ -2,7 +2,7 @@ c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_vector.h:288:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = Module*; _Alloc = std::allocator<Module*>]	16	static
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\bits\stl_vector.h:487:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = Module*; _Alloc = std::allocator<Module*>]	16	static
 ..\source\thread\pruThread.cpp:10:1:pruThread::pruThread(GPT_Type*, IRQn_Type, uint32_t)	24	static
-..\source\thread\pruThread.cpp:19:6:void pruThread::startThread()	32	static
+..\source\thread\pruThread.cpp:19:6:void pruThread::startThread()	24	static
 ..\source\thread\pruThread.cpp:24:6:void pruThread::stopThread()	16	static
 ..\source\thread\pruThread.cpp:30:6:void pruThread::registerModule(Module*)	16	static
 ..\source\thread\pruThread.cpp:36:6:void pruThread::registerModulePost(Module*)	16	static

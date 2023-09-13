@@ -129,10 +129,11 @@ void udp_data_callback(NX_PACKET **packet_ptr)
 		__disable_irq();
 
 		// then move the data
-		for (int i = 0; i < BUFFER_SIZE; i++)
+		/*for (int i = 0; i < BUFFER_SIZE; i++)
 		{
 			rxData.rxBuffer[i] = rxBuffer.rxBuffer[i];
-		}
+		}*/
+		memcpy(&rxBuffer.rxBuffer, rxBuffer.rxBuffer, sizeof(uint8_t) * BUFFER_SIZE);
 
 		// re-enable thread interrupts
 		__enable_irq();

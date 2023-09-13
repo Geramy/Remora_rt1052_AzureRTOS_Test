@@ -68,6 +68,7 @@
 #ifndef TX_PORT_H
 #define TX_PORT_H
 
+#define TX_TIMER_TICKS_PER_SECOND (1000UL)
 
 /* Determine if the optional ThreadX user define file should be used.  */
 

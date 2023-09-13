@@ -18,7 +18,7 @@ pruThread::pruThread(GPT_Type* timer, IRQn_Type irq, uint32_t frequency) :
 
 void pruThread::startThread(void)
 {
-	TimerPtr = new pruTimer(this->timer, this->irq, this->frequency, this);
+	TimerPtr = new pruTimer(this->frequency, this);
 }
 
 void pruThread::stopThread(void)
