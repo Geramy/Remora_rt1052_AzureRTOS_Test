@@ -10,6 +10,15 @@
 #include "extern.h"
 #include "fsl_debug_console.h"
 
+static void dma_thread_entry(ULONG parameter)
+{
+
+	RemoraStepGenDMA *dma = reinterpret_cast<RemoraStepGenDMA*>(parameter);
+    printf("Starting DMA Thread\r\n\r\n");
+    while (1) {
+    	dma->RunTasks();
+    }
+}
 
 RemoraKernel::RemoraKernel() :
 	RemoraThread::RemoraThread(1024, 1, 0, false)
@@ -19,6 +28,26 @@ RemoraKernel::RemoraKernel() :
 	tx_mutex_create(&this->mutexRx, "mutex rx", 1);
 	this->network = new RemoraNetwork(&(this->mutexRx), &(this->mutexTx));
 	this->config = new RemoraConfig();
+	this->dmaControl = new RemoraStepGenDMA(DMA_FREQ, 0, &(this->mutexRx));
+	this->dmaControl->InitializePIT(kPIT_Chnl_0);
+	this->dmaControl->InitializeHardware();
+	this->dmaControl->SetupBuffers(true);
+
+	UINT dmaThreadStatus = tx_thread_create(&this->dma_thread,
+				"DMAstepgen Thread",
+				dma_thread_entry,
+				(ULONG)&(this->dmaControl),
+				this->dma_thread_stack,
+				DMA_THREAD_STACK_SIZE,
+				DMA_THREAD_PRIORITY,
+				DMA_THREAD_PRIORITY,
+				TX_NO_TIME_SLICE,
+				TX_DONT_START);
+
+	if (dmaThreadStatus != TX_SUCCESS)
+	{
+		printf("DMA thread failed, please restart\r\n");
+	}
 }
 
 void RemoraKernel::InitializeThreads()
@@ -75,7 +104,8 @@ void RemoraKernel::RemoraThreadEntry() {
 
 				  printf("\nStarting the SERVO thread\n");
 				  this->servoThread->startThread();
-
+				  this->dmaControl->ResumeDMA();
+				  tx_thread_resume(&(this->dma_thread));
 				  //DMAconfig(); // put this in the right place+
 
 				  threadsRunning = true;
@@ -157,7 +187,9 @@ void RemoraKernel::RemoraThreadEntry() {
 			  break;
 	    }
 
-		//EthernetTasks();
+		this->network->Accept();
+		tx_thread_sleep(1);
+
 		if (this->config->newJson)
 		{
 			printf("\n\nChecking new configuration file\n");
@@ -169,9 +201,6 @@ void RemoraKernel::RemoraThreadEntry() {
 				NVIC_SystemReset();
 			}
 		}
-
-		this->network->Accept();
-		tx_thread_sleep(1);
 	}
 }
 

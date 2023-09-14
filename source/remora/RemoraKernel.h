@@ -19,7 +19,8 @@
 #include "remora/RemoraConfig.h"
 
 //#include "extern.h"
-
+#define DMA_THREAD_STACK_SIZE 2048
+#define DMA_THREAD_PRIORITY   3
 
 class RemoraKernel  : public RemoraThread {
 private:
@@ -38,6 +39,9 @@ private:
 	pruThread *baseThread;
 	pruThread *servoThread;
 	pruThread *dmaThread;
+
+	TX_THREAD dma_thread;
+	ULONG dma_thread_stack[DMA_THREAD_STACK_SIZE / sizeof(ULONG)];
 
 	TX_MUTEX mutexRx;
 	TX_MUTEX mutexTx;

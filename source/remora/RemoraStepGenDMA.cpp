@@ -6,6 +6,7 @@
  */
 
 #include <remora/RemoraStepGenDMA.h>
+#include "nx_api.h"
 
 using namespace std;
 
@@ -25,10 +26,11 @@ static void EDMA_Callback(edma_handle_t *handle, void *param, bool transferDone,
 	$this.g_transferDone = true;
 }
 
-RemoraStepGenDMA::RemoraStepGenDMA(uint8_t Freq, uint8_t dmaChannel) {
+RemoraStepGenDMA::RemoraStepGenDMA(uint8_t Freq, uint8_t dmaChannel, TX_MUTEX *rxMutex) {
 	/* Configure DMAMUX */
 	this->timerFreq = Freq;
 	this->dmaChannel = dmaChannel;
+	this->rxMutexPtr = rxMutex;
 }
 
 void RemoraStepGenDMA::InitializePIT(pit_chnl_t pitChannel) {
@@ -41,7 +43,7 @@ void RemoraStepGenDMA::InitializePIT(pit_chnl_t pitChannel) {
 
 	// PIT channel 0
 	PIT_SetTimerPeriod(PIT, this->pitChannel, CLOCK_GetFreq(kCLOCK_OscClk)/(2 * this->timerFreq));
-	PIT_StartTimer(PIT, this->pitChannel);
+	//PIT_StartTimer(PIT, this->pitChannel);
 	this->PITMode = true;
 }
 
@@ -66,7 +68,7 @@ void RemoraStepGenDMA::InitializeHardware() {
 	EDMA_ResetChannel(g_EDMA_Handle.base, g_EDMA_Handle.channel);
 }
 
-void RemoraStepGenDMA::SetupBuffers(bool doubleBuffer, uint8_t size) {
+void RemoraStepGenDMA::SetupBuffers(bool doubleBuffer) {
 
 	if(doubleBuffer) {
 		/* prepare descriptor 0 */
@@ -129,8 +131,10 @@ void RemoraStepGenDMA::AddModule(Module* module) {
 }
 
 void RemoraStepGenDMA::RunTasks() {
+
 	if (this->g_transferDone)
 	{
+		tx_mutex_get(this->rxMutexPtr, TX_WAIT_FOREVER);
 		this->ClearBuffers();
 		this->SwapBuffers();
 		// switch buffers
@@ -139,6 +143,7 @@ void RemoraStepGenDMA::RunTasks() {
 		for (this->iterDMA = this->vDMAthread.begin(); this->iterDMA != this->vDMAthread.end(); ++this->iterDMA) (*this->iterDMA)->runModule();
 
 		this->g_transferDone = false;
+		tx_mutex_put(this->rxMutexPtr);
 	}
 }
 

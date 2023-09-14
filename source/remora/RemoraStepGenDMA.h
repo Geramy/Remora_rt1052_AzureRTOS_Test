@@ -8,6 +8,7 @@
 #ifndef REMORA_REMORASTEPGENDMA_H_
 #define REMORA_REMORASTEPGENDMA_H_
 
+#include "tx_api.h"
 #include "fsl_adapter_uart.h"
 #include "configuration.h"
 #include "fsl_gpio.h"
@@ -37,6 +38,7 @@ private:
 	bool DMAstepgen = false;
 
 	edma_handle_t g_EDMA_Handle;
+	TX_MUTEX *rxMutexPtr;
 private:
 	void ClearBuffers();
 	void SwapBuffers();
@@ -45,10 +47,10 @@ public:
 	bool stepgenDMAbuffer = false;					// indicates which double buffer to use 0 or 1
 public:
 
-	RemoraStepGenDMA(uint8_t, uint8_t);
+	RemoraStepGenDMA(uint8_t, uint8_t, TX_MUTEX *rxMutex);
 	void InitializePIT(pit_chnl_t);
 	void InitializeHardware();
-	void SetupBuffers(bool, uint8_t);
+	void SetupBuffers(bool);
 	void ResumeDMA();
 	void StopDMA();
 	int32_t& GetBufferAddress(bool BufferOne, int position);

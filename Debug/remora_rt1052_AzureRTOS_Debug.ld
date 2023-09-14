@@ -6,7 +6,7 @@
  * Generated linker script file for MIMXRT1052xxxxB
  * Created from linkscript.ldt by FMCreateLinkLibraries
  * Using Freemarker v2.3.30
- * MCUXpresso IDE v11.7.1 [Build 9221] [2023-03-28] on Sep 14, 2023, 12:14:46 AM
+ * MCUXpresso IDE v11.7.1 [Build 9221] [2023-03-28] on Sep 14, 2023, 9:25:51 AM
  */
 
 INCLUDE "remora_rt1052_AzureRTOS_Debug_library.ld"
