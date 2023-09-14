@@ -89,39 +89,12 @@
 #include "drivers/nx_driver/nx_driver_imxrt10xx.h"
 
 #include "drivers/network/networking.h"
-
-#define NETWORKING_THREAD_STACK_SIZE 512
-#define NETWORKING_THREAD_PRIORITY   3
-
-#define CONTROL_THREAD_STACK_SIZE 128
-#define CONTROL_THREAD_PRIORITY   4
-
-#define BASE_THREAD_STACK_SIZE 128
-#define BASE_THREAD_PRIORITY   3
-
-#define SERVO_THREAD_STACK_SIZE 128
-#define SERVO_THREAD_PRIORITY   2
-
-#define DMA_THREAD_STACK_SIZE 128
-#define DMA_THREAD_PRIORITY   2
+#include "remora/RemoraKernel.h"
 
 NX_UDP_SOCKET           socketComms;
 NX_PACKET_POOL poolComms;
 
 NX_UDP_SOCKET           socketTftp;
-
-
-TX_THREAD networking_thread;
-ULONG networking_thread_stack[NETWORKING_THREAD_STACK_SIZE / sizeof(ULONG)];
-
-TX_THREAD dma_thread;
-ULONG dma_thread_stack[DMA_THREAD_STACK_SIZE / sizeof(ULONG)];
-
-TX_THREAD base_thread;
-ULONG base_thread_stack[BASE_THREAD_STACK_SIZE / sizeof(ULONG)];
-
-TX_THREAD servo_thread;
-ULONG servo_thread_stack[SERVO_THREAD_STACK_SIZE / sizeof(ULONG)];
 
 
 // state machine
@@ -499,113 +472,6 @@ void loadModules(void)
     }
 }
 
-/*void debugThreadHigh()
-{
-    //Module* debugOnB = new Debug("PE_13", 1);
-    //baseThread->registerModule(debugOnB);
-
-    Module* debugOnS = new Debug("P1_22", 1);
-    servoThread->registerModule(debugOnS);
-}
-
-void debugThreadLow()
-{
-    //Module* debugOffB = new Debug("PE_13", 0);
-    //baseThread->registerModule(debugOffB);
-
-    Module* debugOffS = new Debug("P1_22", 0);
-    servoThread->registerModule(debugOffS);
-}*/
-
-static void networking_thread_entry(ULONG parameter)
-{
-	/* Example of how to implement UDP Server/Client */
-	//Implementation not done.
-	//https://github.com/STMicroelectronics/x-cube-azrtos-h7/blob/main/Projects/STM32H735G-DK/Applications/NetXDuo/Nx_UDP_Echo_Server/NetXDuo/App/app_netxduo.c
-    UINT status;
-    short error_counter = 0;
-    UINT thread_1_counter = 0;
-    printf("Starting Networking Thread\r\n\r\n");
-
-    // Initialize the network
-    if ((status = network_init(nx_driver_imx)))
-    {
-        printf("ERROR: Failed to initialize the network (0x%08x)\r\n", status);
-    }
-    else {
-    		UINT       status;
-    		NX_PACKET *remora_packet;
-
-    	    NX_PARAMETER_NOT_USED(parameter);
-
-    	    tx_thread_sleep(NX_IP_PERIODIC_RATE);
-    	#ifndef NX_DISABLE_IPV6
-    	    /* Wait 5 seconds for IPv6 stack to finish DAD process. */
-    	    tx_thread_sleep(5 * NX_IP_PERIODIC_RATE);
-    	#endif
-    	    /* Create a UDP socket.  */
-    	    status = nx_udp_socket_create(&nx_ip, &socketComms, "Socket 1", NX_IP_NORMAL, NX_FRAGMENT_OKAY, 0x80, 5);
-
-    	    /* Check status.  */
-    	    if (status)
-    	    {
-    	        error_counter++;
-    	        return;
-    	    }
-
-    	    /* Bind the UDP socket to the IP port.  */
-    	    status =  nx_udp_socket_bind(&socketComms, 27181, TX_WAIT_FOREVER);
-
-    	    /* Check status.  */
-    	    if (status)
-    	    {
-    	        error_counter++;
-    	        return;
-    	    }
-    	    UINT source_port;
-    	    ULONG source_ip_address;
-
-    	    while (1)
-    	    {
-
-    	        /* Receive a UDP packet.  */
-    	        status =  nx_udp_socket_receive(&socketComms, &remora_packet, TX_WAIT_FOREVER);
-    	        nx_udp_source_extract(remora_packet, &source_ip_address, &source_port);
-
-    	        /* Check status.  */
-    	        if (status != NX_SUCCESS)
-    	        {
-    	            break;
-    	        }
-    	        else if(status == NX_SUCCESS) {
-
-    	        	udp_data_callback(&remora_packet);
-    	        }
-    	        /* Release the packet.  */
-    	        status =  nx_packet_release(remora_packet);
-
-    	        /* Check status.  */
-    	        if (status != NX_SUCCESS)
-    	        {
-    	            break;
-    	        }
-    	        /* Allocate a packet.  */
-				status =  nx_packet_allocate(&nx_pool, &remora_packet, NX_UDP_PACKET, TX_WAIT_FOREVER);
-
-				/* Check status.  */
-				if (status != NX_SUCCESS)
-				{
-					break;
-				}
-
-				/* Write ABCs into the packet payload!  */
-				//nx_packet_data_append(NX_PACKET *packet_ptr, VOID *data_start, ULONG data_size, NX_PACKET_POOL *pool_ptr, ULONG wait_option)
-				nx_packet_data_append(remora_packet, (char*)&txData.txBuffer, sizeof(txData.txBuffer), &nx_pool, TX_WAIT_FOREVER);
-				status =  nx_udp_socket_send(&socketComms, remora_packet, source_ip_address, source_port);
-    	    }
-    }
-}
-
 static void dma_thread_entry(ULONG parameter)
 {
     printf("Starting DMA Thread\r\n\r\n");
@@ -662,8 +528,8 @@ static void base_thread_entry(ULONG parameter)
 
 			  if (!threadsRunning)
 			  {
-				  tx_thread_resume(&networking_thread);
-				  tx_thread_resume(&dma_thread);
+				  //tx_thread_resume(&networking_thread);
+				  //tx_thread_resume(&dma_thread);
 
 				  // Start the threads
 				  printf("\nStarting the BASE thread\n");
@@ -768,80 +634,9 @@ static void base_thread_entry(ULONG parameter)
 	}
 }
 
-static void servo_thread_entry(ULONG parameter)
-{
-    printf("Starting servo Thread\r\n\r\n");
-    while (1) {
-
-    }
-}
-
 void tx_application_define(void* first_unused_memory)
 {
-    // Create Azure thread
-    UINT networkingThreadStatus = tx_thread_create(&networking_thread,
-        "Network Thread",
-		networking_thread_entry,
-        0,
-		networking_thread_stack,
-		NETWORKING_THREAD_STACK_SIZE,
-		NETWORKING_THREAD_PRIORITY,
-		NETWORKING_THREAD_PRIORITY,
-        TX_NO_TIME_SLICE,
-		TX_DONT_START);
 
-    if (networkingThreadStatus != TX_SUCCESS)
-    {
-        printf("Azure IoT application failed, please restart\r\n");
-    }
-
-	UINT dmaThreadStatus = tx_thread_create(&dma_thread,
-	            "DMAstepgen Thread",
-	    		dma_thread_entry,
-	            0,
-	    		dma_thread_stack,
-				DMA_THREAD_STACK_SIZE,
-	    		DMA_THREAD_PRIORITY,
-	    		DMA_THREAD_PRIORITY,
-	            TX_NO_TIME_SLICE,
-				TX_DONT_START);
-
-	if (dmaThreadStatus != TX_SUCCESS)
-	{
-		printf("DMA thread failed, please restart\r\n");
-	}
-
-	UINT baseThreadStatus = tx_thread_create(&base_thread,
-		            "DMAstepgen Thread",
-		    		base_thread_entry,
-		            0,
-		    		base_thread_stack,
-					BASE_THREAD_STACK_SIZE,
-		    		BASE_THREAD_PRIORITY,
-		    		BASE_THREAD_PRIORITY,
-		            TX_NO_TIME_SLICE,
-					TX_DONT_START);
-
-	if (baseThreadStatus != TX_SUCCESS)
-	{
-		printf("DMA thread failed, please restart\r\n");
-	}
-
-	UINT servoThreadStatus = tx_thread_create(&servo_thread,
-					"DMAstepgen Thread",
-					servo_thread_entry,
-					0,
-					servo_thread_stack,
-					SERVO_THREAD_STACK_SIZE,
-					SERVO_THREAD_PRIORITY,
-					SERVO_THREAD_PRIORITY,
-					TX_NO_TIME_SLICE,
-					TX_DONT_START);
-
-	if (servoThreadStatus != TX_SUCCESS)
-	{
-		printf("DMA thread failed, please restart\r\n");
-	}
 }
 
 int main(void)

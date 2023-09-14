@@ -34,12 +34,6 @@ RemoraThread::RemoraThread(UINT THREAD_STACK_SIZE, UINT THREAD_PRIORITY, UINT fr
 			(AutoStart ? TX_AUTO_START : TX_DONT_START));
 }
 
-void RemoraThread::RemoraThreadEntry() {
-	while(1) {
-		this->run();
-	}
-}
-
 void RemoraThread::startThread(void)
 {
 	//TimerPtr = new pruTimer(this->timer, this->irq, this->frequency, this);
@@ -50,34 +44,6 @@ void RemoraThread::stopThread(void)
 {
 	tx_thread_suspend(&this->threadHandle);
 }
-
-
-void RemoraThread::registerModule(Module* module)
-{
-	this->vThread.push_back(module);
-}
-
-
-void RemoraThread::registerModulePost(Module* module)
-{
-	this->vThreadPost.push_back(module);
-	this->hasThreadPost = true;
-}
-
-
-void RemoraThread::run(void)
-{
-	// iterate over the Thread pointer vector to run all instances of Module::runModule()
-	for (iter = vThread.begin(); iter != vThread.end(); ++iter) (*iter)->runModule();
-
-	// iterate over the second vector that contains module pointers to run after (post) the main vector
-
-	if (hasThreadPost)
-	{
-		for (iter = vThreadPost.begin(); iter != vThreadPost.end(); ++iter) (*iter)->runModulePost();
-	}
-}
-
 
 RemoraThread::~RemoraThread() {
 	// TODO Auto-generated destructor stub

@@ -1,5 +1,7 @@
-..\source\remora\RemoraKernel.cpp:10:1:RemoraKernel::RemoraKernel()	16	static
-..\source\remora\RemoraKernel.cpp:15:6:void RemoraKernel::InitializeThreads()	16	static
-..\source\remora\RemoraKernel.cpp:20:6:void RemoraKernel::Run()	16	static
-..\source\remora\RemoraKernel.cpp:24:1:RemoraKernel::~RemoraKernel()	16	static
-..\source\remora\RemoraKernel.cpp:24:1:virtual RemoraKernel::~RemoraKernel()	16	static
+c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\arm-none-eabi\thumb\v7e-m+fp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+..\source\remora\RemoraKernel.cpp:12:1:RemoraKernel::RemoraKernel()	32	static
+..\source\remora\RemoraKernel.cpp:21:6:void RemoraKernel::InitializeThreads()	24	static
+..\source\remora\RemoraKernel.cpp:29:6:virtual void RemoraKernel::RemoraThreadEntry()	16	static
+..\source\remora\RemoraKernel.cpp:39:6:void RemoraKernel::Run()	16	static
+..\source\remora\RemoraKernel.cpp:43:1:RemoraKernel::~RemoraKernel()	16	static
+..\source\remora\RemoraKernel.cpp:43:1:virtual RemoraKernel::~RemoraKernel()	16	static

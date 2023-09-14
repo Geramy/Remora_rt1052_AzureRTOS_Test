@@ -16,30 +16,24 @@
 
 using namespace std;
 
-class Module;
-
 class RemoraThread {
 
 	private:
-		UINT THREAD_STACK_SIZE;
-		UINT THREAD_PRIORITY;
+
 		TX_THREAD threadHandle;
 		ULONG *thread_stack;
-		UINT frequency;
 
 		bool hasThreadPost;		// run updatePost() vector
 
-		vector<Module*> vThread;		// vector containing pointers to Thread modules
-		vector<Module*> vThreadPost;		// vector containing pointers to Thread modules that run after the main vector modules
-		vector<Module*>::iterator iter;
+	public:
+		UINT THREAD_STACK_SIZE;
+		UINT THREAD_PRIORITY;
+		UINT frequency;
 	public:
 		RemoraThread(UINT, UINT, UINT, bool);
-		void RemoraThreadEntry();
-		void registerModule(Module *module);
-		void registerModulePost(Module *module);
+		virtual void RemoraThreadEntry();
 		void startThread(void);
         void stopThread(void);
-		void run(void);
 
 		virtual ~RemoraThread();
 };

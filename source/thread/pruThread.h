@@ -17,9 +17,6 @@ class pruThread
 	private:
 
 		pruTimer* 		    TimerPtr;
-	
-		GPT_Type* 	    	timer;
-		IRQn_Type 			irq;
 		uint32_t 			frequency;
 
 		bool hasThreadPost;		// run updatePost() vector
@@ -30,7 +27,7 @@ class pruThread
 
 	public:
 
-		pruThread(GPT_Type* timer, IRQn_Type irq, uint32_t frequency);
+		pruThread(uint32_t frequency);
 
 		void registerModule(Module *module);
 		void registerModulePost(Module *module);

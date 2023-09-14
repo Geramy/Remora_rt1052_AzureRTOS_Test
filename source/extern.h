@@ -7,15 +7,13 @@
 
 #include "../source/lib/ArduinoJson6/ArduinoJson.h"
 #include "../source/thread/pruThread.h"
-
+#include "remora/RemoraKernel.h"
 #include "modules/comms/RemoraComms.h"
 
 extern uint32_t base_freq;
 extern uint32_t servo_freq;
 //Threads
-
 //
-
 
 extern JsonObject module;
 

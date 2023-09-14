@@ -15,7 +15,10 @@
 #include "fsl_pit.h"
 #include "fsl_dmamux.h"
 #include "fsl_edma.h"
-#include "extern.h"
+#include <vector>
+#include "modules/module.h"
+
+using namespace std;
 
 class RemoraStepGenDMA {
 private:
