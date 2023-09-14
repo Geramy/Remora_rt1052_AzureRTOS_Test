@@ -11,7 +11,7 @@
 
 #include "extern.h"
 
-void createEncoder(void);
+void createEncoder(pruThread*);
 
 class Encoder : public Module
 {

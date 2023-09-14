@@ -11,7 +11,7 @@ c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azur
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\variant\variantdata.hpp:349:11:uint8_t ArduinoJson6101_110::VariantData::type() const	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\polyfills\ctype.hpp:9:13:bool ArduinoJson6101_110::isdigit(char)	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\ArduinoJson/Variant/VariantImpl.hpp:70:20:const char* ArduinoJson6101_110::VariantData::asString() const	16	static
-..\source\modules\digitalPin\digitalPin.cpp:7:6:void createDigitalPin()	480	static
+..\source\modules\digitalPin\digitalPin.cpp:7:6:void createDigitalPin(pruThread*)	488	static
 ..\source\modules\digitalPin\digitalPin.cpp:74:1:DigitalPin::DigitalPin(volatile uint32_t&, int, std::string, int, bool)	56	static
 ..\source\modules\digitalPin\digitalPin.cpp:87:6:virtual void DigitalPin::update()	24	static
 ..\source\modules\digitalPin\digitalPin.cpp:119:6:virtual void DigitalPin::slowUpdate()	16	static

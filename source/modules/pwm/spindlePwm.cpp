@@ -6,7 +6,7 @@
                 MODULE CONFIGURATION AND CREATION FROM JSON
 ************************************************************************/
 
-void createSpindlePWM()
+void createSpindlePWM(pruThread *thread)
 {
     const char* comment = module["Comment"];
     printf("\n%s\n",comment);
@@ -15,7 +15,7 @@ void createSpindlePWM()
 
     ptrSetPoint[sp] = &rxData.setPoint[sp];
     Module* spindle = new SpindlePWM(*ptrSetPoint[sp]);
-    servoThread->registerModule(spindle);
+    thread->registerModule(spindle);
 }
 
 

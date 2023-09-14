@@ -12,7 +12,7 @@ c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\variant\variantdata.hpp:349:11:uint8_t ArduinoJson6101_110::VariantData::type() const	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\polyfills\ctype.hpp:9:13:bool ArduinoJson6101_110::isdigit(char)	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\ArduinoJson/Variant/VariantImpl.hpp:70:20:const char* ArduinoJson6101_110::VariantData::asString() const	16	static
-..\source\modules\pwm\spindlePwm.cpp:9:6:void createSpindlePWM()	152	static
+..\source\modules\pwm\spindlePwm.cpp:9:6:void createSpindlePWM(pruThread*)	160	static
 ..\source\modules\pwm\spindlePwm.cpp:26:1:SpindlePWM::SpindlePWM(volatile float&)	32	static
 ..\source\modules\pwm\spindlePwm.cpp:42:6:virtual void SpindlePWM::update()	16	static
 ..\source\modules\pwm\spindlePwm.cpp:137:6:virtual void SpindlePWM::slowUpdate()	16	static

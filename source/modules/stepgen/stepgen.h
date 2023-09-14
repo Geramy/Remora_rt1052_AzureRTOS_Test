@@ -10,7 +10,7 @@
 
 #include "extern.h"
 
-void createStepgen(void);
+void createStepgen(pruThread*);
 
 class Stepgen : public Module
 {

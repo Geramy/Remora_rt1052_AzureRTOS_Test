@@ -14,7 +14,7 @@
 #define QTMR_CLOCK_SOURCE_DIVIDER 	(32U)
 #define PWM_FREQ					100
 
-void createSpindlePWM(void);
+void createSpindlePWM(pruThread*);
 
 class SpindlePWM : public Module
 {

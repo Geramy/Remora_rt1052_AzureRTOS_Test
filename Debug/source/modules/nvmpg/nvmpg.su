@@ -9,7 +9,7 @@ c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azur
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\arm-none-eabi\thumb\v7e-m+fp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\variant\variantdata.hpp:349:11:uint8_t ArduinoJson6101_110::VariantData::type() const	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\ArduinoJson/Variant/VariantImpl.hpp:70:20:const char* ArduinoJson6101_110::VariantData::asString() const	16	static
-..\source\modules\nvmpg\nvmpg.cpp:9:6:void createNVMPG()	80	static
+..\source\modules\nvmpg\nvmpg.cpp:9:6:void createNVMPG(pruThread*)	88	static
 ..\source\modules\nvmpg\nvmpg.cpp:23:1:NVMPG::NVMPG(volatile mpgData_t&, volatile uint16_t&)	40	static
 ..\source\modules\nvmpg\nvmpg.cpp:59:6:virtual void NVMPG::update()	24	static
 ..\source\modules\nvmpg\nvmpg.cpp:110:6:virtual void NVMPG::slowUpdate()	16	static

@@ -6,14 +6,14 @@
                 MODULE CONFIGURATION AND CREATION FROM JSON
 ************************************************************************/
 
-void createNVMPG()
+void createNVMPG(pruThread *thread)
 {
     const char* comment = module["Comment"];
     printf("\n%s\n",comment);
 
     ptrNVMPGInputs = &txData.NVMPGinputs;
     MPG = new NVMPG(*ptrMpgData, *ptrNVMPGInputs);
-    servoThread->registerModule(MPG);
+    thread->registerModule(MPG);
 }
 
 /***********************************************************************

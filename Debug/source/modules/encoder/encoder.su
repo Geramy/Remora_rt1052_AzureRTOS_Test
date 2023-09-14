@@ -10,7 +10,7 @@ c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azur
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\variant\variantdata.hpp:349:11:uint8_t ArduinoJson6101_110::VariantData::type() const	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\polyfills\ctype.hpp:9:13:bool ArduinoJson6101_110::isdigit(char)	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\ArduinoJson/Variant/VariantImpl.hpp:70:20:const char* ArduinoJson6101_110::VariantData::asString() const	16	static
-..\source\modules\encoder\encoder.cpp:6:6:void createEncoder()	576	static
+..\source\modules\encoder\encoder.cpp:6:6:void createEncoder(pruThread*)	584	static
 ..\source\modules\encoder\encoder.cpp:40:1:Encoder::Encoder(volatile float&, std::string, std::string)	80	static
 ..\source\modules\encoder\encoder.cpp:51:1:Encoder::Encoder(volatile float&, volatile uint32_t&, int, std::string, std::string, std::string)	104	static
 ..\source\modules\encoder\encoder.cpp:70:6:virtual void Encoder::update()	24	static

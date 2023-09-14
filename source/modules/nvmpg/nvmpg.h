@@ -24,7 +24,7 @@
 #define LPUART_DMA_BASEADDR    		DMA0
 
 
-void createNVMPG(void);
+void createNVMPG(pruThread*);
 
 class NVMPG : public Module
 {

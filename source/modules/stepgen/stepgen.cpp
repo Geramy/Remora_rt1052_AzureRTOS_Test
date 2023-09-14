@@ -5,7 +5,7 @@
                 MODULE CONFIGURATION AND CREATION FROM JSON     
 ************************************************************************/
 
-void createStepgen()
+void createStepgen(pruThread *thread)
 {
     const char* comment = module["Comment"];
     printf("\n%s\n",comment);
@@ -21,8 +21,8 @@ void createStepgen()
 
     // create the step generator, register it in the thread
     Module* stepgen = new Stepgen(base_freq, joint, step, dir, STEPBIT, *ptrJointFreqCmd[joint], *ptrJointFeedback[joint], *ptrJointEnable);
-    baseThread->registerModule(stepgen);
-    baseThread->registerModulePost(stepgen);
+    thread->registerModule(stepgen);
+    thread->registerModulePost(stepgen);
 }
 
 

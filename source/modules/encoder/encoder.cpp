@@ -3,7 +3,7 @@
 /***********************************************************************
                 MODULE CONFIGURATION AND CREATION FROM JSON     
 ************************************************************************/
-void createEncoder()
+void createEncoder(pruThread* thread)
 {
     const char* comment = module["Comment"];
     printf("%s\n",comment);
@@ -23,13 +23,13 @@ void createEncoder()
     if (pinI == nullptr)
     {
         Module* encoder = new Encoder(*ptrProcessVariable[pv], pinA, pinB);
-        baseThread->registerModule(encoder);
+        thread->registerModule(encoder);
     }
     else
     {
         printf("  Encoder has index at pin %s\n", pinI);
         Module* encoder = new Encoder(*ptrProcessVariable[pv], *ptrInputs, dataBit, pinA, pinB, pinI);
-        baseThread->registerModule(encoder);
+        thread->registerModule(encoder);
     }
 }
 

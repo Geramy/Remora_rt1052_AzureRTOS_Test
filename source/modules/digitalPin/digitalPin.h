@@ -9,7 +9,7 @@
 
 #include "extern.h"
 
-void createDigitalPin(void);
+void createDigitalPin(pruThread*);
 
 class DigitalPin : public Module
 {

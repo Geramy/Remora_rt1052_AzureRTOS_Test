@@ -16,11 +16,24 @@
 #include "remora/RemoraStepGenDMA.h"
 #include "modules/stepgen/stepgen.h"
 #include "remora/RemoraNetwork.h"
+#include "remora/RemoraConfig.h"
+
 //#include "extern.h"
 
 
 class RemoraKernel  : public RemoraThread {
 private:
+	enum KernelState {
+		ST_SETUP = 0,
+		ST_START,
+		ST_IDLE,
+		ST_RUNNING,
+		ST_STOP,
+		ST_RESET,
+		ST_WDRESET
+	};
+private:
+	RemoraConfig *config;
 	RemoraNetwork *network;
 	pruThread *baseThread;
 	pruThread *servoThread;
@@ -28,16 +41,16 @@ private:
 
 	TX_MUTEX mutexRx;
 	TX_MUTEX mutexTx;
+
+	RemoraStepGenDMA *dmaControl;
+	// boolean
+	bool PRUreset;
+	bool configError = false;
+	bool threadsRunning = false;
+
 	// state machine
-	enum KernelState {
-	    ST_SETUP = 0,
-	    ST_START,
-	    ST_IDLE,
-	    ST_RUNNING,
-	    ST_STOP,
-	    ST_RESET,
-	    ST_WDRESET
-	};
+	enum KernelState prevState;
+	enum KernelState currentState = ST_SETUP;
 public:
 	void RemoraThreadEntry();
 	RemoraKernel();

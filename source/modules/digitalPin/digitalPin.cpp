@@ -4,7 +4,7 @@
                 MODULE CONFIGURATION AND CREATION FROM JSON     
 ************************************************************************/
 
-void createDigitalPin()
+void createDigitalPin(pruThread *thread)
 {
     const char* comment = module["Comment"];
     printf("\n%s\n",comment);
@@ -53,12 +53,12 @@ void createDigitalPin()
     if (!strcmp(mode,"Output"))
     {
         Module* digitalPin = new DigitalPin(*ptrOutputs, 1, pin, dataBit, inv);
-        servoThread->registerModule(digitalPin);
+        thread->registerModule(digitalPin);
     }
     else if (!strcmp(mode,"Input"))
     {
         Module* digitalPin = new DigitalPin(*ptrInputs, 0, pin, dataBit, inv);
-        servoThread->registerModule(digitalPin);
+        thread->registerModule(digitalPin);
     }
     else
     {
