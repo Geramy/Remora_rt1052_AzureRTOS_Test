@@ -45,6 +45,7 @@ private:
 public:
 	volatile bool g_transferDone = false;
 	bool stepgenDMAbuffer = false;					// indicates which double buffer to use 0 or 1
+	TX_SEMAPHORE semaphoreSG;
 public:
 
 	RemoraStepGenDMA(uint8_t, uint8_t, TX_MUTEX *rxMutex);

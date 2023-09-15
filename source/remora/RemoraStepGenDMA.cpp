@@ -22,8 +22,8 @@ AT_QUICKACCESS_SECTION_DATA_ALIGN(edma_tcd_t tcdMemoryPoolPtr[3], sizeof(edma_tc
 
 static void EDMA_Callback(edma_handle_t *handle, void *param, bool transferDone, uint32_t tcds)
 {
-	RemoraStepGenDMA $this = *(RemoraStepGenDMA*)param;
-	$this.g_transferDone = true;
+	RemoraStepGenDMA* $this = reinterpret_cast<RemoraStepGenDMA*>(param);
+	tx_semaphore_put(&$this->semaphoreSG);
 }
 
 RemoraStepGenDMA::RemoraStepGenDMA(uint8_t Freq, uint8_t dmaChannel, TX_MUTEX *rxMutex) {
@@ -31,6 +31,10 @@ RemoraStepGenDMA::RemoraStepGenDMA(uint8_t Freq, uint8_t dmaChannel, TX_MUTEX *r
 	this->timerFreq = Freq;
 	this->dmaChannel = dmaChannel;
 	this->rxMutexPtr = rxMutex;
+	tx_semaphore_create(&this->semaphoreSG, "semaphore dma stepgen", 1);
+	//status = tx_queue_create(&my_queue, "my_queue", TX_4_ULONG, (VOID *) 0x300000, 2000):
+	//tx_semaphore_create(&semaphore_0, "semaphore 0", 1);
+	//_txe_semaphore_create(TX_SEMAPHORE *semaphore_ptr, CHAR *name_ptr, ULONG initial_count, UINT semaphore_control_block_size);
 }
 
 void RemoraStepGenDMA::InitializePIT(pit_chnl_t pitChannel) {
@@ -131,20 +135,17 @@ void RemoraStepGenDMA::AddModule(Module* module) {
 }
 
 void RemoraStepGenDMA::RunTasks() {
+	tx_semaphore_get(&this->semaphoreSG, TX_WAIT_FOREVER);
+	tx_mutex_get(this->rxMutexPtr, TX_WAIT_FOREVER);
+	this->ClearBuffers();
+	this->SwapBuffers();
+	// switch buffers
 
-	if (this->g_transferDone)
-	{
-		tx_mutex_get(this->rxMutexPtr, TX_WAIT_FOREVER);
-		this->ClearBuffers();
-		this->SwapBuffers();
-		// switch buffers
+	// prepare the next DMA buffer
+	for (this->iterDMA = this->vDMAthread.begin(); this->iterDMA != this->vDMAthread.end(); ++this->iterDMA) (*this->iterDMA)->runModule();
 
-		// prepare the next DMA buffer
-		for (this->iterDMA = this->vDMAthread.begin(); this->iterDMA != this->vDMAthread.end(); ++this->iterDMA) (*this->iterDMA)->runModule();
-
-		this->g_transferDone = false;
-		tx_mutex_put(this->rxMutexPtr);
-	}
+	//this->g_transferDone = false;
+	tx_mutex_put(this->rxMutexPtr);
 }
 
 void RemoraStepGenDMA::ClearBuffers() {

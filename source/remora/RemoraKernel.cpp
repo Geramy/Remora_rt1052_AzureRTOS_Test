@@ -12,12 +12,9 @@
 
 static void dma_thread_entry(ULONG parameter)
 {
-
-	RemoraStepGenDMA *dma = reinterpret_cast<RemoraStepGenDMA*>(parameter);
-    printf("Starting DMA Thread\r\n\r\n");
-    while (1) {
-    	dma->RunTasks();
-    }
+	RemoraStepGenDMA *dmaPtr = reinterpret_cast<RemoraStepGenDMA*>(parameter);
+	while (1)
+		dmaPtr->RunTasks();
 }
 
 RemoraKernel::RemoraKernel() :
@@ -27,6 +24,7 @@ RemoraKernel::RemoraKernel() :
 	tx_mutex_create(&this->mutexTx, "mutex tx", 1);
 	tx_mutex_create(&this->mutexRx, "mutex rx", 1);
 	this->network = new RemoraNetwork(&(this->mutexRx), &(this->mutexTx));
+
 	this->config = new RemoraConfig();
 	this->dmaControl = new RemoraStepGenDMA(DMA_FREQ, 0, &(this->mutexRx));
 	this->dmaControl->InitializePIT(kPIT_Chnl_0);
@@ -55,7 +53,7 @@ void RemoraKernel::InitializeThreads()
 	//Networking has to be done on the control thread, because networking has to be done inside a thread.
 	this->baseThread = new pruThread(base_freq);
 	this->servoThread = new pruThread(servo_freq);
-	this->dmaThread = new pruThread(DMA_FREQ);
+	//this->dmaThread = new pruThread(DMA_FREQ);
 }
 
 void RemoraKernel::RemoraThreadEntry() {

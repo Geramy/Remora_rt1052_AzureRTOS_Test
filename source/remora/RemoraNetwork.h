@@ -22,6 +22,8 @@ private:
 	UINT EnableCaps(VOID (*ip_link_driver)(struct NX_IP_DRIVER_STRUCT*));
 public:
 	RemoraNetwork(TX_MUTEX* rxMutex, TX_MUTEX* txMutex);
+	void (*ReceivedData)(int);
+
 	void Initialize();
 	bool Accept();
 	virtual ~RemoraNetwork();
