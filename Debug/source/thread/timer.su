@@ -1,6 +1,0 @@
-..\source\thread\timer.cpp:10:6:void timer_entry(ULONG)	24	static
-..\source\thread\timer.cpp:16:1:pruTimer::pruTimer(uint32_t, pruThread*)	40	static
-..\source\thread\timer.cpp:39:6:void pruTimer::timerTick()	16	static
-..\source\thread\timer.cpp:47:6:void pruTimer::startTimer()	16	static
-..\source\thread\timer.cpp:53:6:void pruTimer::stopTimer()	16	static
-..\source\thread\timer.cpp:59:1:pruTimer::~pruTimer()	16	static

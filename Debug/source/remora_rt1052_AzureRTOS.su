@@ -1,5 +1,0 @@
-c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\arm-none-eabi\thumb\v7e-m+fp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-..\source\remora_rt1052_AzureRTOS.cpp:149:6:void tx_application_define(void*)	32	static
-..\source\remora_rt1052_AzureRTOS.cpp:156:5:int main()	8	static
-..\source\remora_rt1052_AzureRTOS.cpp:165:1:void __static_initialization_and_destruction_0(int, int)	16	static
-..\source\remora_rt1052_AzureRTOS.cpp:165:1:cpp)	8	static

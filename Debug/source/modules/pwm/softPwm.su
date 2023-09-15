@@ -1,7 +1,0 @@
-c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\arm-none-eabi\thumb\v7e-m+fp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-..\source\modules\pwm\../../drivers/pin/pin.h:41:21:void Pin::set(bool)	16	static
-..\source\modules\pwm\softPwm.cpp:5:1:SoftPWM::SoftPWM(volatile float&, std::string)	56	static
-..\source\modules\pwm\softPwm.cpp:16:6:virtual void SoftPWM::update()	24	static
-..\source\modules\pwm\softPwm.cpp:50:6:virtual void SoftPWM::slowUpdate()	16	static
-..\source\modules\pwm\softPwm.h:10:7:SoftPWM::~SoftPWM()	16	static
-..\source\modules\pwm\softPwm.h:10:7:virtual SoftPWM::~SoftPWM()	16	static
