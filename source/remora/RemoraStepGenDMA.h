@@ -35,7 +35,7 @@ private:
 
 	vector<Module*> vDMAthread;
 	vector<Module*>::iterator iterDMA;
-	bool DMAstepgen = false;
+	bool DMAstepgen_ = false;
 
 	edma_handle_t g_EDMA_Handle;
 	TX_MUTEX *rxMutexPtr;

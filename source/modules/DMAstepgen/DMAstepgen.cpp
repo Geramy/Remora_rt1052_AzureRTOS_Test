@@ -158,7 +158,7 @@ void DMAstepgen::makePulses()
 			if (this->addValue - this->prevRemainder <= BUFFER_COUNTS)
 			{
 				// at least one step in this period
-
+				this->dmaFilled = true;
 				this->accumulator = this->addValue - this->prevRemainder;
 				this->remainder = BUFFER_COUNTS - this->accumulator;
 				this->makeStep();
@@ -183,12 +183,14 @@ void DMAstepgen::makePulses()
 			else
 			{
 				this->prevRemainder = this->prevRemainder + BUFFER_COUNTS;
+				this->dmaFilled = false;
 			}
 		}
 	}
 	else
 	{
 		this->prevRemainder = 0;
+		this->dmaFilled = false;
 	}
 }
 

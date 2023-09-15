@@ -7,6 +7,7 @@
 
 #include <remora/RemoraStepGenDMA.h>
 #include "nx_api.h"
+#include "modules/DMAstepgen/DMAstepgen.h"
 
 using namespace std;
 
@@ -142,7 +143,17 @@ void RemoraStepGenDMA::RunTasks() {
 	// switch buffers
 
 	// prepare the next DMA buffer
-	for (this->iterDMA = this->vDMAthread.begin(); this->iterDMA != this->vDMAthread.end(); ++this->iterDMA) (*this->iterDMA)->runModule();
+	bool filledBuffers = false;
+	for (this->iterDMA = this->vDMAthread.begin(); this->iterDMA != this->vDMAthread.end(); ++this->iterDMA)
+	{
+		(*this->iterDMA)->runModule();
+		if(((DMAstepgen*)&(*this->iterDMA))->dmaFilled) {
+			filledBuffers = true;
+		}
+	}
+	if(!filledBuffers) {
+		tx_semaphore_put(&this->semaphoreSG);
+	}
 
 	//this->g_transferDone = false;
 	tx_mutex_put(this->rxMutexPtr);

@@ -15,7 +15,7 @@ class DMAstepgen : public Module
 {
   private:
 
-    int mask;
+
 
     int jointNumber;              			// LinuxCNC joint number
     std::string step, direction;	 		// physical pins connections
@@ -23,7 +23,7 @@ class DMAstepgen : public Module
     int32_t stepBit;                		// position in the DDS accumulator that triggers a step pulse
     volatile int32_t *ptrFrequencyCommand; 	// pointer to the data source where to get the frequency command
     volatile int32_t *ptrFeedback;       	// pointer where to put the feedback
-    volatile uint8_t *ptrJointEnablel;
+
 
     RemoraStepGenDMA *ptrDMAC;
 
@@ -64,9 +64,13 @@ class DMAstepgen : public Module
   	int16_t stepLow;
 
   	uint32_t addValueFrequency;
-
+private:
   	void makeStep();
-  public:
+public:
+  	int mask;
+  	volatile uint8_t *ptrJointEnablel;
+  	bool dmaFilled = false;
+public:
   	static void createDMAstepgen(RemoraStepGenDMA *dma)
   	{
   	    const char* comment = module["Comment"];
