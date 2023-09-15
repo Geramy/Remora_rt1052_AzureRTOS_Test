@@ -3,5 +3,5 @@ c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7
 ..\source\modules\blink\blink.cpp:7:1:Blink::Blink(std::string, uint32_t, uint32_t)	56	static
 ..\source\modules\blink\blink.cpp:18:6:virtual void Blink::update()	16	static
 ..\source\modules\blink\blink.cpp:28:6:virtual void Blink::slowUpdate()	16	static
-..\source\modules\blink\blink.h:12:7:Blink::~Blink()	16	static
-..\source\modules\blink\blink.h:12:7:virtual Blink::~Blink()	16	static
+..\source\modules\blink\blink.h:13:7:Blink::~Blink()	16	static
+..\source\modules\blink\blink.h:13:7:virtual Blink::~Blink()	16	static

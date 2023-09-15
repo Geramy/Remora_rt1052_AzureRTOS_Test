@@ -4,7 +4,7 @@
  *  Created on: Sep 10, 2023
  *      Author: Geramy
  */
-
+#pragma once
 #ifndef THREAD_REMORATHREAD_H_
 #define THREAD_REMORATHREAD_H_
 

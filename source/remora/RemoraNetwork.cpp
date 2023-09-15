@@ -10,12 +10,7 @@
 #include <stdint.h>
 
 #include "nx_api.h"
-#include "nx_secure_tls_api.h"
-#include "nxd_dhcp_client.h"
-#include "nxd_dns.h"
-
 #include "configuration.h"
-#include "remora.h"
 #include "extern.h"
 
 

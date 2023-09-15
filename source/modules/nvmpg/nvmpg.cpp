@@ -3,26 +3,12 @@
 #include <stdio.h>
 
 /***********************************************************************
-                MODULE CONFIGURATION AND CREATION FROM JSON
-************************************************************************/
-
-void createNVMPG(pruThread *thread)
-{
-    const char* comment = module["Comment"];
-    printf("\n%s\n",comment);
-
-    ptrNVMPGInputs = &txData.NVMPGinputs;
-    MPG = new NVMPG(*ptrMpgData, *ptrNVMPGInputs);
-    thread->registerModule(MPG);
-}
-
-/***********************************************************************
                 METHOD DEFINITIONS
 ************************************************************************/
 
 NVMPG::NVMPG(volatile mpgData_t &ptrMpgData, volatile uint16_t &ptrData) :
-	ptrMpgData(&ptrMpgData),
-	ptrData(&ptrData)
+	ptrMpgDatal(&ptrMpgData),
+	ptrDatal(&ptrData)
 {
 	printf("Creating NVMPG module\n");
 
@@ -51,8 +37,8 @@ NVMPG::NVMPG(volatile mpgData_t &ptrMpgData, volatile uint16_t &ptrData) :
     /* Create LPUART DMA handle. */
     LPUART_TransferCreateHandleEDMA(NVMPG_LPUART, &g_lpuartEdmaHandle, LPUART_UserCallback, NULL, &g_lpuartTxEdmaHandle, &g_lpuartRxEdmaHandle);
 
-	sendXfer.data     		= this->txData;
-	sendXfer.dataSize 		= sizeof(txData) - 1;
+	sendXfer.data     		= this->txDatal;
+	sendXfer.dataSize 		= sizeof(txDatal) - 1;
 }
 
 
@@ -81,11 +67,11 @@ void NVMPG::update()
 
 		if (buttonState)
 		{
-			*(this->ptrData) &= ~this->mask;
+			*(this->ptrDatal) &= ~this->mask;
 		}
 		else
 		{
-			*(this->ptrData) |= this->mask;
+			*(this->ptrDatal) |= this->mask;
 		}
 
 		rxData = 0;
@@ -97,7 +83,7 @@ void NVMPG::update()
 		// copy the data to txData buffer
 		for (int i = 0; i < 53; i++)
 		{
-			this->txData[i] =  this->ptrMpgData->payload[i+4];
+			this->txDatal[i] =  this->ptrMpgDatal->payload[i+4];
 		}
 
 	    LPUART_SendEDMA(NVMPG_LPUART, &g_lpuartEdmaHandle, &sendXfer);

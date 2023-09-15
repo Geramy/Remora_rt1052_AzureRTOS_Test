@@ -1,3 +1,4 @@
+#pragma once
 #ifndef NVMPG_H
 #define NVMPG_H
 
@@ -11,7 +12,7 @@
 
 #include "configuration.h"
 #include "remora.h"
-#include "../module.h"
+#include "modules/module.h"
 #include "extern.h"
 
 #define NVMPG_LPUART                LPUART5
@@ -28,37 +29,50 @@ void createNVMPG(pruThread*);
 
 class NVMPG : public Module
 {
-	private:
+private:
 
-		volatile mpgData_t	*ptrMpgData;
-		volatile uint16_t 	*ptrData;
+	volatile mpgData_t	*ptrMpgDatal;
+	volatile uint16_t 	*ptrDatal;
 
-		uint8_t txData[53] = {'\0'};
-		uint8_t rxData;
-		uint8_t i = 0;
+	uint8_t txDatal[53] = {'\0'};
+	uint8_t rxData;
+	uint8_t i = 0;
 
-		uint16_t mask;
-		bool buttonState;
+	uint16_t mask;
+	bool buttonState;
 
-		bool serialReceived = false;
-		bool payloadReceived = false;
+	bool serialReceived = false;
+	bool payloadReceived = false;
 
-	    lpuart_config_t 		lpuartConfig;
-	    edma_config_t 			config;
+	lpuart_config_t 		lpuartConfig;
+	edma_config_t 			config;
 
-		lpuart_edma_handle_t	g_lpuartEdmaHandle;
-		edma_handle_t 			g_lpuartTxEdmaHandle;
-		edma_handle_t 			g_lpuartRxEdmaHandle;
-		lpuart_transfer_t 		sendXfer;
+	lpuart_edma_handle_t	g_lpuartEdmaHandle;
+	edma_handle_t 			g_lpuartTxEdmaHandle;
+	edma_handle_t 			g_lpuartRxEdmaHandle;
+	lpuart_transfer_t 		sendXfer;
+public:
+	/***********************************************************************
+	                MODULE CONFIGURATION AND CREATION FROM JSON
+	************************************************************************/
 
-	public:
+	static void createNVMPG(pruThread *thread)
+	{
+	    const char* comment = module["Comment"];
+	    printf("\n%s\n",comment);
 
-		NVMPG(volatile mpgData_t&, volatile uint16_t&);
-		virtual void update(void);
-		virtual void slowUpdate(void);
-		virtual void configure(void);
+	    ptrNVMPGInputs = &txData.NVMPGinputs;
+	    MPG = new NVMPG(*ptrMpgData, *ptrNVMPGInputs);
+	    thread->registerModule(MPG);
+	};
+public:
 
-		static void LPUART_UserCallback(LPUART_Type *base, lpuart_edma_handle_t *handle, status_t status, void *userData);
+	NVMPG(volatile mpgData_t&, volatile uint16_t&);
+	virtual void update(void);
+	virtual void slowUpdate(void);
+	virtual void configure(void);
+
+	static void LPUART_UserCallback(LPUART_Type *base, lpuart_edma_handle_t *handle, status_t status, void *userData);
 };
 
 #endif

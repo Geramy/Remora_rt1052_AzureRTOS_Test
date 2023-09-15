@@ -2,22 +2,6 @@
 
 // Module for RT1052 spindle RPM on pin GPIO1_IO08
 
-/***********************************************************************
-                MODULE CONFIGURATION AND CREATION FROM JSON
-************************************************************************/
-
-void createSpindlePWM(pruThread *thread)
-{
-    const char* comment = module["Comment"];
-    printf("\n%s\n",comment);
-
-    int sp = module["SP[i]"];
-
-    ptrSetPoint[sp] = &rxData.setPoint[sp];
-    Module* spindle = new SpindlePWM(*ptrSetPoint[sp]);
-    thread->registerModule(spindle);
-}
-
 
 /***********************************************************************
                 METHOD DEFINITIONS

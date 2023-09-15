@@ -1,20 +1,17 @@
+#pragma once
 #ifndef EXTERN_H
 #define EXTERN_H
 
-#include "configuration.h"
 #include "remora.h"
-#include "fsl_edma.h"
-
-#include "../source/lib/ArduinoJson6/ArduinoJson.h"
-#include "../source/thread/pruThread.h"
-#include "remora/RemoraKernel.h"
+#include "lib/ArduinoJson6/ArduinoJson.h"
+#include "thread/pruThread.h"
 #include "modules/comms/RemoraComms.h"
 
 extern uint32_t base_freq;
 extern uint32_t servo_freq;
 //Threads
 //
-
+//extern volatile const char defaultConfig[] = DEFAULT_CONFIG;
 extern JsonObject module;
 
 extern volatile bool PRUreset;

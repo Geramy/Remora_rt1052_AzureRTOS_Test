@@ -4,7 +4,7 @@
  *  Created on: Sep 10, 2023
  *      Author: Geramy
  */
-
+#pragma once
 #ifndef REMORA_REMORASTEPGENDMA_H_
 #define REMORA_REMORASTEPGENDMA_H_
 

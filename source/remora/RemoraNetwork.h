@@ -4,7 +4,7 @@
  *  Created on: Sep 13, 2023
  *      Author: Geramy
  */
-
+#pragma once
 #ifndef REMORA_REMORANETWORK_H_
 #define REMORA_REMORANETWORK_H_
 #include "nx_api.h"

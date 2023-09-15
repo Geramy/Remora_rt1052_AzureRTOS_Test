@@ -1,37 +1,5 @@
 #include "encoder.h"
 
-/***********************************************************************
-                MODULE CONFIGURATION AND CREATION FROM JSON     
-************************************************************************/
-void createEncoder(pruThread* thread)
-{
-    const char* comment = module["Comment"];
-    printf("%s\n",comment);
-
-    int pv = module["PV[i]"];
-    const char* pinA = module["ChA Pin"];
-    const char* pinB = module["ChB Pin"];
-    const char* pinI = module["Index Pin"];
-    int dataBit = module["Data Bit"];
-
-    printf("Creating Quadrature Encoder at pins %s and %s\n", pinA, pinB);
-
-    
-    ptrProcessVariable[pv]  = &txData.processVariable[pv];
-    ptrInputs = &txData.inputs;
-
-    if (pinI == nullptr)
-    {
-        Module* encoder = new Encoder(*ptrProcessVariable[pv], pinA, pinB);
-        thread->registerModule(encoder);
-    }
-    else
-    {
-        printf("  Encoder has index at pin %s\n", pinI);
-        Module* encoder = new Encoder(*ptrProcessVariable[pv], *ptrInputs, dataBit, pinA, pinB, pinI);
-        thread->registerModule(encoder);
-    }
-}
 
 /***********************************************************************
 *                METHOD DEFINITIONS                                    *

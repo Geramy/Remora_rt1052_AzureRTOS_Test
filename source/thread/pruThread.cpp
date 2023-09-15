@@ -1,7 +1,7 @@
 #include <cstdio>
 
 #include "pruThread.h"
-#include "../modules/module.h"
+#include "modules/module.h"
 
 
 using namespace std;

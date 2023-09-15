@@ -1,3 +1,4 @@
+#pragma once
 #ifndef REMORACOMMS_H
 #define REMORACOMMS_H
 

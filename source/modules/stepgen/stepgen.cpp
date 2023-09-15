@@ -1,31 +1,5 @@
 #include "stepgen.h"
 
-
-/***********************************************************************
-                MODULE CONFIGURATION AND CREATION FROM JSON     
-************************************************************************/
-
-void createStepgen(pruThread *thread)
-{
-    const char* comment = module["Comment"];
-    printf("\n%s\n",comment);
-
-    int joint = module["Joint Number"];
-    const char* step = module["Step Pin"];
-    const char* dir = module["Direction Pin"];
-
-    // configure pointers to data source and feedback location
-    ptrJointFreqCmd[joint] = &rxData.jointFreqCmd[joint];
-    ptrJointFeedback[joint] = &txData.jointFeedback[joint];
-    ptrJointEnable = &rxData.jointEnable;
-
-    // create the step generator, register it in the thread
-    Module* stepgen = new Stepgen(base_freq, joint, step, dir, STEPBIT, *ptrJointFreqCmd[joint], *ptrJointFeedback[joint], *ptrJointEnable);
-    thread->registerModule(stepgen);
-    thread->registerModulePost(stepgen);
-}
-
-
 /***********************************************************************
                 METHOD DEFINITIONS
 ************************************************************************/
@@ -37,7 +11,7 @@ Stepgen::Stepgen(int32_t threadFreq, int jointNumber, std::string step, std::str
 	stepBit(stepBit),
 	ptrFrequencyCommand(&ptrFrequencyCommand),
 	ptrFeedback(&ptrFeedback),
-	ptrJointEnable(&ptrJointEnable)
+	ptrJointEnablel(&ptrJointEnable)
 {
 	this->stepPin = new Pin(this->step, OUTPUT);
 	this->directionPin = new Pin(this->direction, OUTPUT);
@@ -69,7 +43,7 @@ void Stepgen::makePulses()
 {
 	int32_t stepNow = 0;
 
-	this->isEnabled = ((*(this->ptrJointEnable) & this->mask) != 0);
+	this->isEnabled = ((*(this->ptrJointEnablel) & this->mask) != 0);
 
 	if (this->isEnabled == true)  												// this Step generator is enables so make the pulses
 	{

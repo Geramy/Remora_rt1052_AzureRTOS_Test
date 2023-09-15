@@ -6,33 +6,15 @@
  */
 
 #include <remora/RemoraConfig.h>
-
-#include "fsl_gpio.h"
-#include "fsl_iomuxc.h"
-#include "fsl_pit.h"
-#include "flexspi_nor_flash.h"
-#include "fsl_dmamux.h"
-#include "fsl_edma.h"
-#include "fsl_debug_console.h"
-
-#include "modules/module.h"
-#include "modules/blink/blink.h"
-//#include "modules/debug/debug.h"
-#include "modules/DMAstepgen/DMAstepgen.h"
-#include "modules/encoder/encoder.h"
-#include "modules/comms/RemoraComms.h"
-#include "modules/pwm/spindlePWM.h"
-#include "modules/stepgen/stepgen.h"
-#include "modules/digitalPin/digitalPin.h"
-#include "modules/nvmpg/nvmpg.h"
-
+#include "extern.h"
 //Json Related Variables that dont work inside C++
-DynamicJsonDocument doc(JSON_BUFF_SIZE);
-extern volatile const char defaultConfig[] = DEFAULT_CONFIG;
+
+JsonObject module;
 
 RemoraConfig::RemoraConfig() {
 	// TODO Auto-generated constructor stub
-	//this->doc = DynamicJsonDocument::DynamicJsonDocument(JSON_BUFF_SIZE);
+	//DynamicJsonDocument *jsonDoc = new DynamicJsonDocument(sz);
+	this->doc = new DynamicJsonDocument(10000);
 }
 
 int8_t RemoraConfig::checkJson()
@@ -216,7 +198,7 @@ void RemoraConfig::deserialiseJSON()
     const char *json = this->strJson.c_str();
 
     // parse the json configuration file
-    DeserializationError error = deserializeJson(doc, json);
+    DeserializationError error = deserializeJson(*doc, json);
 
     printf("Config deserialisation - ");
 
@@ -246,7 +228,7 @@ void RemoraConfig::configThreads()
 
     printf("\n3. Configuring threads\n");
 
-    JsonArray Threads = doc["Threads"];
+    JsonArray Threads = (*doc)["Threads"];
 
     // create objects from JSON data
     for (JsonArray::iterator it=Threads.begin(); it!=Threads.end(); ++it)
@@ -279,7 +261,7 @@ void RemoraConfig::loadModules(pruThread *base, pruThread *servo, RemoraStepGenD
 
     if (this->configError) return;
 
-    JsonArray Modules = doc["Modules"];
+    JsonArray Modules = (*doc)["Modules"];
 
     // create objects from JSON data
     for (JsonArray::iterator it=Modules.begin(); it!=Modules.end(); ++it)
@@ -295,7 +277,7 @@ void RemoraConfig::loadModules(pruThread *base, pruThread *servo, RemoraStepGenD
 
             if (!strcmp(type,"DMAstepgen"))
             {
-            	createDMAstepgen(dmaControl);
+            	DMAstepgen::createDMAstepgen(dmaControl);
             	//DMAstepgen = true;
             }
         }
@@ -305,26 +287,26 @@ void RemoraConfig::loadModules(pruThread *base, pruThread *servo, RemoraStepGenD
 
             if (!strcmp(type,"Stepgen"))
             {
-                createStepgen(base);
+            	Stepgen::createStepgen(base);
             }
             else if (!strcmp(type,"Encoder"))
             {
-                createEncoder(base);
+                Encoder::createEncoder(base);
             }
          }
         else if (!strcmp(thread,"Servo"))
         {
         	if (!strcmp(type,"Digital Pin"))
 			{
-				createDigitalPin(servo);
+        		DigitalPin::createDigitalPin(servo);
 			}
         	else if (!strcmp(type,"Spindle PWM"))
 			{
-				createSpindlePWM(servo);
+        		SpindlePWM::createSpindlePWM(servo);
 			}
         	else if (!strcmp(type,"NVMPG"))
 			{
-				createNVMPG(servo);
+        		NVMPG::createNVMPG(servo);
 			}
         }
     }

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TIMERINTERRUPT_H
 #define TIMERINTERRUPT_H
 

@@ -4,5 +4,5 @@ c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7
 ..\source\modules\comms\RemoraComms.cpp:15:6:virtual void RemoraComms::update()	16	static
 ..\source\modules\comms\RemoraComms.cpp:40:6:void RemoraComms::dataReceived()	16	static
 ..\source\modules\comms\RemoraComms.cpp:46:6:bool RemoraComms::getStatus()	16	static
-..\source\modules\comms\RemoraComms.h:12:7:RemoraComms::~RemoraComms()	16	static
-..\source\modules\comms\RemoraComms.h:12:7:virtual RemoraComms::~RemoraComms()	16	static
+..\source\modules\comms\RemoraComms.h:13:7:RemoraComms::~RemoraComms()	16	static
+..\source\modules\comms\RemoraComms.h:13:7:virtual RemoraComms::~RemoraComms()	16	static

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PRUTHREAD_H
 #define PRUTHREAD_H
 

@@ -1,30 +1,8 @@
 #include "DMAstepgen.h"
 
-#include "extern.h"
-
 /***********************************************************************
                 MODULE CONFIGURATION AND CREATION FROM JSON     
 ************************************************************************/
-
-void createDMAstepgen(RemoraStepGenDMA *dma)
-{
-    const char* comment = module["Comment"];
-    printf("\n%s\n",comment);
-
-    int joint = module["Joint Number"];
-    const char* step = module["Step Pin"];
-    const char* dir = module["Direction Pin"];
-
-    // configure pointers to data source and feedback location
-    ptrJointFreqCmd[joint] = &rxData.jointFreqCmd[joint];
-    ptrJointFeedback[joint] = &txData.jointFeedback[joint];
-    ptrJointEnable = &rxData.jointEnable;
-
-    // create the step generator, register it in the thread
-    Module* stepgen = new DMAstepgen(DMA_FREQ, joint, step, dir, DMA_BUFFER_SIZE, STEPBIT, *ptrJointFreqCmd[joint], *ptrJointFeedback[joint], *ptrJointEnable, *dma);
-    dma->AddModule(stepgen);
-}
-
 
 /***********************************************************************
                 METHOD DEFINITIONS
@@ -38,7 +16,7 @@ DMAstepgen::DMAstepgen(int32_t threadFreq, int jointNumber, std::string step, st
 	stepBit(stepBit),
 	ptrFrequencyCommand(&ptrFrequencyCommand),
 	ptrFeedback(&ptrFeedback),
-	ptrJointEnable(&ptrJointEnable),
+	ptrJointEnablel(&ptrJointEnable),
 	stepTime(1),
 	dirHoldTime(1),
 	dirSetupTime(1),
@@ -123,7 +101,7 @@ void DMAstepgen::makePulses()
 	 */
 
 
-	this->isEnabled = ((*(this->ptrJointEnable) & this->mask) != 0);
+	this->isEnabled = ((*(this->ptrJointEnablel) & this->mask) != 0);
 
 	if (this->isEnabled == true)  												// this Step generator is enabled so make the pulses
 	{

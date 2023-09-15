@@ -1,3 +1,4 @@
+#pragma once
 #ifndef DMASTEPGEN_H
 #define DMASTEPGEN_H
 
@@ -6,11 +7,9 @@
 #include <sys/errno.h>
 
 #include "modules/module.h"
-#include "../../drivers/pin/pin.h"
+#include "drivers/pin/pin.h"
 #include "remora/RemoraStepGenDMA.h"
 #include "extern.h"
-
-void createDMAstepgen(RemoraStepGenDMA*);
 
 class DMAstepgen : public Module
 {
@@ -24,7 +23,7 @@ class DMAstepgen : public Module
     int32_t stepBit;                		// position in the DDS accumulator that triggers a step pulse
     volatile int32_t *ptrFrequencyCommand; 	// pointer to the data source where to get the frequency command
     volatile int32_t *ptrFeedback;       	// pointer where to put the feedback
-    volatile uint8_t *ptrJointEnable;
+    volatile uint8_t *ptrJointEnablel;
 
     RemoraStepGenDMA *ptrDMAC;
 
@@ -67,7 +66,25 @@ class DMAstepgen : public Module
   	uint32_t addValueFrequency;
 
   	void makeStep();
+  public:
+  	static void createDMAstepgen(RemoraStepGenDMA *dma)
+  	{
+  	    const char* comment = module["Comment"];
+  	    printf("\n%s\n",comment);
 
+  	    int joint = module["Joint Number"];
+  	    const char* step = module["Step Pin"];
+  	    const char* dir = module["Direction Pin"];
+
+  	    // configure pointers to data source and feedback location
+  	    ptrJointFreqCmd[joint] = &rxData.jointFreqCmd[joint];
+  	    ptrJointFeedback[joint] = &txData.jointFeedback[joint];
+  	    ptrJointEnable = &rxData.jointEnable;
+
+  	    // create the step generator, register it in the thread
+  	    Module* stepgen = new DMAstepgen(DMA_FREQ, joint, step, dir, DMA_BUFFER_SIZE, STEPBIT, *ptrJointFreqCmd[joint], *ptrJointFeedback[joint], *ptrJointEnable, *dma);
+  	    dma->AddModule(stepgen);
+  	};
   public:
 
     DMAstepgen(int32_t, int, std::string, std::string, int, int, volatile int32_t&, volatile int32_t&, volatile uint8_t&, RemoraStepGenDMA&);  // constructor
