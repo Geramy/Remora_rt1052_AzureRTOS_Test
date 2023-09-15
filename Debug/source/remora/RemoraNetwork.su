@@ -6,3 +6,5 @@ c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7
 ..\source\remora\RemoraNetwork.cpp:161:6:void RemoraNetwork::ExtractAndProcess(NX_PACKET*)	56	static
 ..\source\remora\RemoraNetwork.cpp:233:1:RemoraNetwork::~RemoraNetwork()	16	static
 ..\source\remora\RemoraNetwork.cpp:233:1:virtual RemoraNetwork::~RemoraNetwork()	16	static
+..\source\remora\RemoraNetwork.cpp:235:1:void __static_initialization_and_destruction_0(int, int)	16	static
+..\source\remora\RemoraNetwork.cpp:235:1:cpp)	8	static

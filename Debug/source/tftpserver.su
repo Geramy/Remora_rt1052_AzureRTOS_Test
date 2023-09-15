@@ -9,3 +9,5 @@ c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7
 ..\source\tftpserver.cpp:319:13:void IAP_tftp_recv_callback(void*, udp_pcb*, pbuf*, const ip_addr_t*, u16_t)	32	static
 ..\source\tftpserver.cpp:366:13:void IAP_tftp_cleanup_wr(udp_pcb*, tftp_connection_args*)	16	static
 ..\source\tftpserver.cpp:389:6:void IAP_tftpd_init(RemoraStepGenDMA*)	24	static
+..\source\tftpserver.cpp:410:1:void __static_initialization_and_destruction_0(int, int)	16	static
+..\source\tftpserver.cpp:410:1:cpp)	8	static

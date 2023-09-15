@@ -1,6 +1,6 @@
 #include "DMAstepgen.h"
 
-
+#include "extern.h"
 
 /***********************************************************************
                 MODULE CONFIGURATION AND CREATION FROM JSON     

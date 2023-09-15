@@ -35,6 +35,13 @@
 #include "remora.h"
 
 #include <stdio.h>
+#include "configuration.h"
+#include "board_init.h"
+#include "extern.h"
+
+#include "remora/RemoraKernel.h"
+
+/*#include <stdio.h>
 #include "board.h"
 #include "peripherals.h"
 #include "pin_mux.h"
@@ -42,11 +49,13 @@
 #include "MIMXRT1052.h"
 #include "fsl_debug_console.h"
 #include "board_init.h"
-#include "remora/RemoraStepGenDMA.h"
+#include "remora/RemoraStepGenDMA.h"*/
+
 /* TODO: insert other include files here. */
 
 /* Remora Original Data */
-#include "tftpserver.h"
+
+/*#include "tftpserver.h"
 
 #include "fsl_gpio.h"
 #include "fsl_iomuxc.h"
@@ -89,12 +98,6 @@
 #include "drivers/network/networking.h"
 #include "remora/RemoraKernel.h"
 
-NX_UDP_SOCKET           socketComms;
-NX_PACKET_POOL poolComms;
-
-NX_UDP_SOCKET           socketTftp;
-
-
 // state machine
 enum State {
     ST_SETUP = 0,
@@ -104,7 +107,7 @@ enum State {
     ST_STOP,
     ST_RESET,
     ST_WDRESET
-};
+};*/
 
 uint8_t resetCnt;
 uint32_t base_freq = PRU_BASEFREQ;
@@ -142,37 +145,12 @@ volatile uint32_t* ptrOutputs;
 volatile uint16_t* ptrNVMPGInputs;
 volatile mpgData_t* ptrMpgData = &mpgData;
 
-static void dma_thread_entry(ULONG parameter)
-{
-    /*printf("Starting DMA Thread\r\n\r\n");
-    dmaControl = new RemoraStepGenDMA(0, DMA_FREQ);
-    dmaControl->InitializeHardware();
-    dmaControl->InitializePIT(kPIT_Chnl_0);
-    while (1) {
-    	dmaControl->RunTasks();
-    }*/
-}
-
-static void base_thread_entry(ULONG parameter)
-{
-    /*printf("Starting base Thread\r\n\r\n");
-    enum State currentState;
-	enum State prevState;
-
-	currentState = ST_SETUP;
-	prevState = ST_RESET;
-
-	printf("\nRemora RT1052 starting\n\n");
-
-	while (1)
-	{
-
-	}*/
-}
 
 void tx_application_define(void* first_unused_memory)
 {
-
+	RemoraKernel *kernel = new RemoraKernel();
+	kernel->InitializeThreads();
+	kernel->Run();
 }
 
 int main(void)

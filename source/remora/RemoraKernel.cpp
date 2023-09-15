@@ -51,8 +51,10 @@ RemoraKernel::RemoraKernel() :
 void RemoraKernel::InitializeThreads()
 {
 	//Networking has to be done on the control thread, because networking has to be done inside a thread.
-	this->baseThread = new pruThread(base_freq);
-	this->servoThread = new pruThread(servo_freq);
+	this->baseThreadPtr = new pruThread(base_freq);
+	this->servoThreadPtr = new pruThread(servo_freq);
+	baseThread = this->baseThreadPtr;
+	servoThread = this->servoThreadPtr;
 	//this->dmaThread = new pruThread(DMA_FREQ);
 }
 
@@ -76,7 +78,7 @@ void RemoraKernel::RemoraThreadEntry() {
 			  this->config->configThreads();
 			  //this->config->createThreads();
 			  //debugThreadHigh();
-			  this->config->loadModules(this->baseThread, this->servoThread, this->dmaControl);
+			  this->config->loadModules(this->baseThreadPtr, this->servoThreadPtr, this->dmaControl);
 			  //debugThreadLow();
 			  //udpServer_init();
 			  //IAP_tftpd_init(g_EDMA_Handle);
@@ -98,10 +100,10 @@ void RemoraKernel::RemoraThreadEntry() {
 
 				  // Start the threads
 				  printf("\nStarting the BASE thread\n");
-				  this->baseThread->startThread();
+				  this->baseThreadPtr->startThread();
 
 				  printf("\nStarting the SERVO thread\n");
-				  this->servoThread->startThread();
+				  this->servoThreadPtr->startThread();
 				  this->dmaControl->ResumeDMA();
 				  tx_thread_resume(&(this->dma_thread));
 				  //DMAconfig(); // put this in the right place+

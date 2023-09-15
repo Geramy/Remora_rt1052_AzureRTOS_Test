@@ -10,7 +10,7 @@
 
 #include "MIMXRT1052.h"
 #include "tx_api.h"
-
+#include "modules/module.h"
 // Standard Template Library (STL) includes
 #include <vector>
 
@@ -31,7 +31,7 @@ class RemoraThread {
 		UINT frequency;
 	public:
 		RemoraThread(UINT, UINT, UINT, bool);
-		virtual void RemoraThreadEntry();
+		virtual void RemoraThreadEntry() {}
 		void startThread(void);
         void stopThread(void);
 

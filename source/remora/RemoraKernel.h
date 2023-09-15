@@ -9,12 +9,25 @@
 #define REMORA_REMORAKERNEL_H_
 
 #include "tx_api.h"
+
 #include "thread/RemoraThread.h"
 #include "thread/pruThread.h"
+
 #include "drivers/network/networking.h"
+
+// modules
+#include "modules/module.h"
+#include "modules/blink/blink.h"
+//#include "modules/debug/debug.h"
 #include "modules/DMAstepgen/DMAstepgen.h"
-#include "remora/RemoraStepGenDMA.h"
+#include "modules/encoder/encoder.h"
+#include "modules/comms/RemoraComms.h"
+#include "modules/pwm/spindlePWM.h"
 #include "modules/stepgen/stepgen.h"
+#include "modules/digitalPin/digitalPin.h"
+#include "modules/nvmpg/nvmpg.h"
+
+#include "remora/RemoraStepGenDMA.h"
 #include "remora/RemoraNetwork.h"
 #include "remora/RemoraConfig.h"
 
@@ -36,9 +49,8 @@ private:
 private:
 	RemoraConfig *config;
 	RemoraNetwork *network;
-	pruThread *baseThread;
-	pruThread *servoThread;
-	pruThread *dmaThread;
+	pruThread *baseThreadPtr;
+	pruThread *servoThreadPtr;
 
 	TX_THREAD dma_thread;
 	ULONG dma_thread_stack[DMA_THREAD_STACK_SIZE / sizeof(ULONG)];

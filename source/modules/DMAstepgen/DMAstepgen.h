@@ -5,7 +5,7 @@
 #include <string>
 #include <sys/errno.h>
 
-#include "../module.h"
+#include "modules/module.h"
 #include "../../drivers/pin/pin.h"
 #include "remora/RemoraStepGenDMA.h"
 #include "extern.h"

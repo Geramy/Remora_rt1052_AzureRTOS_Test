@@ -49,3 +49,5 @@ c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azur
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\polyfills\alias_cast.hpp:23:3:T ArduinoJson6101_110::alias_cast(F) [with T = double; F = long long unsigned int]	24	static
 ..\source\modules\DMAstepgen\DMAstepgen.h:15:7:DMAstepgen::~DMAstepgen()	16	static
 ..\source\modules\DMAstepgen\DMAstepgen.h:15:7:virtual DMAstepgen::~DMAstepgen()	16	static
+..\source\modules\DMAstepgen\DMAstepgen.cpp:266:1:void __static_initialization_and_destruction_0(int, int)	16	static
+..\source\modules\DMAstepgen\DMAstepgen.cpp:266:1:cpp)	8	static

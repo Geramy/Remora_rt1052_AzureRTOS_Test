@@ -1,7 +1,7 @@
 c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7.1.202301190959\tools\arm-none-eabi\include\c++\10.3.1\arm-none-eabi\thumb\v7e-m+fp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\drivers/fsl_gpio.h:176:24:uint32_t GPIO_PinRead(GPIO_Type*, uint32_t)	16	static
-..\source\modules\digitalPin\../../drivers/pin/pin.h:36:21:bool Pin::get()	16	static
-..\source\modules\digitalPin\../../drivers/pin/pin.h:41:21:void Pin::set(bool)	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\source/drivers/pin/pin.h:36:21:bool Pin::get()	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\source/drivers/pin/pin.h:41:21:void Pin::set(bool)	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\variant\variantslot.hpp:33:16:ArduinoJson6101_110::VariantData* ArduinoJson6101_110::VariantSlot::data()	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\variant\variantslot.hpp:41:16:ArduinoJson6101_110::VariantSlot* ArduinoJson6101_110::VariantSlot::next()	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\variant\variantslot.hpp:81:15:const char* ArduinoJson6101_110::VariantSlot::key() const	16	static
@@ -46,3 +46,5 @@ c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azur
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\polyfills\alias_cast.hpp:23:3:T ArduinoJson6101_110::alias_cast(F) [with T = double; F = long long unsigned int]	24	static
 ..\source\modules\digitalPin\digitalPin.h:14:7:DigitalPin::~DigitalPin()	16	static
 ..\source\modules\digitalPin\digitalPin.h:14:7:virtual DigitalPin::~DigitalPin()	16	static
+..\source\modules\digitalPin\digitalPin.cpp:122:1:void __static_initialization_and_destruction_0(int, int)	16	static
+..\source\modules\digitalPin\digitalPin.cpp:122:1:cpp)	8	static

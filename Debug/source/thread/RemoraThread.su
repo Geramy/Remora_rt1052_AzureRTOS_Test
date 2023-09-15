@@ -1,6 +1,7 @@
-..\source\thread\RemoraThread.cpp:14:13:void thread_entry(ULONG)	24	static
-..\source\thread\RemoraThread.cpp:20:1:RemoraThread::RemoraThread(UINT, UINT, UINT, bool)	88	static
-..\source\thread\RemoraThread.cpp:37:6:void RemoraThread::startThread()	16	static
-..\source\thread\RemoraThread.cpp:43:6:void RemoraThread::stopThread()	16	static
-..\source\thread\RemoraThread.cpp:48:1:RemoraThread::~RemoraThread()	16	static
-..\source\thread\RemoraThread.cpp:48:1:virtual RemoraThread::~RemoraThread()	16	static
+C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_AzureRTOS\source/thread/RemoraThread.h:34:16:virtual void RemoraThread::RemoraThreadEntry()	16	static
+..\source\thread\RemoraThread.cpp:12:13:void thread_entry(ULONG)	24	static
+..\source\thread\RemoraThread.cpp:18:1:RemoraThread::RemoraThread(UINT, UINT, UINT, bool)	88	static
+..\source\thread\RemoraThread.cpp:35:6:void RemoraThread::startThread()	16	static
+..\source\thread\RemoraThread.cpp:41:6:void RemoraThread::stopThread()	16	static
+..\source\thread\RemoraThread.cpp:46:1:RemoraThread::~RemoraThread()	16	static
+..\source\thread\RemoraThread.cpp:46:1:virtual RemoraThread::~RemoraThread()	16	static

@@ -6,8 +6,6 @@
  */
 
 #include <thread/RemoraThread.h>
-#include "../modules/module.h"
-
 
 using namespace std;
 

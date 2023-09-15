@@ -3,7 +3,9 @@ c:\nxp\mcuxpressoide_11.7.1_9221\ide\plugins\com.nxp.mcuxpresso.tools.win32_11.7
 ..\source\remora\RemoraKernel.cpp:13:13:void dma_thread_entry(ULONG)	24	static
 ..\source\remora\RemoraKernel.cpp:20:1:RemoraKernel::RemoraKernel()	64	static
 ..\source\remora\RemoraKernel.cpp:51:6:void RemoraKernel::InitializeThreads()	24	static
-..\source\remora\RemoraKernel.cpp:59:6:virtual void RemoraKernel::RemoraThreadEntry()	24	static
-..\source\remora\RemoraKernel.cpp:205:6:void RemoraKernel::Run()	16	static
-..\source\remora\RemoraKernel.cpp:209:1:RemoraKernel::~RemoraKernel()	16	static
-..\source\remora\RemoraKernel.cpp:209:1:virtual RemoraKernel::~RemoraKernel()	16	static
+..\source\remora\RemoraKernel.cpp:61:6:virtual void RemoraKernel::RemoraThreadEntry()	24	static
+..\source\remora\RemoraKernel.cpp:207:6:void RemoraKernel::Run()	16	static
+..\source\remora\RemoraKernel.cpp:211:1:RemoraKernel::~RemoraKernel()	16	static
+..\source\remora\RemoraKernel.cpp:211:1:virtual RemoraKernel::~RemoraKernel()	16	static
+..\source\remora\RemoraKernel.cpp:213:1:void __static_initialization_and_destruction_0(int, int)	16	static
+..\source\remora\RemoraKernel.cpp:213:1:cpp)	8	static

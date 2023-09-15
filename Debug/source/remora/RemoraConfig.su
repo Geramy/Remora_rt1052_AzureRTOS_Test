@@ -74,7 +74,7 @@ C:\Users\Geramy\Documents\MCUXpressoIDE_11.7.1_9221\workspace\remora_rt1052_Azur
 ..\source\remora\RemoraConfig.cpp:170:6:void RemoraConfig::jsonFromFlash()	32	static
 ..\source\remora\RemoraConfig.cpp:212:6:void RemoraConfig::deserialiseJSON()	32	static
 ..\source\remora\RemoraConfig.cpp:243:6:void RemoraConfig::configThreads()	272	static
-..\source\remora\RemoraConfig.cpp:272:6:void RemoraConfig::loadModules(pruThread*, pruThread*, RemoraStepGenDMA*)	280	static
+..\source\remora\RemoraConfig.cpp:272:6:void RemoraConfig::loadModules(pruThread*, pruThread*, RemoraStepGenDMA*)	272	static
 ..\source\remora\RemoraConfig.cpp:333:1:RemoraConfig::~RemoraConfig()	16	static
 ..\source\remora\RemoraConfig.cpp:333:1:virtual RemoraConfig::~RemoraConfig()	16	static
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\arduinojson\polyfills\gsl\not_null.hpp:18:5:T ArduinoJson6101_110::not_null<T>::get() const [with T = const char*]	16	static

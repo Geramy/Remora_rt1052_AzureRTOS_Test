@@ -24,3 +24,5 @@ c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azur
 c:\users\geramy\documents\mcuxpressoide_11.7.1_9221\workspace\remora_rt1052_azurertos\source\lib\arduinojson6\ArduinoJson/Object/ObjectFunctions.hpp:26:21:ArduinoJson6101_110::VariantData* ArduinoJson6101_110::objectGet(const ArduinoJson6101_110::CollectionData*, TAdaptedString) [with TAdaptedString = ArduinoJson6101_110::ConstRamStringAdapter]	16	static
 ..\source\modules\nvmpg\nvmpg.h:29:7:NVMPG::~NVMPG()	16	static
 ..\source\modules\nvmpg\nvmpg.h:29:7:virtual NVMPG::~NVMPG()	16	static
+..\source\modules\nvmpg\nvmpg.cpp:124:1:void __static_initialization_and_destruction_0(int, int)	16	static
+..\source\modules\nvmpg\nvmpg.cpp:124:1:cpp)	8	static

@@ -42,7 +42,7 @@ private:
 	string strJson;
 
 	JsonObject thread;
-	JsonObject module;
+	//JsonObject local_module = &module;
 	/* End of Remora Original Data */
 public:
 	bool newJson;

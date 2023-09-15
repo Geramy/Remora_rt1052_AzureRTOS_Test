@@ -4,8 +4,8 @@
 #include <cstdint>
 #include <sys/errno.h>
 
-#include "../module.h"
-#include "../../drivers/pin/pin.h"
+#include "modules/module.h"
+#include "drivers/pin/pin.h"
 
 #include "extern.h"
 
