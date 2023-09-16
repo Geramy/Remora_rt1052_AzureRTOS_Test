@@ -52,50 +52,6 @@ static err_t IAP_tftp_send_ack_packet(struct udp_pcb *upcb, const ip_addr_t *to,
 /* Private functions ---------------------------------------------------------*/
 
 
-/**
-  * @brief Returns the TFTP opcode
-  * @param buf: pointer on the TFTP packet
-  * @retval None
-  */
-static tftp_opcode IAP_tftp_decode_op(char *buf)
-{
-  return (tftp_opcode)(buf[1]);
-}
-
-/**
-  * @brief  Extracts the block number
-  * @param  buf: pointer on the TFTP packet
-  * @retval block number
-  */
-static u16_t IAP_tftp_extract_block(char *buf)
-{
-  u16_t *b = (u16_t*)buf;
-  return ntohs(b[1]);
-}
-
-/**
-  * @brief Sets the TFTP opcode
-  * @param  buffer: pointer on the TFTP packet
-  * @param  opcode: TFTP opcode
-  * @retval None
-  */
-static void IAP_tftp_set_opcode(char *buffer, tftp_opcode opcode)
-{
-  buffer[0] = 0;
-  buffer[1] = (u8_t)opcode;
-}
-
-/**
-  * @brief Sets the TFTP block number
-  * @param packet: pointer on the TFTP packet
-  * @param  block: block number
-  * @retval None
-  */
-static void IAP_tftp_set_block(char* packet, u16_t block)
-{
-  u16_t *p = (u16_t *)packet;
-  p[1] = htons(block);
-}
 
 /**
   * @brief Sends TFTP ACK packet

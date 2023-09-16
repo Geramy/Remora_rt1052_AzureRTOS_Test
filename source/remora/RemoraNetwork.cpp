@@ -16,16 +16,14 @@
 
 #define NETX_IP_STACK_SIZE  1024
 #define NETX_PACKET_COUNT   8
-#define NETX_PACKET_SIZE    512
+#define NETX_PACKET_SIZE    128
 #define NETX_POOL_SIZE      ((NETX_PACKET_SIZE + sizeof(NX_PACKET)) * NETX_PACKET_COUNT)
-#define NETX_ARP_CACHE_SIZE 128
 
 #define NETX_IPV4_ADDRESS IP_ADDRESS(10, 10, 10, 10)
 #define NETX_IPV4_MASK    IP_ADDRESS(255, 255, 255, 0)
 
 static UCHAR netx_ip_stack[NETX_IP_STACK_SIZE];
 static UCHAR netx_ip_pool[NETX_POOL_SIZE];
-static UCHAR netx_arp_cache_area[NETX_ARP_CACHE_SIZE];
 
 RemoraNetwork::RemoraNetwork(TX_MUTEX* rxMutex, TX_MUTEX* txMutex) :
 		rxMutexPtr(rxMutex),
@@ -48,7 +46,7 @@ UINT RemoraNetwork::EnableCaps(VOID (*ip_link_driver)(struct NX_IP_DRIVER_STRUCT
     }
 
     // Create an IP instance
-    else if ((status = nx_ip_create(&this->nx_ip,
+    if ((status = nx_ip_create(&this->nx_ip,
                   "NetX IP Instance 0",
                   NETX_IPV4_ADDRESS,
                   NETX_IPV4_MASK,
@@ -63,12 +61,12 @@ UINT RemoraNetwork::EnableCaps(VOID (*ip_link_driver)(struct NX_IP_DRIVER_STRUCT
     }
 
     // Enable ARP and supply ARP cache memory
-    else if ((status = nx_arp_enable(&this->nx_ip, (VOID*)netx_arp_cache_area, NETX_ARP_CACHE_SIZE)))
+    /*else if ((status = nx_arp_enable(&this->nx_ip, (VOID*)netx_arp_cache_area, NETX_ARP_CACHE_SIZE)))
     {
         nx_ip_delete(&this->nx_ip);
         nx_packet_pool_delete(&this->nx_pool);
         printf("ERROR: nx_arp_enable (0x%08x)\r\n", status);
-    }
+    }*/
 
     // Enable TCP traffic
     /*else if ((status = nx_tcp_enable(&nx_ip)))
@@ -80,7 +78,7 @@ UINT RemoraNetwork::EnableCaps(VOID (*ip_link_driver)(struct NX_IP_DRIVER_STRUCT
     }*/
 
     // Enable UDP traffic
-    else if ((status = nx_udp_enable(&this->nx_ip)))
+    if ((status = nx_udp_enable(&this->nx_ip)))
     {
         nx_ip_delete(&this->nx_ip);
         nx_packet_pool_delete(&this->nx_pool);

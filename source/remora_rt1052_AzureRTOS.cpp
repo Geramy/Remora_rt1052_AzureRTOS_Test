@@ -36,7 +36,8 @@
 
 #include <stdio.h>
 #include "configuration.h"
-#include "board_init.h"
+#include "board.h"
+#include "pin_mux.h"
 #include "extern.h"
 
 #include "remora/RemoraKernel.h"
@@ -155,8 +156,13 @@ void tx_application_define(void* first_unused_memory)
 
 int main(void)
 {
+
+	BOARD_ConfigMPU();
+	BOARD_InitBootPins();
+	BOARD_InitBootClocks();
+	/* Init FSL debug console. */
+	BOARD_InitDebugConsole();
     // Initialize the board
-    board_init();
 
     // Enter the ThreadX kernel
     tx_kernel_enter();
