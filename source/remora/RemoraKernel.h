@@ -32,7 +32,7 @@
 #include "remora/RemoraConfig.h"
 
 //#include "extern.h"
-#define DMA_THREAD_STACK_SIZE 2048
+#define DMA_THREAD_STACK_SIZE 1768
 #define DMA_THREAD_PRIORITY   3
 
 class RemoraKernel  : public RemoraThread {

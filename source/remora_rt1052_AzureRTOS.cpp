@@ -33,13 +33,13 @@
  * @brief   Application entry point.
  */
 #include "remora.h"
-
+#include "tx_api.h"
 #include <stdio.h>
 #include "configuration.h"
 #include "board.h"
 #include "pin_mux.h"
 #include "extern.h"
-
+#include "flexspi_nor_flash.h"
 #include "remora/RemoraKernel.h"
 
 /*#include <stdio.h>
@@ -149,9 +149,9 @@ volatile mpgData_t* ptrMpgData = &mpgData;
 
 void tx_application_define(void* first_unused_memory)
 {
-	RemoraKernel *kernel = new RemoraKernel();
-	kernel->InitializeThreads();
-	kernel->Run();
+	//RemoraKernel *kernel = new RemoraKernel();
+	//kernel->InitializeThreads();
+	//kernel->Run();
 }
 
 int main(void)
@@ -168,4 +168,13 @@ int main(void)
     tx_kernel_enter();
 
     return 0;
+}
+
+void ResetISR(void) {
+
+   #if defined (__REDLIB__)
+     __main() ;
+  #else
+     main();
+  #endif
 }

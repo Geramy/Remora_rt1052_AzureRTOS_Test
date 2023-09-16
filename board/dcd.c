@@ -24,7 +24,7 @@ product: DCDx v3.0
 processor: MIMXRT1052xxxxB
 package_id: MIMXRT1052CVL5B
 mcu_data: ksdk2_0
-processor_version: 12.0.1
+processor_version: 13.0.2
 board: IMXRT1050-EVKB
 output_format: c_array
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
@@ -249,11 +249,11 @@ const uint8_t dcd_data[] = {
 	0x40, 0x2F, 0x00, 0x30, 0x00, 0x00, 0x00, 0x21,
 	/* #1.103, command: write_value, address: SEMC_IOCR, value: 0x79A8, size: 4 */
 	0x40, 0x2F, 0x00, 0x04, 0x00, 0x00, 0x79, 0xA8,
-	/* #1.104, command: write_value, address: SEMC_SDRAMCR0, value: 0xF07, size: 4 */
+	/* #1.104, command: write_value, address: SEMC_SDRAMCR0, value: 0x00000F07, size: 4 */
 	0x40, 0x2F, 0x00, 0x40, 0x00, 0x00, 0x0F, 0x07,
-	/* #1.105, command: write_value, address: SEMC_SDRAMCR1, value: 0x652922, size: 4 */
+	/* #1.105, command: write_value, address: SEMC_SDRAMCR1, value: 0x00652922, size: 4 */
 	0x40, 0x2F, 0x00, 0x44, 0x00, 0x65, 0x29, 0x22,
-	/* #1.106, command: write_value, address: SEMC_SDRAMCR2, value: 0x10920, size: 4 */
+	/* #1.106, command: write_value, address: SEMC_SDRAMCR2, value: 0x00010920, size: 4 */
 	0x40, 0x2F, 0x00, 0x48, 0x00, 0x01, 0x09, 0x20,
 	/* #1.107, command: write_value, address: SEMC_SDRAMCR3, value: 0x50210A08, size: 4 */
 	0x40, 0x2F, 0x00, 0x4C, 0x50, 0x21, 0x0A, 0x08,

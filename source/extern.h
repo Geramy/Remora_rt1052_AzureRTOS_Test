@@ -10,8 +10,7 @@
 extern uint32_t base_freq;
 extern uint32_t servo_freq;
 //Threads
-//
-//extern volatile const char defaultConfig[] = DEFAULT_CONFIG;
+
 extern JsonObject module;
 
 extern volatile bool PRUreset;
