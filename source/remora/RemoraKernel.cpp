@@ -18,7 +18,7 @@ static void dma_thread_entry(ULONG parameter)
 }
 
 RemoraKernel::RemoraKernel() :
-	RemoraThread::RemoraThread(1024, 1, 0, false)
+	RemoraThread::RemoraThread(2048, 1, 0, false)
 {
 	// TODO Auto-generated constructor stub
 	tx_mutex_create(&this->mutexTx, "mutex tx", 1);
@@ -35,7 +35,7 @@ RemoraKernel::RemoraKernel() :
 				"DMAstepgen Thread",
 				dma_thread_entry,
 				(ULONG)&(this->dmaControl),
-				this->dma_thread_stack,
+				&this->dma_thread_stack,
 				DMA_THREAD_STACK_SIZE,
 				DMA_THREAD_PRIORITY,
 				DMA_THREAD_PRIORITY,

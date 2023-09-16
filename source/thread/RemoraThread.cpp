@@ -24,7 +24,7 @@ RemoraThread::RemoraThread(UINT THREAD_STACK_SIZE, UINT THREAD_PRIORITY, UINT fr
 	        "thread",
 			thread_entry,
 	        (ULONG)(RemoraThread*)(this),
-			this->thread_stack,
+			&this->thread_stack,
 			this->THREAD_STACK_SIZE,
 			this->THREAD_PRIORITY,
 			this->THREAD_PRIORITY,
