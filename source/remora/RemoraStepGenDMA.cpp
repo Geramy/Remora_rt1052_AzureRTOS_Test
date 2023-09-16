@@ -77,7 +77,7 @@ void RemoraStepGenDMA::SetupBuffers(bool doubleBuffer) {
 
 	if(doubleBuffer) {
 		/* prepare descriptor 0 */
-			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_0, sizeof(stepgenDMAbuffer_0[0]), (void*)GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
+			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_0, sizeof(stepgenDMAbuffer_0[0]), (void*)&GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
 								 sizeof(stepgenDMAbuffer_0[0]),
 								 sizeof(stepgenDMAbuffer_0[0]) * DMA_BUFFER_SIZE,
 								 kEDMA_MemoryToPeripheral);
@@ -86,7 +86,7 @@ void RemoraStepGenDMA::SetupBuffers(bool doubleBuffer) {
 			EDMA_TcdEnableInterrupts(&tcdMemoryPoolPtr[0], kEDMA_MajorInterruptEnable);
 
 			/* prepare descriptor 1 */
-			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_1, sizeof(stepgenDMAbuffer_1[0]), (void*)GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
+			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_1, sizeof(stepgenDMAbuffer_1[0]), (void*)&GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
 								 sizeof(stepgenDMAbuffer_1[0]),
 								 sizeof(stepgenDMAbuffer_1[0]) * DMA_BUFFER_SIZE,
 								 kEDMA_MemoryToPeripheral);
@@ -96,7 +96,7 @@ void RemoraStepGenDMA::SetupBuffers(bool doubleBuffer) {
 	}
 	else {
 		/* prepare descriptor 0 */
-			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_0, sizeof(stepgenDMAbuffer_0[0]), (void*)GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
+			EDMA_PrepareTransfer(&transferConfig, stepgenDMAbuffer_0, sizeof(stepgenDMAbuffer_0[0]), (void*)&GPIO1->DR_TOGGLE, sizeof(GPIO1->DR_TOGGLE),
 								 sizeof(stepgenDMAbuffer_0[0]),
 								 sizeof(stepgenDMAbuffer_0[0]) * DMA_BUFFER_SIZE,
 								 kEDMA_MemoryToPeripheral);

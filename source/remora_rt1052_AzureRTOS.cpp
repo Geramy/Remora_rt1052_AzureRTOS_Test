@@ -149,9 +149,9 @@ volatile mpgData_t* ptrMpgData = &mpgData;
 
 void tx_application_define(void* first_unused_memory)
 {
-	//RemoraKernel *kernel = new RemoraKernel();
-	//kernel->InitializeThreads();
-	//kernel->Run();
+	RemoraKernel *kernel = new RemoraKernel();
+	kernel->InitializeThreads();
+	kernel->Run();
 }
 
 int main(void)
