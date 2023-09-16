@@ -20,7 +20,6 @@ static void dma_thread_entry(ULONG parameter)
 RemoraKernel::RemoraKernel() :
 	RemoraThread::RemoraThread(1256, 1, 0, false)
 {
-	// TODO Auto-generated constructor stub
 	tx_mutex_create(&this->mutexTx, "mutex tx", 1);
 	tx_mutex_create(&this->mutexRx, "mutex rx", 1);
 	this->network = new RemoraNetwork(&(this->mutexRx), &(this->mutexTx));
@@ -209,6 +208,6 @@ void RemoraKernel::Run() {
 }
 
 RemoraKernel::~RemoraKernel() {
-	// TODO Auto-generated destructor stub
+
 }
 

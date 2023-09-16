@@ -33,8 +33,13 @@
  * @brief   Application entry point.
  */
 #include "remora.h"
-#include "tx_api.h"
 #include <stdio.h>
+
+#include "tx_api.h"
+#include "nx_api.h"
+#include "drivers/nx_driver/nx_driver_imxrt10xx.h"
+
+
 #include "configuration.h"
 #include "board.h"
 #include "pin_mux.h"
@@ -149,6 +154,9 @@ volatile mpgData_t* ptrMpgData = &mpgData;
 
 void tx_application_define(void* first_unused_memory)
 {
+	NX_PARAMETER_NOT_USED(first_unused_memory);
+	// Initialize the NetX system.
+	nx_system_initialize();
 	RemoraKernel *kernel = new RemoraKernel();
 	kernel->InitializeThreads();
 	kernel->Run();

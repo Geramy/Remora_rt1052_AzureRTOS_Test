@@ -23,7 +23,7 @@
     <stringAttribute key="com.nxp.mcuxpresso.ide.probe.manufacturer" value="jixin.pro"/>
     <stringAttribute key="com.nxp.mcuxpresso.ide.probe.name" value="CMSIS-DAP_LU"/>
     <stringAttribute key="com.nxp.mcuxpresso.ide.probe.type" value="LinkServer"/>
-    <stringAttribute key="debug.level" value="4"/>
+    <stringAttribute key="debug.level" value="3"/>
     <stringAttribute key="emu.speed" value=""/>
     <stringAttribute key="flash.driver.reset" value="Default"/>
     <stringAttribute key="gdbserver.host" value="localhost"/>
@@ -70,7 +70,7 @@
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useProjBinaryForSymbols" value="true"/>
     <stringAttribute key="org.eclipse.cdt.dsf.gdb.DEBUG_NAME" value="arm-none-eabi-gdb"/>
     <booleanAttribute key="org.eclipse.cdt.dsf.gdb.DEBUG_ON_FORK" value="false"/>
-    <booleanAttribute key="org.eclipse.cdt.dsf.gdb.EXTERNAL_CONSOLE" value="false"/>
+    <booleanAttribute key="org.eclipse.cdt.dsf.gdb.EXTERNAL_CONSOLE" value="true"/>
     <stringAttribute key="org.eclipse.cdt.dsf.gdb.GDB_INIT" value=""/>
     <booleanAttribute key="org.eclipse.cdt.dsf.gdb.NON_STOP" value="false"/>
     <booleanAttribute key="org.eclipse.cdt.dsf.gdb.REVERSE" value="true"/>
