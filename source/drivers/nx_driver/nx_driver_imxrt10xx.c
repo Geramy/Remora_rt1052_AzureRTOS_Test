@@ -1797,6 +1797,27 @@ void BOARD_InitModule(void)
 //	sleep(10);
 }
 
+void *ethernetif_get_enet_base_n(const uint8_t enetIdx)
+{
+    ENET_Type *enets[] = ENET_BASE_PTRS;
+    int arrayIdx;
+    int enetCount;
+
+    for (arrayIdx = 0, enetCount = 0; arrayIdx < ARRAY_SIZE(enets); arrayIdx++)
+    {
+        if (enets[arrayIdx] != 0U) /* process only defined positions */
+        {                          /* (some SOC headers count ENETs from 1 instead of 0) */
+            if (enetCount == enetIdx)
+            {
+                return (void *)enets[arrayIdx];
+            }
+            enetCount++;
+        }
+    }
+
+    return NULL;
+}
+
 void enet_init()
 {
     bool link = false;
@@ -1839,6 +1860,11 @@ void enet_init()
 	(void)SILICONID_ConvertToMacAddr(&_nx_driver_hardware_address);
     /* Set SMI to get PHY link status. */
     sysClock = CLOCK_GetFreq(kCLOCK_AhbClk);
+    //lwip_init();
+    phyHandle.mdioHandle->resource.base = ethernetif_get_enet_base_n(0U);
+    //0x402d8000
+
+    // TODO we need to add the enet handler for the ethernet card. Not really sure how to do this yet.
     status = PHY_Init(&phyHandle, &config);
     while (status != kStatus_Success)
     {
