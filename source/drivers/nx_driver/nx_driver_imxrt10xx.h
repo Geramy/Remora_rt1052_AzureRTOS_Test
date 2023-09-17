@@ -34,14 +34,14 @@ extern   "C" {
 /* Include ThreadX header file, if not already.  */  
   
 #ifndef TX_API_H
-#include "tx_api.h"
+#include "../../../rtos/threadx/common/inc/tx_api.h"
 #endif
 
 
 /* Include NetX header file, if not already.  */
 
 #ifndef NX_API_H
-#include "nx_api.h"
+#include "../../../rtos/netxduo/c/inc/nx_api.h"
 #endif
 
 
@@ -230,7 +230,7 @@ typedef struct NX_DRIVER_INFORMATION_STRUCT
     
 /* Define global driver entry function. */
 
-VOID  nx_driver_imx(NX_IP_DRIVER *driver_req_ptr);
+extern VOID  nx_driver_imx(NX_IP_DRIVER *driver_req_ptr);
 
 /* Define global driver interrupt dispatch function.  */
 

@@ -8,7 +8,6 @@
 #include <remora/RemoraNetwork.h>
 #include <stdint.h>
 #include "drivers/nx_driver/nx_driver_imxrt10xx.h"
-#include "nx_api.h"
 #include "configuration.h"
 #include "extern.h"
 #include "fsl_silicon_id.h"
@@ -18,8 +17,9 @@
 #include "fsl_gpio.h"
 #include "fsl_iomuxc.h"
 #include "board.h"
+#include "../../rtos/netxduo/c/inc/nx_api.h"
 
-#define NETX_IP_STACK_SIZE  128
+#define NETX_IP_STACK_SIZE  256
 #define NETX_PACKET_COUNT   8
 #define NETX_PACKET_SIZE    96
 #define NETX_POOL_SIZE      ((NETX_PACKET_SIZE + sizeof(NX_PACKET)) * NETX_PACKET_COUNT)
@@ -68,7 +68,7 @@ UINT RemoraNetwork::EnableCaps()
                   &this->nx_pool,
 				  nx_driver_imx,
                   &netx_ip_stack[0],
-                  sizeof(NETX_IP_STACK_SIZE),
+                  sizeof(netx_ip_stack),
                   1)))
     {
         nx_packet_pool_delete(&this->nx_pool);

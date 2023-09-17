@@ -8,7 +8,6 @@
 #ifndef REMORA_REMORASTEPGENDMA_H_
 #define REMORA_REMORASTEPGENDMA_H_
 
-#include "tx_api.h"
 #include "fsl_adapter_uart.h"
 #include "configuration.h"
 #include "fsl_gpio.h"
@@ -18,6 +17,7 @@
 #include "fsl_edma.h"
 #include <vector>
 #include "modules/module.h"
+#include "../../rtos/threadx/common/inc/tx_api.h"
 
 using namespace std;
 

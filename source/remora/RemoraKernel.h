@@ -8,12 +8,8 @@
 #ifndef REMORA_REMORAKERNEL_H_
 #define REMORA_REMORAKERNEL_H_
 
-#include "tx_api.h"
-
 #include "thread/RemoraThread.h"
 #include "thread/pruThread.h"
-
-#include "drivers/network/networking.h"
 
 // modules
 #include "modules/module.h"
@@ -30,6 +26,7 @@
 #include "remora/RemoraStepGenDMA.h"
 #include "remora/RemoraNetwork.h"
 #include "remora/RemoraConfig.h"
+#include "../../rtos/threadx/common/inc/tx_api.h"
 
 //#include "extern.h"
 #define DMA_THREAD_STACK_SIZE 1768

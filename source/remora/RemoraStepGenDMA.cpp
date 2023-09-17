@@ -6,8 +6,8 @@
  */
 
 #include <remora/RemoraStepGenDMA.h>
-#include "nx_api.h"
 #include "modules/DMAstepgen/DMAstepgen.h"
+#include "../../rtos/netxduo/c/inc/nx_api.h"
 
 using namespace std;
 

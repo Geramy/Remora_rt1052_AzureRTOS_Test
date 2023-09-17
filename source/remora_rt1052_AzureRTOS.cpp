@@ -32,11 +32,12 @@
  * @file    remora_rt1052_AzureRTOS.cpp
  * @brief   Application entry point.
  */
+#define NX_WEB_HTTP_NO_FILEX
 #include "remora.h"
 #include <stdio.h>
 
 #include "tx_api.h"
-#include "nx_api.h"
+#include "../rtos/netxduo/c/inc/nx_api.h"
 #include "drivers/nx_driver/nx_driver_imxrt10xx.h"
 
 

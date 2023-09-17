@@ -9,10 +9,10 @@
 #define THREAD_REMORATHREAD_H_
 
 #include "MIMXRT1052.h"
-#include "tx_api.h"
 #include "modules/module.h"
 // Standard Template Library (STL) includes
 #include <vector>
+#include "../../rtos/threadx/common/inc/tx_api.h"
 
 using namespace std;
 
