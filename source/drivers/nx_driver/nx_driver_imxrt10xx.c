@@ -1837,7 +1837,6 @@ void enet_init()
 	mdioHandle.resource.csrClock_Hz = CLOCK_GetFreq(kCLOCK_IpgClk);
 
 	(void)SILICONID_ConvertToMacAddr(&_nx_driver_hardware_address);
-
     /* Set SMI to get PHY link status. */
     sysClock = CLOCK_GetFreq(kCLOCK_AhbClk);
     status = PHY_Init(&phyHandle, &config);

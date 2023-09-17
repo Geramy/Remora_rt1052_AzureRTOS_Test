@@ -21,13 +21,13 @@
 
 /* The UART to use for debug messages. */
 #define BOARD_DEBUG_UART_TYPE     kSerialPort_Uart
-#define BOARD_DEBUG_UART_BASEADDR (uint32_t) LPUART1
-#define BOARD_DEBUG_UART_INSTANCE 1U
+#define BOARD_DEBUG_UART_BASEADDR (uint32_t) LPUART4
+#define BOARD_DEBUG_UART_INSTANCE 4U
 
 #define BOARD_DEBUG_UART_CLK_FREQ BOARD_DebugConsoleSrcFreq()
 
-#define BOARD_UART_IRQ         LPUART1_IRQn
-#define BOARD_UART_IRQ_HANDLER LPUART1_IRQHandler
+#define BOARD_UART_IRQ         LPUART4_IRQn
+#define BOARD_UART_IRQ_HANDLER LPUART4_IRQHandler
 
 #ifndef BOARD_DEBUG_UART_BAUDRATE
 #define BOARD_DEBUG_UART_BAUDRATE (115200U)
@@ -65,10 +65,10 @@
 #define BOARD_USER_BUTTON_NAME        "SW8"
 
 /*! @brief The hyper flash size */
-#define BOARD_FLASH_SIZE (0x4000000U)
+#define BOARD_FLASH_SIZE (0x400000U)
 
 /*! @brief The ENET PHY address. */
-#define BOARD_ENET0_PHY_ADDRESS (0x02U) /* Phy address of enet port 0. */
+#define BOARD_ENET0_PHY_ADDRESS (0x00U) /* Phy address of enet port 0. */
 
 /* USB PHY condfiguration */
 #define BOARD_USB_PHY_D_CAL     (0x0CU)
