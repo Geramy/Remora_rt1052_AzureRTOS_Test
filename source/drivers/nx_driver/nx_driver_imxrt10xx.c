@@ -39,6 +39,9 @@
 /* Include driver specific include file.  */
 #include "nx_driver_imxrt10xx.h"
 
+#include "fsl_enet.h"
+#include "fsl_phy.h"
+#include "core_cm7.h"
 /****** DRIVER SPECIFIC ****** End of part/vendor specific include file area!  */
 
 
@@ -59,7 +62,50 @@ UCHAR   _nx_driver_hardware_address[] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x56};
 UCHAR   _nx_driver_hardware_address[] = NX_DRIVER_ETHERNET_MAC;  
 #endif
 
+#if defined(FSL_SDK_ENABLE_DRIVER_CACHE_CONTROL) && FSL_SDK_ENABLE_DRIVER_CACHE_CONTROL
+#if defined(FSL_FEATURE_L2CACHE_LINESIZE_BYTE) && \
+    ((!defined(FSL_SDK_DISBLE_L2CACHE_PRESENT)) || (FSL_SDK_DISBLE_L2CACHE_PRESENT == 0))
+#if defined(FSL_FEATURE_L1DCACHE_LINESIZE_BYTE)
+#define FSL_CACHE_LINESIZE_MAX  MAX(FSL_FEATURE_L1DCACHE_LINESIZE_BYTE, FSL_FEATURE_L2CACHE_LINESIZE_BYTE)
+#define FSL_ENET_BUFF_ALIGNMENT MAX(ENET_BUFF_ALIGNMENT, FSL_CACHE_LINESIZE_MAX)
+#else
+#define FSL_ENET_BUFF_ALIGNMENT MAX(ENET_BUFF_ALIGNMENT, FSL_FEATURE_L2CACHE_LINESIZE_BYTE)
+#endif
+#elif defined(FSL_FEATURE_L1DCACHE_LINESIZE_BYTE)
+#define FSL_ENET_BUFF_ALIGNMENT MAX(ENET_BUFF_ALIGNMENT, FSL_FEATURE_L1DCACHE_LINESIZE_BYTE)
+#else
+#define FSL_ENET_BUFF_ALIGNMENT ENET_BUFF_ALIGNMENT
+#endif
+#else
+#define FSL_ENET_BUFF_ALIGNMENT ENET_BUFF_ALIGNMENT
+#endif
+/* The length of RX buffer. */
+#ifndef ENET_RXBUFF_SIZE
+#define ENET_RXBUFF_SIZE (ENET_FRAME_MAX_FRAMELEN)
+#endif
 
+/* The number of ENET buffers needed to receive frame of maximum length. */
+#define MAX_BUFFERS_PER_FRAME \
+                              \
+    ((ENET_FRAME_MAX_FRAMELEN / ENET_RXBUFF_SIZE) + ((ENET_FRAME_MAX_FRAMELEN % ENET_RXBUFF_SIZE == 0) ? 0 : 1))
+
+/* The length of TX buffer. */
+#ifndef ENET_TXBUFF_SIZE
+#define ENET_TXBUFF_SIZE (ENET_FRAME_MAX_FRAMELEN)
+#endif
+
+/* The number of buffer descriptors in ENET RX ring. */
+#ifndef ENET_RXBD_NUM
+#define ENET_RXBD_NUM (5)
+#endif
+
+#ifndef ENET_TXBD_NUM
+#define ENET_TXBD_NUM (5)
+#endif
+
+#ifndef ENET_RXBUFF_NUM
+#define ENET_RXBUFF_NUM (ENET_RXBD_NUM * 2)
+#endif
 /****** DRIVER SPECIFIC ****** End of part/vendor specific data area!  */
 
 
@@ -1818,6 +1864,14 @@ void *ethernetif_get_enet_base_n(const uint8_t enetIdx)
     return NULL;
 }
 
+typedef uint8_t rx_buffer_t[SDK_SIZEALIGN(ENET_RXBUFF_SIZE, FSL_ENET_BUFF_ALIGNMENT)];
+typedef uint8_t tx_buffer_t[SDK_SIZEALIGN(ENET_TXBUFF_SIZE, FSL_ENET_BUFF_ALIGNMENT)];
+
+static const IRQn_Type enetRxIrqId[] = ENET_Receive_IRQS;
+static const IRQn_Type enetTxIrqId[] = ENET_Transmit_IRQS;
+
+static ENET_Type *const enetBases[] = ENET_BASE_PTRS;
+
 void enet_init()
 {
     bool link = false;
@@ -1825,7 +1879,37 @@ void enet_init()
     phy_duplex_t duplex;  
     uint32_t sysClock;
     int32_t    status;
-    ENET_CONFIG_IMX     econf;   
+    ENET_CONFIG_IMX     econf;
+    enet_config_t config;
+
+	AT_NONCACHEABLE_SECTION_ALIGN(static enet_rx_bd_struct_t rxBuffDescrip_0[ENET_RXBD_NUM], FSL_ENET_BUFF_ALIGNMENT);
+	AT_NONCACHEABLE_SECTION_ALIGN(static enet_tx_bd_struct_t txBuffDescrip_0[ENET_TXBD_NUM], FSL_ENET_BUFF_ALIGNMENT);
+	AT_NONCACHEABLE_SECTION_ALIGN(static rx_buffer_t rxDataBuff_0[ENET_RXBUFF_NUM], FSL_ENET_BUFF_ALIGNMENT);
+	AT_NONCACHEABLE_SECTION_ALIGN(static tx_buffer_t txDataBuff_0[ENET_TXBD_NUM], FSL_ENET_BUFF_ALIGNMENT);
+
+	enet_rx_bd_struct_t* RxBuffDescrip = &(rxBuffDescrip_0[0]);
+	enet_tx_bd_struct_t* TxBuffDescrip = &(txBuffDescrip_0[0]);
+	rx_buffer_t* RxDataBuff    = &(rxDataBuff_0[0]);
+	tx_buffer_t* TxDataBuff    = &(txDataBuff_0[0]);
+
+	enet_buffer_config_t buffCfg[1U];
+
+	/* prepare the buffer configuration. */
+	buffCfg[0].rxBdNumber      = ENET_RXBD_NUM;       /* Receive buffer descriptor number. */
+	buffCfg[0].txBdNumber      = ENET_TXBD_NUM;       /* Transmit buffer descriptor number. */
+	buffCfg[0].rxBuffSizeAlign = sizeof(rx_buffer_t); /* Aligned receive data buffer size. */
+	buffCfg[0].txBuffSizeAlign = sizeof(tx_buffer_t); /* Aligned transmit data buffer size. */
+	buffCfg[0].rxBdStartAddrAlign =
+		&(RxBuffDescrip[0]); /* Aligned receive buffer descriptor start address. */
+	buffCfg[0].txBdStartAddrAlign =
+		&(TxBuffDescrip[0]); /* Aligned transmit buffer descriptor start address. */
+	buffCfg[0].rxBufferAlign =
+		NULL; /* Receive data buffer start address. NULL when buffers are allocated by callback for RX zero-copy. */
+	buffCfg[0].txBufferAlign = &(TxDataBuff[0][0]); /* Transmit data buffer start address. */
+	buffCfg[0].txFrameInfo = NULL; /* Transmit frame information start address. Set only if using zero-copy transmit. */
+	buffCfg[0].rxMaintainEnable = true; /* Receive buffer cache maintain. */
+	buffCfg[0].txMaintainEnable = true; /* Transmit buffer cache maintain. */
+
 	// Hardware initialization
     BOARD_InitModule();
     
@@ -1834,22 +1918,48 @@ void enet_init()
     econf.speed = kPHY_Speed100M;
     econf.duplex = kPHY_FullDuplex;  
 
-    econf.mac[0] = _nx_driver_hardware_address[0];
-    econf.mac[1] = _nx_driver_hardware_address[1];
-    econf.mac[2] = _nx_driver_hardware_address[2];
-    econf.mac[3] = _nx_driver_hardware_address[3];
-    econf.mac[4] = _nx_driver_hardware_address[4];
-    econf.mac[5] = _nx_driver_hardware_address[5];
- 
- 
-    /* Get default configuration. */
-    enet_config_t config;
-    config.miiMode = kENET_RmiiMode;
-    config.miiSpeed = kENET_MiiSpeed100M;
-    config.miiDuplex = kENET_MiiFullDuplex;
-    config.rxMaxFrameLen = ENET_FRAME_MAX_FRAMELEN;
-
     ENET_GetDefaultConfig(&config);
+
+    /* Get default configuration. */
+
+	/*config.ringNum     = ENET_RING_NUM;
+	config.rxBuffAlloc = ethernetif_rx_alloc;
+	config.rxBuffFree  = ethernetif_rx_free;
+	config.userData    = netif;
+	#ifdef LWIP_ENET_FLEXIBLE_CONFIGURATION
+	    extern void BOARD_ENETFlexibleConfigure(enet_config_t * config);
+	    BOARD_ENETFlexibleConfigure(&config);
+	#endif*/
+
+	config.miiMode = kENET_RmiiMode;
+	config.miiSpeed = kENET_MiiSpeed100M;
+	config.miiDuplex = kENET_MiiFullDuplex;
+	config.rxMaxFrameLen = ENET_FRAME_MAX_FRAMELEN;
+	config.interrupt |=
+			kENET_RxFrameInterrupt | kENET_TxFrameInterrupt | kENET_TxBufferInterrupt | kENET_LateCollisionInterrupt;
+	// TODO implement ethernet_callback
+	//config.callback = ethernet_callback;
+
+    for (int instance = 0; instance < ARRAY_SIZE(enetBases); instance++)
+	{
+		if (enetBases[instance] == phyHandle.mdioHandle->resource.base)
+		{
+	#ifdef __CA7_REV
+			GIC_SetPriority(enetRxIrqId[instance], ENET_PRIORITY);
+			GIC_SetPriority(enetTxIrqId[instance], ENET_PRIORITY);
+	#if defined(ENET_ENHANCEDBUFFERDESCRIPTOR_MODE) && ENET_ENHANCEDBUFFERDESCRIPTOR_MODE
+			GIC_SetPriority(enetTsIrqId[instance], ENET_1588_PRIORITY);
+	#endif /* ENET_ENHANCEDBUFFERDESCRIPTOR_MODE */
+	#else
+			NVIC_SetPriority(enetRxIrqId[instance], 6U);
+			NVIC_SetPriority(enetTxIrqId[instance], 6U);
+	#if defined(ENET_ENHANCEDBUFFERDESCRIPTOR_MODE) && ENET_ENHANCEDBUFFERDESCRIPTOR_MODE
+			NVIC_SetPriority(enetTsIrqId[instance], ENET_1588_PRIORITY);
+	#endif /* ENET_ENHANCEDBUFFERDESCRIPTOR_MODE */
+	#endif /* __CA7_REV */
+			break;
+		}
+	}
 
     const clock_enet_pll_config_t clock_config = {.enableClkOutput = true, .enableClkOutput25M = false, .loopDivider = 1};
 	CLOCK_InitEnetPll(&clock_config);
@@ -1859,12 +1969,22 @@ void enet_init()
 	mdioHandle.resource.csrClock_Hz = CLOCK_GetFreq(kCLOCK_IpgClk);
 
 	(void)SILICONID_ConvertToMacAddr(&_nx_driver_hardware_address);
+	econf.mac[0] = _nx_driver_hardware_address[0];
+	econf.mac[1] = _nx_driver_hardware_address[1];
+	econf.mac[2] = _nx_driver_hardware_address[2];
+	econf.mac[3] = _nx_driver_hardware_address[3];
+	econf.mac[4] = _nx_driver_hardware_address[4];
+	econf.mac[5] = _nx_driver_hardware_address[5];
     /* Set SMI to get PHY link status. */
-    sysClock = CLOCK_GetFreq(kCLOCK_AhbClk);
+    sysClock = mdioHandle.resource.csrClock_Hz;
     //lwip_init();
     phyHandle.mdioHandle->resource.base = ethernetif_get_enet_base_n(0U);
     //0x402d8000
+    enet_handle_t enetHandle;
 
+    ENET_Init(phyHandle.mdioHandle->resource.base, &enetHandle, &config, &buffCfg[0], _nx_driver_hardware_address, sysClock);
+
+	ENET_ActiveRead(phyHandle.mdioHandle->resource.base);
     // TODO we need to add the enet handler for the ethernet card. Not really sure how to do this yet.
     status = PHY_Init(&phyHandle, &config);
     while (status != kStatus_Success)
