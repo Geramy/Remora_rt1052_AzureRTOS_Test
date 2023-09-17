@@ -1833,6 +1833,7 @@ void enet_init()
     econf.neg = 0; /*autoneg on */
     econf.speed = kPHY_Speed100M;
     econf.duplex = kPHY_FullDuplex;  
+
     econf.mac[0] = _nx_driver_hardware_address[0];
     econf.mac[1] = _nx_driver_hardware_address[1];
     econf.mac[2] = _nx_driver_hardware_address[2];
