@@ -1982,24 +1982,35 @@ void enet_init()
 		.phyAddr = phyHandle.phyAddr,
 		.autoNeg = true,
 	};
-    /*enet_buffer_config_t buffCfg =
+    /*
+     * ENET->TDSR = (ULONG) nx_driver_information.nx_driver_information_dma_tx_descriptors;
+     *
+     * // Configure the Receive Buffer Size Register.
+     * ENET->MRBR = nx_driver_information.nx_driver_information_rx_buffer_size;
+     *
+     * // Set Receive Descriptor List Address Register.
+     * ENET->RDSR = (ULONG) nx_driver_information.nx_driver_information_dma_rx_descriptors;
+     *
+     */
+
+    enet_buffer_config_t buffCfg =
      {
          NX_DRIVER_RX_DESCRIPTORS,
          NX_DRIVER_TX_DESCRIPTORS,
-		 nx_driver_information.nx_driver_information_receive_packets[0]->nx_packet_length,
-		 nx_driver_information.nx_driver_information_transmit_packets[0]->nx_packet_length,
+		 nx_driver_information.nx_driver_information_receive_packets[0]->nx_packet_data_end - nx_driver_information.nx_driver_information_receive_packets[0]->nx_packet_data_start,
+		 nx_driver_information.nx_driver_information_transmit_packets[0]->nx_packet_data_end - nx_driver_information.nx_driver_information_transmit_packets[0]->nx_packet_data_start,
          &nx_driver_information.nx_driver_information_dma_rx_descriptors[0],  // Prepare buffers
          &nx_driver_information.nx_driver_information_dma_tx_descriptors[0],  // Prepare buffers
          &nx_driver_information.nx_driver_information_receive_packets[0]->nx_packet_data_start,  // Prepare buffers
          &nx_driver_information.nx_driver_information_transmit_packets[0]->nx_packet_data_start,  // Prepare buffers
-     };*/
+     };
 
     //BOARD_InitModule();
     const clock_enet_pll_config_t pll_config = {.enableClkOutput = true, .enableClkOutput25M = false, .loopDivider = 1};
 	CLOCK_InitEnetPll(&pll_config);
 
 	IOMUXC_EnableMode(IOMUXC_GPR, kIOMUXC_GPR_ENET1TxClkOutputDir, true);
-
+	delay();
 	mdioHandle.resource.csrClock_Hz = sysClock = CLOCK_GetFreq(kCLOCK_IpgClk);
 
     econf.interface = kENET_RmiiMode;
@@ -2033,7 +2044,7 @@ void enet_init()
     while ((initWaitCount < ENET_ATONEGOTIATION_TIMEOUT) && (!(link && autonego)))
 	{
 		status = PHY_Init(&phyHandle, &phyConfig);
-
+		delay();
 		if (kStatus_Success != status)
 		{
 			//LWIP_ASSERT("\r\nCannot initialize PHY.\r\n", 0);
@@ -2055,7 +2066,6 @@ void enet_init()
 			//LWIP_PLATFORM_DIAG(
 				//("PHY Auto-negotiation failed. Please check the cable connection and link partner setting."));
 		}
-
 		initWaitCount++;
 	}
 
@@ -2067,8 +2077,8 @@ void enet_init()
 		econf.speed = (phy_speed_t)speed;
 		econf.duplex = (phy_duplex_t)duplex;
 	}
-    //ENET_Init((ENET_Type)&phyHandle.mdioHandle->resource.base, &handle, &config, &buffCfg, &_nx_driver_hardware_address[0], sysClock);
-    //ENET_ActiveRead((ENET_Type)&phyHandle.mdioHandle->resource.base);
+    ENET_Init(phyHandle.mdioHandle->resource.base, &handle, &config, &buffCfg, &_nx_driver_hardware_address[0], sysClock);
+    ENET_ActiveRead(phyHandle.mdioHandle->resource.base);
     enet_init_imx(&econf);
 }
 
@@ -2118,7 +2128,6 @@ static UINT  _nx_driver_hardware_initialize(NX_IP_DRIVER *driver_req_ptr)
 NX_PACKET           *packet_ptr;
 UINT                i;
 	// Hardware initialization
-	enet_init();
     /* Default to successful return.  */
     driver_req_ptr -> nx_ip_driver_status =  NX_SUCCESS;
     /* Setup indices.  */
@@ -2171,9 +2180,6 @@ UINT                i;
     /* Put the Wrap indicaiton on the last descriptor.  */
     nx_driver_information.nx_driver_information_dma_tx_descriptors[NX_DRIVER_TX_DESCRIPTORS - 1].control |= ENET_BUFFDESCRIPTOR_TX_WRAP_MASK;
 
-    /* Set Transmit Descriptor List Address Register */
-    ENET->TDSR = (ULONG) nx_driver_information.nx_driver_information_dma_tx_descriptors;
-
     /* Initialize RX Descriptors list: Ring Mode  */
     
     /* Make sure Number of Buffer Descriptors is power of 2 */
@@ -2218,7 +2224,13 @@ UINT                i;
 
     /* Save the size of one rx buffer.  */
     nx_driver_information.nx_driver_information_rx_buffer_size = packet_ptr -> nx_packet_data_end - packet_ptr -> nx_packet_data_start;
-        
+
+    // TODO Test this code to make sure it doesnt lock up the device, again.....
+    //Initialize Hardware before we set ENET registers
+    enet_init();
+    /* Set Transmit Descriptor List Address Register */
+	ENET->TDSR = (ULONG) nx_driver_information.nx_driver_information_dma_tx_descriptors;
+
     /* Configure the Receive Buffer Size Register.  */
     ENET->MRBR = nx_driver_information.nx_driver_information_rx_buffer_size;
     
