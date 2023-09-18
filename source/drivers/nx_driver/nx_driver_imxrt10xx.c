@@ -1864,6 +1864,106 @@ void *ethernetif_get_enet_base_n(const uint8_t enetIdx)
     return NULL;
 }
 
+/*void ethernetif_enet_init(struct netif *netif,
+                          struct ethernetif *ethernetif,
+                          const ethernetif_config_t *ethernetifConfig)
+{
+    enet_config_t config;
+    uint32_t sysClock;
+    enet_buffer_config_t buffCfg[ENET_RING_NUM];
+    phy_speed_t speed;
+    phy_duplex_t duplex;
+    int i;
+
+    // prepare the buffer configuration.
+    buffCfg[0].rxBdNumber      = ENET_RXBD_NUM;       // Receive buffer descriptor number.
+    buffCfg[0].txBdNumber      = ENET_TXBD_NUM;       // Transmit buffer descriptor number.
+    buffCfg[0].rxBuffSizeAlign = sizeof(rx_buffer_t); // Aligned receive data buffer size.
+    buffCfg[0].txBuffSizeAlign = sizeof(tx_buffer_t); // Aligned transmit data buffer size.
+    buffCfg[0].rxBdStartAddrAlign =
+        &(ethernetif->RxBuffDescrip[0]); // Aligned receive buffer descriptor start address.
+    buffCfg[0].txBdStartAddrAlign =
+        &(ethernetif->TxBuffDescrip[0]); // Aligned transmit buffer descriptor start address.
+    buffCfg[0].rxBufferAlign =
+        NULL; // Receive data buffer start address. NULL when buffers are allocated by callback for RX zero-copy.
+    buffCfg[0].txBufferAlign = &(ethernetif->TxDataBuff[0][0]); // Transmit data buffer start address.
+    buffCfg[0].txFrameInfo = NULL; // Transmit frame information start address. Set only if using zero-copy transmit.
+    buffCfg[0].rxMaintainEnable = true; // Receive buffer cache maintain.
+    buffCfg[0].txMaintainEnable = true; // Transmit buffer cache maintain.
+
+    sysClock = ethernetifConfig->phyHandle->mdioHandle->resource.csrClock_Hz;
+
+    ENET_GetDefaultConfig(&config);
+    config.ringNum     = ENET_RING_NUM;
+    config.rxBuffAlloc = ethernetif_rx_alloc;
+    config.rxBuffFree  = ethernetif_rx_free;
+    config.userData    = netif;
+#ifdef LWIP_ENET_FLEXIBLE_CONFIGURATION
+    extern void BOARD_ENETFlexibleConfigure(enet_config_t * config);
+    BOARD_ENETFlexibleConfigure(&config);
+#endif
+
+    ethernetif_phy_init(ethernetif, ethernetifConfig, &speed, &duplex);
+    config.miiSpeed  = (enet_mii_speed_t)speed;
+    config.miiDuplex = (enet_mii_duplex_t)duplex;
+
+#if USE_RTOS && defined(SDK_OS_FREE_RTOS)
+    uint32_t instance;
+    static ENET_Type *const enetBases[]  = ENET_BASE_PTRS;
+    static const IRQn_Type enetTxIrqId[] = ENET_Transmit_IRQS;
+    //! @brief Pointers to enet receive IRQ number for each instance.
+    static const IRQn_Type enetRxIrqId[] = ENET_Receive_IRQS;
+#if defined(ENET_ENHANCEDBUFFERDESCRIPTOR_MODE) && ENET_ENHANCEDBUFFERDESCRIPTOR_MODE
+    //! @brief Pointers to enet timestamp IRQ number for each instance.
+    static const IRQn_Type enetTsIrqId[] = ENET_1588_Timer_IRQS;
+#endif // ENET_ENHANCEDBUFFERDESCRIPTOR_MODE
+
+    // Create the Event for transmit busy release trigger.
+    ethernetif->enetTransmitAccessEvent = xEventGroupCreate();
+    ethernetif->txFlag                  = 0x1;
+
+    config.interrupt |=
+        kENET_RxFrameInterrupt | kENET_TxFrameInterrupt | kENET_TxBufferInterrupt | kENET_LateCollisionInterrupt;
+    config.callback = ethernet_callback;
+
+    for (instance = 0; instance < ARRAY_SIZE(enetBases); instance++)
+    {
+        if (enetBases[instance] == ethernetif->base)
+        {
+#ifdef __CA7_REV
+            GIC_SetPriority(enetRxIrqId[instance], ENET_PRIORITY);
+            GIC_SetPriority(enetTxIrqId[instance], ENET_PRIORITY);
+#if defined(ENET_ENHANCEDBUFFERDESCRIPTOR_MODE) && ENET_ENHANCEDBUFFERDESCRIPTOR_MODE
+            GIC_SetPriority(enetTsIrqId[instance], ENET_1588_PRIORITY);
+#endif // ENET_ENHANCEDBUFFERDESCRIPTOR_MODE
+#else
+            NVIC_SetPriority(enetRxIrqId[instance], ENET_PRIORITY);
+            NVIC_SetPriority(enetTxIrqId[instance], ENET_PRIORITY);
+#if defined(ENET_ENHANCEDBUFFERDESCRIPTOR_MODE) && ENET_ENHANCEDBUFFERDESCRIPTOR_MODE
+            NVIC_SetPriority(enetTsIrqId[instance], ENET_1588_PRIORITY);
+#endif // ENET_ENHANCEDBUFFERDESCRIPTOR_MODE
+#endif // __CA7_REV
+            break;
+        }
+    }
+
+    LWIP_ASSERT("Input Ethernet base error!", (instance != ARRAY_SIZE(enetBases)));
+#endif // USE_RTOS
+
+    for (i = 0; i < ENET_RXBUFF_NUM; i++)
+    {
+        ethernetif->RxPbufs[i].p.custom_free_function = ethernetif_rx_release;
+        ethernetif->RxPbufs[i].buffer                 = &(ethernetif->RxDataBuff[i][0]);
+        ethernetif->RxPbufs[i].buffer_used            = false;
+        ethernetif->RxPbufs[i].netif                  = netif;
+    }
+
+    // Initialize the ENET module.
+    ENET_Init(ethernetif->base, &ethernetif->handle, &config, &buffCfg[0], netif->hwaddr, sysClock);
+
+    ENET_ActiveRead(ethernetif->base);
+}*/
+
 typedef uint8_t rx_buffer_t[SDK_SIZEALIGN(ENET_RXBUFF_SIZE, FSL_ENET_BUFF_ALIGNMENT)];
 typedef uint8_t tx_buffer_t[SDK_SIZEALIGN(ENET_TXBUFF_SIZE, FSL_ENET_BUFF_ALIGNMENT)];
 
@@ -1881,90 +1981,24 @@ void enet_init()
     int32_t    status;
     ENET_CONFIG_IMX     econf;
     enet_config_t config;
+    //BOARD_InitModule();
+    const clock_enet_pll_config_t pll_config = {.enableClkOutput = true, .enableClkOutput25M = false, .loopDivider = 1};
+	CLOCK_InitEnetPll(&pll_config);
 
-	AT_NONCACHEABLE_SECTION_ALIGN(static enet_rx_bd_struct_t rxBuffDescrip_0[ENET_RXBD_NUM], FSL_ENET_BUFF_ALIGNMENT);
-	AT_NONCACHEABLE_SECTION_ALIGN(static enet_tx_bd_struct_t txBuffDescrip_0[ENET_TXBD_NUM], FSL_ENET_BUFF_ALIGNMENT);
-	AT_NONCACHEABLE_SECTION_ALIGN(static rx_buffer_t rxDataBuff_0[ENET_RXBUFF_NUM], FSL_ENET_BUFF_ALIGNMENT);
-	AT_NONCACHEABLE_SECTION_ALIGN(static tx_buffer_t txDataBuff_0[ENET_TXBD_NUM], FSL_ENET_BUFF_ALIGNMENT);
+	IOMUXC_EnableMode(IOMUXC_GPR, kIOMUXC_GPR_ENET1TxClkOutputDir, true);
 
-	enet_rx_bd_struct_t* RxBuffDescrip = &(rxBuffDescrip_0[0]);
-	enet_tx_bd_struct_t* TxBuffDescrip = &(txBuffDescrip_0[0]);
-	rx_buffer_t* RxDataBuff    = &(rxDataBuff_0[0]);
-	tx_buffer_t* TxDataBuff    = &(txDataBuff_0[0]);
+	mdioHandle.resource.csrClock_Hz = CLOCK_GetFreq(kCLOCK_IpgClk);
 
-	enet_buffer_config_t buffCfg[1U];
-
-	/* prepare the buffer configuration. */
-	buffCfg[0].rxBdNumber      = ENET_RXBD_NUM;       /* Receive buffer descriptor number. */
-	buffCfg[0].txBdNumber      = ENET_TXBD_NUM;       /* Transmit buffer descriptor number. */
-	buffCfg[0].rxBuffSizeAlign = sizeof(rx_buffer_t); /* Aligned receive data buffer size. */
-	buffCfg[0].txBuffSizeAlign = sizeof(tx_buffer_t); /* Aligned transmit data buffer size. */
-	buffCfg[0].rxBdStartAddrAlign =
-		&(RxBuffDescrip[0]); /* Aligned receive buffer descriptor start address. */
-	buffCfg[0].txBdStartAddrAlign =
-		&(TxBuffDescrip[0]); /* Aligned transmit buffer descriptor start address. */
-	buffCfg[0].rxBufferAlign =
-		NULL; /* Receive data buffer start address. NULL when buffers are allocated by callback for RX zero-copy. */
-	buffCfg[0].txBufferAlign = &(TxDataBuff[0][0]); /* Transmit data buffer start address. */
-	buffCfg[0].txFrameInfo = NULL; /* Transmit frame information start address. Set only if using zero-copy transmit. */
-	buffCfg[0].rxMaintainEnable = true; /* Receive buffer cache maintain. */
-	buffCfg[0].txMaintainEnable = true; /* Transmit buffer cache maintain. */
-
-	// Hardware initialization
-    BOARD_InitModule();
-    
     econf.interface = kENET_RmiiMode;
-    econf.neg = 0; /*autoneg on */
-    econf.speed = kPHY_Speed100M;
-    econf.duplex = kPHY_FullDuplex;  
+	econf.neg = 0; /*autoneg on */
+	econf.speed = kPHY_Speed100M;
+	econf.duplex = kPHY_FullDuplex;
 
-    ENET_GetDefaultConfig(&config);
-
-    /* Get default configuration. */
-
-	/*config.ringNum     = ENET_RING_NUM;
-	config.rxBuffAlloc = ethernetif_rx_alloc;
-	config.rxBuffFree  = ethernetif_rx_free;
-	config.userData    = netif;
-	#ifdef LWIP_ENET_FLEXIBLE_CONFIGURATION
-	    extern void BOARD_ENETFlexibleConfigure(enet_config_t * config);
-	    BOARD_ENETFlexibleConfigure(&config);
-	#endif*/
+	ENET_GetDefaultConfig(&config);
 
 	config.miiMode = kENET_RmiiMode;
 	config.miiSpeed = kENET_MiiSpeed100M;
 	config.miiDuplex = kENET_MiiFullDuplex;
-	config.rxMaxFrameLen = ENET_FRAME_MAX_FRAMELEN;
-	config.interrupt |=
-			kENET_RxFrameInterrupt | kENET_TxFrameInterrupt | kENET_TxBufferInterrupt | kENET_LateCollisionInterrupt;
-	// TODO implement ethernet_callback
-	//config.callback = ethernet_callback;
-
-    for (int instance = 0; instance < ARRAY_SIZE(enetBases); instance++)
-	{
-		if (enetBases[instance] == phyHandle.mdioHandle->resource.base)
-		{
-	#ifdef __CA7_REV
-			GIC_SetPriority(enetRxIrqId[instance], ENET_PRIORITY);
-			GIC_SetPriority(enetTxIrqId[instance], ENET_PRIORITY);
-	#if defined(ENET_ENHANCEDBUFFERDESCRIPTOR_MODE) && ENET_ENHANCEDBUFFERDESCRIPTOR_MODE
-			GIC_SetPriority(enetTsIrqId[instance], ENET_1588_PRIORITY);
-	#endif /* ENET_ENHANCEDBUFFERDESCRIPTOR_MODE */
-	#else
-			NVIC_SetPriority(enetRxIrqId[instance], 6U);
-			NVIC_SetPriority(enetTxIrqId[instance], 6U);
-	#if defined(ENET_ENHANCEDBUFFERDESCRIPTOR_MODE) && ENET_ENHANCEDBUFFERDESCRIPTOR_MODE
-			NVIC_SetPriority(enetTsIrqId[instance], ENET_1588_PRIORITY);
-	#endif /* ENET_ENHANCEDBUFFERDESCRIPTOR_MODE */
-	#endif /* __CA7_REV */
-			break;
-		}
-	}
-
-    const clock_enet_pll_config_t clock_config = {.enableClkOutput = true, .enableClkOutput25M = false, .loopDivider = 1};
-	CLOCK_InitEnetPll(&clock_config);
-
-	IOMUXC_EnableMode(IOMUXC_GPR, kIOMUXC_GPR_ENET1TxClkOutputDir, true);
 
 	mdioHandle.resource.csrClock_Hz = CLOCK_GetFreq(kCLOCK_IpgClk);
 
@@ -1976,15 +2010,10 @@ void enet_init()
 	econf.mac[4] = _nx_driver_hardware_address[4];
 	econf.mac[5] = _nx_driver_hardware_address[5];
     /* Set SMI to get PHY link status. */
-    sysClock = mdioHandle.resource.csrClock_Hz;
+    //sysClock = mdioHandle.resource.csrClock_Hz;
     //lwip_init();
     phyHandle.mdioHandle->resource.base = ethernetif_get_enet_base_n(0U);
     //0x402d8000
-    enet_handle_t enetHandle;
-
-    ENET_Init(phyHandle.mdioHandle->resource.base, &enetHandle, &config, &buffCfg[0], _nx_driver_hardware_address, sysClock);
-
-	ENET_ActiveRead(phyHandle.mdioHandle->resource.base);
     // TODO we need to add the enet handler for the ethernet card. Not really sure how to do this yet.
     status = PHY_Init(&phyHandle, &config);
     while (status != kStatus_Success)
@@ -2051,10 +2080,11 @@ static UINT  _nx_driver_hardware_initialize(NX_IP_DRIVER *driver_req_ptr)
   
 NX_PACKET           *packet_ptr;
 UINT                i;
-       
+	// Hardware initialization
+
     /* Default to successful return.  */
     driver_req_ptr -> nx_ip_driver_status =  NX_SUCCESS;
-
+    enet_init();
     /* Setup indices.  */
     nx_driver_information.nx_driver_information_receive_current_index = 0; 
     nx_driver_information.nx_driver_information_transmit_current_index = 0; 
@@ -2070,13 +2100,7 @@ UINT                i;
         /* There must be receive packets. If not, return an error!  */
         return(NX_DRIVER_ERROR);
     }
-   
-        
-    enet_init();
     
-
-    
-   
     /* Initialize TX Descriptors list: Ring Mode.  */
     
     /* Make sure Number of Buffer Descriptors is power of 2 */
@@ -2170,7 +2194,6 @@ UINT                i;
         
         nx_driver_information.nx_driver_information_multicast_count[i] = 0;
     }
-    
     /* Return success!  */
     return(NX_SUCCESS);
 } 

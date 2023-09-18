@@ -130,7 +130,7 @@ extern   "C" {
 /* Enable checksum offload.  */
 #define IMX_CHECKSUM_OFFLOAD 
 
-#define PHY_ADDRESS          1
+#define PHY_ADDRESS          0x00
 #define PHY_ICS              0x1B
 #define PHY_ICS_LINKUPIE     0x0100
 #define PHY_ICS_LINKUPI      0x0001    
