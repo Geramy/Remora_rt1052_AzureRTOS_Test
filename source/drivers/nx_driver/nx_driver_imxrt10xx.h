@@ -67,6 +67,9 @@ extern   "C" {
   
 /****** DRIVER SPECIFIC ****** End of part/vendor specific include file area!  */
 
+#ifndef ENET_ATONEGOTIATION_TIMEOUT
+#define ENET_ATONEGOTIATION_TIMEOUT (0x2FFFFU)
+#endif
      
 #define CORE_CLK_FREQ  CLOCK_GetFreq(kCLOCK_AhbClk)
 #define EXAMPLE_ENET ENET
@@ -144,7 +147,7 @@ extern   "C" {
 #endif
 
 #ifndef NX_DRIVER_RX_DESCRIPTORS
-#define NX_DRIVER_RX_DESCRIPTORS   8
+#define NX_DRIVER_RX_DESCRIPTORS   16
 #endif
 
 

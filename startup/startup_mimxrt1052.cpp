@@ -1228,8 +1228,14 @@ WEAK void USB_OTG1_IRQHandler(void)
 {   USB_OTG1_DriverIRQHandler();
 }
 
-WEAK void ENET_IRQHandler(void)
-{   ENET_DriverIRQHandler();
+extern "C"
+{
+   extern void nx_driver_imx_ethernet_isr(void);
+
+   void ENET_IRQHandler(void)
+   {
+      nx_driver_imx_ethernet_isr();
+   }
 }
 
 WEAK void ENET_1588_Timer_IRQHandler(void)

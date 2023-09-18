@@ -28,8 +28,8 @@
 /****** DRIVER SPECIFIC ****** Start of part/vendor specific include area.  Include driver-specific include file here!  */
 
 /* Determine if the driver uses IP deferred processing or direct ISR processing.  */
-
-#define NX_DRIVER_ENABLE_DEFERRED                /* Define this to enable deferred ISR processing.  */
+//Dont use Deferred for processing.
+//#define NX_DRIVER_ENABLE_DEFERRED                /* Define this to enable deferred ISR processing.  */
 
 /* #define  ENET_ENHANCEDBUFFERDESCRIPTOR_MODE*/
 /* Determine if the packet transmit queue logic is required for this driver.   */
@@ -51,7 +51,7 @@ static NX_DRIVER_INFORMATION   nx_driver_information;
 
 static mdio_handle_t mdioHandle = {.ops = &enet_ops};
 static phy_handle_t phyHandle   = {.phyAddr = BOARD_ENET0_PHY_ADDRESS, .mdioHandle = &mdioHandle, .ops = &phylan8720a_ops};
-
+static enet_handle_t handle;
 /****** DRIVER SPECIFIC ****** Start of part/vendor specific data area.  Include hardware-specific data here!  */
 
 /* Define driver specific ethernet hardware address.  */
@@ -1964,30 +1964,43 @@ void *ethernetif_get_enet_base_n(const uint8_t enetIdx)
     ENET_ActiveRead(ethernetif->base);
 }*/
 
-typedef uint8_t rx_buffer_t[SDK_SIZEALIGN(ENET_RXBUFF_SIZE, FSL_ENET_BUFF_ALIGNMENT)];
-typedef uint8_t tx_buffer_t[SDK_SIZEALIGN(ENET_TXBUFF_SIZE, FSL_ENET_BUFF_ALIGNMENT)];
-
-static const IRQn_Type enetRxIrqId[] = ENET_Receive_IRQS;
-static const IRQn_Type enetTxIrqId[] = ENET_Transmit_IRQS;
-
 static ENET_Type *const enetBases[] = ENET_BASE_PTRS;
 
 void enet_init()
 {
     bool link = false;
+    bool autonego          = false;
+   uint32_t initWaitCount = 0;
+   uint32_t autoWaitCount = 0;
     phy_speed_t speed;
     phy_duplex_t duplex;  
     uint32_t sysClock;
-    int32_t    status;
+    status_t    status;
     ENET_CONFIG_IMX     econf;
     enet_config_t config;
+    phy_config_t phyConfig = {
+		.phyAddr = phyHandle.phyAddr,
+		.autoNeg = true,
+	};
+    /*enet_buffer_config_t buffCfg =
+     {
+         NX_DRIVER_RX_DESCRIPTORS,
+         NX_DRIVER_TX_DESCRIPTORS,
+		 nx_driver_information.nx_driver_information_receive_packets[0]->nx_packet_length,
+		 nx_driver_information.nx_driver_information_transmit_packets[0]->nx_packet_length,
+         &nx_driver_information.nx_driver_information_dma_rx_descriptors[0],  // Prepare buffers
+         &nx_driver_information.nx_driver_information_dma_tx_descriptors[0],  // Prepare buffers
+         &nx_driver_information.nx_driver_information_receive_packets[0]->nx_packet_data_start,  // Prepare buffers
+         &nx_driver_information.nx_driver_information_transmit_packets[0]->nx_packet_data_start,  // Prepare buffers
+     };*/
+
     //BOARD_InitModule();
     const clock_enet_pll_config_t pll_config = {.enableClkOutput = true, .enableClkOutput25M = false, .loopDivider = 1};
 	CLOCK_InitEnetPll(&pll_config);
 
 	IOMUXC_EnableMode(IOMUXC_GPR, kIOMUXC_GPR_ENET1TxClkOutputDir, true);
 
-	mdioHandle.resource.csrClock_Hz = CLOCK_GetFreq(kCLOCK_IpgClk);
+	mdioHandle.resource.csrClock_Hz = sysClock = CLOCK_GetFreq(kCLOCK_IpgClk);
 
     econf.interface = kENET_RmiiMode;
 	econf.neg = 0; /*autoneg on */
@@ -1995,12 +2008,14 @@ void enet_init()
 	econf.duplex = kPHY_FullDuplex;
 
 	ENET_GetDefaultConfig(&config);
-
 	config.miiMode = kENET_RmiiMode;
 	config.miiSpeed = kENET_MiiSpeed100M;
 	config.miiDuplex = kENET_MiiFullDuplex;
-
-	mdioHandle.resource.csrClock_Hz = CLOCK_GetFreq(kCLOCK_IpgClk);
+	//config.ringNum     = ENET_RING_NUM;
+	//config.rxBuffAlloc = ethernetif_rx_alloc;
+	//config.rxBuffFree  = ethernetif_rx_free;
+	//config.userData    = netif;
+	//config.callback
 
 	(void)SILICONID_ConvertToMacAddr(&_nx_driver_hardware_address);
 	econf.mac[0] = _nx_driver_hardware_address[0];
@@ -2015,24 +2030,46 @@ void enet_init()
     phyHandle.mdioHandle->resource.base = ethernetif_get_enet_base_n(0U);
     //0x402d8000
     // TODO we need to add the enet handler for the ethernet card. Not really sure how to do this yet.
-    status = PHY_Init(&phyHandle, &config);
-    while (status != kStatus_Success)
-    {
-        PRINTF("\r\nPHY Auto-negotiation failed. Please check the cable connection and link partner setting.\r\n");
-        status = PHY_Init(&phyHandle, &config);
-    }
+    while ((initWaitCount < ENET_ATONEGOTIATION_TIMEOUT) && (!(link && autonego)))
+	{
+		status = PHY_Init(&phyHandle, &phyConfig);
 
-    PHY_GetLinkStatus(&phyHandle, &link);
-    if (link)
-    {
-        /* Get the actual PHY link speed. */
-        PHY_GetLinkSpeedDuplex(&phyHandle, &speed, &duplex);
-        /* Change the MII speed and duplex for actual link status. */
-        econf.speed = (phy_speed_t)speed;
-        econf.duplex = (phy_duplex_t)duplex;
-    }
+		if (kStatus_Success != status)
+		{
+			//LWIP_ASSERT("\r\nCannot initialize PHY.\r\n", 0);
+		}
 
-   enet_init_imx(&econf);
+		/* Wait for auto-negotiation success and link up */
+		autoWaitCount = ENET_ATONEGOTIATION_TIMEOUT;
+		do
+		{
+			PHY_GetAutoNegotiationStatus(&phyHandle, &autonego);
+			PHY_GetLinkStatus(&phyHandle, &link);
+			if (autonego && link)
+			{
+				break;
+			}
+		} while (--autoWaitCount);
+		if (!autonego)
+		{
+			//LWIP_PLATFORM_DIAG(
+				//("PHY Auto-negotiation failed. Please check the cable connection and link partner setting."));
+		}
+
+		initWaitCount++;
+	}
+
+	if (autonego && link)
+	{
+		/* Get the actual PHY link speed. */
+		PHY_GetLinkSpeedDuplex(&phyHandle, &speed, &duplex);
+
+		econf.speed = (phy_speed_t)speed;
+		econf.duplex = (phy_duplex_t)duplex;
+	}
+    //ENET_Init((ENET_Type)&phyHandle.mdioHandle->resource.base, &handle, &config, &buffCfg, &_nx_driver_hardware_address[0], sysClock);
+    //ENET_ActiveRead((ENET_Type)&phyHandle.mdioHandle->resource.base);
+    enet_init_imx(&econf);
 }
 
 /**************************************************************************/ 
@@ -2081,10 +2118,9 @@ static UINT  _nx_driver_hardware_initialize(NX_IP_DRIVER *driver_req_ptr)
 NX_PACKET           *packet_ptr;
 UINT                i;
 	// Hardware initialization
-
+	enet_init();
     /* Default to successful return.  */
     driver_req_ptr -> nx_ip_driver_status =  NX_SUCCESS;
-    enet_init();
     /* Setup indices.  */
     nx_driver_information.nx_driver_information_receive_current_index = 0; 
     nx_driver_information.nx_driver_information_transmit_current_index = 0; 
@@ -2194,6 +2230,7 @@ UINT                i;
         
         nx_driver_information.nx_driver_information_multicast_count[i] = 0;
     }
+
     /* Return success!  */
     return(NX_SUCCESS);
 } 
