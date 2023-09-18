@@ -2077,9 +2077,9 @@ void enet_init()
 		econf.speed = (phy_speed_t)speed;
 		econf.duplex = (phy_duplex_t)duplex;
 	}
-    ENET_Init(phyHandle.mdioHandle->resource.base, &handle, &config, &buffCfg, &_nx_driver_hardware_address[0], sysClock);
+    ENET_Init(phyHandle.mdioHandle->resource.base, &handle, &config, &buffCfg, &_nx_driver_hardware_address, sysClock);
     ENET_ActiveRead(phyHandle.mdioHandle->resource.base);
-    enet_init_imx(&econf);
+    //enet_init_imx(&econf);
 }
 
 /**************************************************************************/ 

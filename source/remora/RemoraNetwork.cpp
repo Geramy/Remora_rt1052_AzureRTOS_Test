@@ -20,7 +20,7 @@
 #include "../../rtos/netxduo/c/inc/nx_api.h"
 
 #define NETX_IP_STACK_SIZE  256
-#define NETX_PACKET_COUNT   16
+#define NETX_PACKET_COUNT   8
 #define NETX_PACKET_SIZE    ENET_RX_MIN_BUFFERSIZE
 #define NETX_POOL_SIZE      ((NETX_PACKET_SIZE + sizeof(NX_PACKET)) * NETX_PACKET_COUNT)
 

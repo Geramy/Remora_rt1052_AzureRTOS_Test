@@ -143,11 +143,11 @@ extern   "C" {
 /* Define the number of descriptors and attached packets for transmit and receive operations. */
 
 #ifndef NX_DRIVER_TX_DESCRIPTORS   
-#define NX_DRIVER_TX_DESCRIPTORS   64   
+#define NX_DRIVER_TX_DESCRIPTORS   32
 #endif
 
 #ifndef NX_DRIVER_RX_DESCRIPTORS
-#define NX_DRIVER_RX_DESCRIPTORS   16
+#define NX_DRIVER_RX_DESCRIPTORS   8
 #endif
 
 
